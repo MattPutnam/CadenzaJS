@@ -1,0 +1,514 @@
+[
+    [
+        "Acoustic Grand Piano",
+        "Wide Acoustic Grand",
+        "Dark Acoustic Grand"
+    ],
+    [
+        "Bright Acoustic Piano",
+        "Wide Bright Acoustic"
+    ],
+    [
+        "Electric Grand Piano",
+        "Wide Electric Grand"
+    ],
+    [
+        "Honky-tonk Piano",
+        "Wide Honky-tonk"
+    ],
+    [
+        "Rhodes Piano",
+        "Detuned Electric Piano 1",
+        "Electric Piano 1 Variation",
+        "60's Electric Piano"
+    ],
+    [
+        "Chorused Electric Piano",
+        "Detuned Electric Piano 2",
+        "Electric Piano 2 Variation",
+        "Electric Piano Legend",
+        "Electric Piano Phase"
+    ],
+    [
+        "Harpsichord",
+        "Coupled Harpsichord",
+        "Wide Harpsichord",
+        "Open Harpsichord"
+    ],
+    [
+        "Clavinet",
+        "Pulse Clavinet"
+    ],
+    [
+        "Celesta"
+    ],
+    [
+        "Glockenspiel"
+    ],
+    [
+        "Music Box"
+    ],
+    [
+        "Vibraphone",
+        "Wet Vibraphone"
+    ],
+    [
+        "Marimba",
+        "Wide Marimba"
+    ],
+    [
+        "Xylophone"
+    ],
+    [
+        "Tubular Bell",
+        "Church Bell",
+        "Carillon"
+    ],
+    [
+        "Santur"
+    ],
+    [
+        "Hammond Organ",
+        "Detuned Organ 1",
+        "60's Organ 1",
+        "Organ 4"
+    ],
+    [
+        "Percussive Organ",
+        "Detuned Organ 2",
+        "Organ 5"
+    ],
+    [
+        "Rock Organ"
+    ],
+    [
+        "Church Organ 1",
+        "Church Organ 2",
+        "Church Organ 3"
+    ],
+    [
+        "Reed Organ",
+        "Puff Organ"
+    ],
+    [
+        "French Accordion",
+        "Italian Accordion"
+    ],
+    [
+        "Harmonica"
+    ],
+    [
+        "Bandoneon"
+    ],
+    [
+        "Nylon-String Guitar",
+        "Ukulele",
+        "Open Nylon Guitar",
+        "Nylon Guitar 2"
+    ],
+    [
+        "Steel-String Guitar",
+        "12-String Guitar",
+        "Mandolin",
+        "Steel+Body"
+    ],
+    [
+        "Jazz Guitar",
+        "Hawaiian Guitar"
+    ],
+    [
+        "Clean Electric Guitar",
+        "Chorus Guitar",
+        "Mid Tone Guitar"
+    ],
+    [
+        "Muted Electric Guitar",
+        "Funk Guitar",
+        "Funk Guitar 2",
+        "Jazz Man"
+    ],
+    [
+        "Overdriven Guitar",
+        "Guitar Pinch"
+    ],
+    [
+        "Distortion Guitar",
+        "Feedback Guitar",
+        "Distortion Rtm Guitar"
+    ],
+    [
+        "Guitar Harmonics",
+        "Guitar Feedback"
+    ],
+    [
+        "Acoustic Bass"
+    ],
+    [
+        "Fingered Bass",
+        "Finger Slap"
+    ],
+    [
+        "Picked Bass"
+    ],
+    [
+        "Fretless Bass"
+    ],
+    [
+        "Slap Bass 1"
+    ],
+    [
+        "Slap Bass 2"
+    ],
+    [
+        "Synth Bass 1",
+        "Synth Bass 101",
+        "Synth Bass 3",
+        "Clavi Bass",
+        "Hammer"
+    ],
+    [
+        "Synth Bass 2",
+        "Synth Bass 4",
+        "Rubber Bass",
+        "Attack Pulse"
+    ],
+    [
+        "Violin",
+        "Slow Violin"
+    ],
+    [
+        "Viola"
+    ],
+    [
+        "Cello"
+    ],
+    [
+        "Contrabass"
+    ],
+    [
+        "Tremolo Strings"
+    ],
+    [
+        "Pizzicato Strings"
+    ],
+    [
+        "Harp",
+        "Yang Qin"
+    ],
+    [
+        "Timpani"
+    ],
+    [
+        "String Ensemble",
+        "Orchestra Strings",
+        "60's Strings"
+    ],
+    [
+        "Slow String Ensemble"
+    ],
+    [
+        "Synth Strings 1",
+        "Synth Strings 3"
+    ],
+    [
+        "Synth Strings 2"
+    ],
+    [
+        "Choir Aahs",
+        "Choir Aahs 2"
+    ],
+    [
+        "Voice Oohs",
+        "Humming"
+    ],
+    [
+        "Synth Voice",
+        "Analog Voice"
+    ],
+    [
+        "Orchestra Hit",
+        "Bass Hit",
+        "6th Hit",
+        "Euro Hit"
+    ],
+    [
+        "Trumpet",
+        "Dark Trumpet"
+    ],
+    [
+        "Trombone",
+        "Trombone 2",
+        "Bright Trombone"
+    ],
+    [
+        "Tuba"
+    ],
+    [
+        "Muted Trumpet",
+        "Muted Trumpet 2"
+    ],
+    [
+        "French Horns",
+        "French Horns 2"
+    ],
+    [
+        "Brass Section 1",
+        "Brass Section 2"
+    ],
+    [
+        "Synth Brass 1",
+        "Synth Brass 3",
+        "Analog Brass 1",
+        "Jump Brass"
+    ],
+    [
+        "Synth Brass 2",
+        "Synth Brass 4",
+        "Analog Brass 2"
+    ],
+    [
+        "Soprano Sax"
+    ],
+    [
+        "Alto Sax"
+    ],
+    [
+        "Tenor Sax"
+    ],
+    [
+        "Baritone Sax"
+    ],
+    [
+        "Oboe"
+    ],
+    [
+        "English Horn"
+    ],
+    [
+        "Bassoon"
+    ],
+    [
+        "Clarinet"
+    ],
+    [
+        "Piccolo"
+    ],
+    [
+        "Flute"
+    ],
+    [
+        "Recorder"
+    ],
+    [
+        "Pan Flute"
+    ],
+    [
+        "Bottle Blow"
+    ],
+    [
+        "Shakuhachi"
+    ],
+    [
+        "Whistle"
+    ],
+    [
+        "Ocarina"
+    ],
+    [
+        "Square Lead",
+        "Square Wave",
+        "Sine Wave"
+    ],
+    [
+        "Saw Lead",
+        "Saw Wave",
+        "Doctor Solo",
+        "Natural Lead",
+        "Sequenced Saw"
+    ],
+    [
+        "Synth Calliope"
+    ],
+    [
+        "Chiffer Lead"
+    ],
+    [
+        "Charang",
+        "Wire Lead"
+    ],
+    [
+        "Solo Synth Vox"
+    ],
+    [
+        "5th Saw Wave"
+    ],
+    [
+        "Bass & Lead",
+        "Delayed Lead"
+    ],
+    [
+        "Fantasia Pad"
+    ],
+    [
+        "Warm Pad",
+        "Sine Pad"
+    ],
+    [
+        "Polysynth Pad"
+    ],
+    [
+        "Space Voice Pad",
+        "Itopia"
+    ],
+    [
+        "Bowed Glass Pad"
+    ],
+    [
+        "Metal Pad"
+    ],
+    [
+        "Halo Pad"
+    ],
+    [
+        "Sweep Pad"
+    ],
+    [
+        "Ice Rain"
+    ],
+    [
+        "Soundtrack"
+    ],
+    [
+        "Crystal",
+        "Synth Mallet"
+    ],
+    [
+        "Atmosphere"
+    ],
+    [
+        "Brightness"
+    ],
+    [
+        "Goblin"
+    ],
+    [
+        "Echo Drops",
+        "Echo Bell",
+        "Echo Pan"
+    ],
+    [
+        "Star Theme"
+    ],
+    [
+        "Sitar",
+        "Sitar 2"
+    ],
+    [
+        "Banjo"
+    ],
+    [
+        "Shamisen"
+    ],
+    [
+        "Koto",
+        "Taisho Koto"
+    ],
+    [
+        "Kalimba"
+    ],
+    [
+        "Bagpipe"
+    ],
+    [
+        "Fiddle"
+    ],
+    [
+        "Shanai"
+    ],
+    [
+        "Tinkle Bell"
+    ],
+    [
+        "Agogo"
+    ],
+    [
+        "Steel Drums"
+    ],
+    [
+        "Woodblock",
+        "Castanets"
+    ],
+    [
+        "Taiko",
+        "Concert Bass Drum"
+    ],
+    [
+        "Melodic Tom 1",
+        "Melodic Tom 2"
+    ],
+    [
+        "Synth Drum",
+        "808 Tom",
+        "Electric Percussion"
+    ],
+    [
+        "Reverse Cymbal"
+    ],
+    [
+        "Guitar Fret Noise",
+        "Guitar Cut Noise",
+        "String Slap"
+    ],
+    [
+        "Breath Noise",
+        "Flute Key Click"
+    ],
+    [
+        "Seashore",
+        "Rain",
+        "Thunder",
+        "Wind",
+        "Stream",
+        "Bubble"
+    ],
+    [
+        "Bird",
+        "Dog",
+        "Horse-Gallop",
+        "Bird 2"
+    ],
+    [
+        "Telephone 1",
+        "Telephone 2",
+        "Door Creaking",
+        "Door Closing",
+        "Scratch",
+        "Wind Chimes"
+    ],
+    [
+        "Helicopter",
+        "Car-Engine",
+        "Car-Stop",
+        "Car-Pass",
+        "Car-Crash",
+        "Siren",
+        "Train",
+        "Jetplane",
+        "Starship",
+        "Burst Noise"
+    ],
+    [
+        "Applause",
+        "Laughing",
+        "Screaming",
+        "Punch",
+        "Heart Beat",
+        "Footstep"
+    ],
+    [
+        "Gun Shot",
+        "Machine Gun",
+        "Lasergun",
+        "Explosion"
+    ]
+]

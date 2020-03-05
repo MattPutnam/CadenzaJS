@@ -1,0 +1,116 @@
+{
+    "title": "The 25th Annual Putnam County Spelling Bee",
+    "setup": {
+        "inputs": [
+            {
+                "deviceName": "Roland UM-One",
+                "keyboards": [
+                    {
+                        "id": 0,
+                        "name": "M-Audio Keystation 88es",
+                        "size": 88,
+                        "channel": 0
+                    }
+                ]
+            }
+        ],
+        "outputs": [
+            {
+                "deviceName": "Roland UM-One",
+                "synthesizers": [
+                    {
+                        "id": 0,
+                        "name": "Roland XV-5080",
+                        "expansionCards": {
+                            "XpA": "SR-JV80-02",
+                            "XpB": "SR-JV80-05"
+                        },
+                        "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    },
+                    {
+                        "id": 1,
+                        "name": "Kurzweil K2500R",
+                        "channels": [14, 15]
+                    }
+                ]
+            }
+        ],
+        "editPedal": {
+            "keyboardId": 0,
+            "control": "expression - TODO: convert to number",
+            "type": "continuous"
+        },
+        "sustainPedal": {
+            "keyboardId": 0,
+            "control": 7
+        }
+    },
+    "patches": [
+        {
+            "id": 0,
+            "synthesizerId": 0,
+            "bank": "PrE",
+            "number": 45,
+            "name": "Soft Padding"
+        },
+        {
+            "id": 1,
+            "synthesizerId": 1,
+            "bank": null,
+            "number": 962,
+            "name": "Acoustic Bass"
+        },
+        {
+            "id": 2,
+            "synthesizerId": 0,
+            "bank": "XV Orch 1",
+            "number": 76,
+            "name": "Pizzicato 2"
+        },
+        {
+            "id": 3,
+            "synthesizerId": 0,
+            "bank": "PrA",
+            "number": 31,
+            "name": "EP+Mod Pad"
+        }
+    ],
+    "show": {
+        "songs": [
+            {
+                "number": "1",
+                "name": "The 25th Annual Putnam County Spelling Bee",
+                "cues": [
+                    {
+                        "measure": "1",
+                        "patchUsages": [
+                            {
+                                "patchId": 0
+                            },
+                            {
+                                "patchId": 1,
+                                "highNote": 48
+                            }
+                        ]
+                    },
+                    {
+                        "measure": "10",
+                        "patchUsages": [
+                            {
+                                "patchId": 2
+                            }
+                        ]
+                    },
+                    {
+                        "measure": "15",
+                        "patchUsages": [
+                            {
+                                "patchId": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
