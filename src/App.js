@@ -1,12 +1,13 @@
 import React from 'react'
-import NavBar from './components/NavBar'
+import EditPage from './pages/EditPage'
+import PerformPage from './pages/PerformPage'
 
 const App = () => {
-  const [selectedTab, setSelectedTab] = React.useState('Setup')
+  const [perform, setPerform] = React.useState(false)
 
-  return <div>
-    <NavBar selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-  </div>
+  return perform ?
+    <PerformPage exit={() => setPerform(false)}/> :
+    <EditPage perform={() => setPerform(true)}/>
 }
 
 export default App
