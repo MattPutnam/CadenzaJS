@@ -1,12 +1,12 @@
-import React from 'react';
-import NavBar from './components/NavBar';
+import React from 'react'
+import NavBar from './components/NavBar'
 
 const App = () => {
-  const [selectedTab, setSelectedTab] = React.useState('Setup');
+  const [selectedTab, setSelectedTab] = React.useState('Setup')
 
   return <div>
     <NavBar selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-  </div>;
+  </div>
 }
 
-export default App;
+export default App

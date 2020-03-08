@@ -1,6 +1,6 @@
-import React from 'react';
-import Button from './Button';
-import MIDIMonitor from './MIDIMonitor';
+import React from 'react'
+import Button from './Button'
+import MIDIMonitor from './MIDIMonitor'
 
 const Tab = ({ title, selectedTab, setSelectedTab }) => {
     let style = {
@@ -11,13 +11,14 @@ const Tab = ({ title, selectedTab, setSelectedTab }) => {
 
     return <span style={style} onClick={() => setSelectedTab(title)}>
         {title}
-    </span>;
+    </span>
 }
 
 const NavBar = ({ selectedTab, setSelectedTab }) => {
     let styles = {
         container: {
-            display: 'flex'
+            display: 'flex',
+            alignItems: 'baseline'
         },
         midiMonitor: {
             flex: '1 1 auto',
@@ -33,7 +34,7 @@ const NavBar = ({ selectedTab, setSelectedTab }) => {
             <MIDIMonitor/>
         </div>
         <Button>Perform</Button>
-    </div>;
+    </div>
 }
 
-export default NavBar;
+export default NavBar

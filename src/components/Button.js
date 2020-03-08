@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 const Button = ({ children, onClick }) => {
     return <button onClick={onClick}>
         {children}
-    </button>;
+    </button>
 }
 
-export default Button;
+export default Button
