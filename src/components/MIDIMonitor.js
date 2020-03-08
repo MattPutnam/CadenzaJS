@@ -7,8 +7,8 @@ const MIDIMonitor = (lastEvent) => {
             width: '100px',
             textAlign: 'center',
             padding: 4,
-            backgroundColor: '#151621',
-            color: '#93acc8',
+            backgroundColor: '#1E2D45',
+            color: '#859BB3',
             borderRadius: 3
         },
         display: {

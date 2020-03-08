@@ -5,7 +5,12 @@ import SetupTab from './SetupTab'
 const EditPage = ({ perform, midiDevices }) => {
     const [selectedTab, setSelectedTab] = React.useState('Setup')
 
-    return <div>
+    const style = {
+        backgroundColor: '#8F8F8F',
+        height: '100vh'
+    }
+
+    return <div style={style}>
         <NavBar {...{ selectedTab, setSelectedTab, perform }}/>
         {selectedTab === 'Setup' && <SetupTab {...{ midiDevices }}/>}
         {selectedTab === 'Patches' && <div>Patches!</div>}

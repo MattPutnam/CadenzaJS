@@ -8,7 +8,7 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
         padding: '0.5rem 0.75rem',
         cursor: 'pointer',
         color: 'white',
-        backgroundColor: title === selectedTab ? '#656565' : '#808080',
+        backgroundColor: title === selectedTab ? '#585858' : '#808080',
         borderRadius: first ? '3px 0 0 3px' : last ? '0 3px 3px 0' : undefined,
         borderRight: last ? undefined : '1px solid #666666'
     }
@@ -23,8 +23,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
         container: {
             display: 'flex',
             alignItems: 'center',
-            padding: '0.5rem',
-            backgroundColor: '#a9a9a9'
+            padding: '0.5rem'
         },
         spacer: {
             flex: '1 1 auto'

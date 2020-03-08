@@ -5,9 +5,9 @@ const Button = ({ children, onClick }) => {
         margin: '0 0.5rem',
         padding: '0.5rem 0.75rem',
         color: 'white',
-        backgroundColor: '#0069c4',
+        backgroundColor: '#3268A2',
         fontSize: 'unset',
-        border: 'unset',
+        border: '1px solid #1A3552',
         borderRadius: 3,
         cursor: 'pointer'
     }

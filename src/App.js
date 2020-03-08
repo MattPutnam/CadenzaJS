@@ -58,9 +58,7 @@ class App extends React.Component {
         item = iterator.next()
       }
 
-      this.setState({
-        midiDevices: { inputs, outputs }
-      })
+      this.setState({ midiDevices: { inputs, outputs } })
     })
   }
 }
