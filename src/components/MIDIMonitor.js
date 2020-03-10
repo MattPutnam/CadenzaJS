@@ -2,7 +2,7 @@ import React from 'react'
 import * as MIDI from '../midi/MIDI'
 
 const MIDIMonitor = (lastEvent) => {
-    let styles = {
+    const styles = {
         container: {
             width: '100px',
             textAlign: 'center',

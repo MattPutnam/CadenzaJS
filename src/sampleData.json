@@ -1,38 +1,30 @@
 {
-    "title": "The 25th Annual Putnam County Spelling Bee",
     "setup": {
-        "inputs": [
+        "keyboards": [
             {
-                "deviceName": "Roland UM-One",
-                "keyboards": [
-                    {
-                        "id": 0,
-                        "name": "M-Audio Keystation 88es",
-                        "size": 88,
-                        "channel": 0
-                    }
-                ]
+                "name": "M-Audio Keystation 88es",
+                "id": 0,
+                "size": 88,
+                "inputDevice": "Roland UM-One",
+                "channel": 0
             }
         ],
-        "outputs": [
+        "synthesizers": [
             {
-                "deviceName": "Roland UM-One",
-                "synthesizers": [
-                    {
-                        "id": 0,
-                        "name": "Roland XV-5080",
-                        "expansionCards": {
-                            "XpA": "SR-JV80-02",
-                            "XpB": "SR-JV80-05"
-                        },
-                        "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-                    },
-                    {
-                        "id": 1,
-                        "name": "Kurzweil K2500R",
-                        "channels": [14, 15]
-                    }
-                ]
+                "name": "Roland XV-5080",
+                "id": 0,
+                "expansionCards": {
+                    "XpA": "SR-JV80-02",
+                    "XpB": "SR-JV80-05"
+                },
+                "outputDevice": "Roland UM-One",
+                "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+            },
+            {
+                "name": "Kurzweil K2500R",
+                "id": 1,
+                "outputDevice": "PreSonus Studio 1824",
+                "channels": [14, 15]
             }
         ],
         "editPedal": {

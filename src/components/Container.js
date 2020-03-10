@@ -1,11 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
 
-const Container = ({ title, style, children }) => {
+const Container = ({ title, style, inner, children }) => {
     const styles = {
         container: {
-            margin: '0.25rem',
-            backgroundColor: '#484848',
+            margin: '0.5rem',
+            backgroundColor: inner ? '#616161' : '#484848',
             border: '1px solid black',
             borderRadius: 3
         },

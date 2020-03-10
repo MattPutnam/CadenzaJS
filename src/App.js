@@ -2,6 +2,8 @@ import React from 'react'
 import EditPage from './pages/EditPage'
 import PerformPage from './pages/PerformPage'
 
+import * as data from './sampleData.json'
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -11,20 +13,21 @@ class App extends React.Component {
       midiDevices: {
         inputs: [],
         outputs: []
-      }
+      },
+      showData: data.default
     }
   }
 
   render() {
-    const { perform, midiDevices } = this.state
+    const { perform, midiDevices, showData } = this.state
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :
-      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices }}/>
+      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, showData }}/>
   }
 
   componentDidMount() {
-    // The effect hook was not working for this, hence the manual state management:
+    // The effect hook was not working for this, hence the manual lifecycle management:
     navigator.requestMIDIAccess().then(access => {
       access.onstatechange = ({ port }) => {
         const { midiDevices } = this.state

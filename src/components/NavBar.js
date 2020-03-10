@@ -3,7 +3,7 @@ import Button from './Button'
 import MIDIMonitor from './MIDIMonitor'
 
 const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
-    let style = {
+    const style = {
         display: 'inline-block',
         padding: '0.5rem 0.75rem',
         cursor: 'pointer',
@@ -19,7 +19,7 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
 }
 
 const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
-    let styles = {
+    const styles = {
         container: {
             display: 'flex',
             alignItems: 'center',
