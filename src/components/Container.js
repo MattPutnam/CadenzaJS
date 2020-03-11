@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-const Container = ({ title, style, inner, children }) => {
+const Container = ({ title, style, inner, children, ...props }) => {
     const styles = {
         container: {
             margin: '0.5rem',
@@ -20,7 +20,7 @@ const Container = ({ title, style, inner, children }) => {
         }
     }
 
-    return <div style={_.merge(styles.container, style)}>
+    return <div style={_.merge(styles.container, style)} {...props}>
         {title && <h5 style={styles.title}>{title}</h5>}
         <div style={styles.content}>{children}</div>
     </div>

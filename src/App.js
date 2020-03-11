@@ -14,16 +14,17 @@ class App extends React.Component {
         inputs: [],
         outputs: []
       },
-      showData: data.default
+      data: data.default
     }
   }
 
   render() {
-    const { perform, midiDevices, showData } = this.state
+    const { perform, midiDevices, data } = this.state
+    const setData = newData => this.setState({ data: newData })
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :
-      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, showData }}/>
+      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData }}/>
   }
 
   componentDidMount() {

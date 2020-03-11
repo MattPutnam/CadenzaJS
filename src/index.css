@@ -10,3 +10,7 @@ body {
 * {
   box-sizing: border-box;
 }
+
+select {
+  font-size: 100%;
+}
