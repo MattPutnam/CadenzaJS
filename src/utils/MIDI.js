@@ -89,20 +89,14 @@ export const toString = (midi) => {
 }
 
 
-let focusStack = []
+let listeners = []
 
-export const pushMidiReceiver = (midiReceiver, id) => focusStack.push({ midiReceiver, id })
+export const addMidiListener = (midiListener, id) => listeners.push({ midiListener, id })
 
-export const removeMidiReceiver = (id) => _.remove(focusStack, { id })
+export const removeMidiListener = (id) => _.remove(listeners, { id })
 
-export const popThroughMidiReceiver = (id) => {
-    const index = _.findIndex(focusStack, { id })
-    focusStack = _.take(focusStack, index-1)
-}
-
-export const notify = (parsedMessage) => {
-    const [ top ] = focusStack.slice(-1)
-    top.midiReceiver(parsedMessage)
+export const notifyMidiListeners = (parsedMessage) => {
+    listeners.forEach(({ midiListener }) => midiListener(parsedMessage))
 }
 
 

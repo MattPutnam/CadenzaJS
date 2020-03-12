@@ -15,18 +15,17 @@ class App extends React.Component {
         inputs: [],
         outputs: []
       },
-      data: data.default,
-      lastMidiMessage: undefined
+      data: data.default
     }
   }
 
   render() {
-    const { perform, midiDevices, data, lastMidiMessage } = this.state
+    const { perform, midiDevices, data } = this.state
     const setData = newData => this.setState({ data: newData })
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :
-      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData, lastMidiMessage }}/>
+      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData }}/>
   }
 
   componentDidMount() {
@@ -55,8 +54,7 @@ class App extends React.Component {
         const input = item.value
         input.onmidimessage = message => {
           const parsed = MIDI.parseMidiMessage(message)
-          this.setState({ lastMidiMessage: parsed })
-          MIDI.notify(parsed)
+          MIDI.notifyMidiListeners(parsed)
         }
         inputs.push(input)
         item = iterator.next()

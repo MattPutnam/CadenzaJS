@@ -1,7 +1,8 @@
 import React from 'react'
 import * as MIDI from '../utils/MIDI'
+import MidiListener from './MidiListener'
 
-const MIDIMonitor = ({ lastMidiMessage }) => {
+const MIDIMonitor = () => {
     const styles = {
         container: {
             width: '100px',
@@ -20,9 +21,12 @@ const MIDIMonitor = ({ lastMidiMessage }) => {
         }
     }
 
+    const [message, setMessage] = React.useState({})
+
     return <div style={styles.container}>
-        <div style={styles.display}>{MIDI.toString(lastMidiMessage || {})}</div>
+        <div style={styles.display}>{MIDI.toString(message)}</div>
         <div style={styles.label}>MIDI In</div>
+        <MidiListener id="###MIDI_MONITOR###" dispatch={setMessage}/>
     </div>
 }
 

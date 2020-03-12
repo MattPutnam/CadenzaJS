@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import Container from '../components/Container'
 import { Flex, Spacer } from '../components/Flex'
 import PortSelector, { MIDIDevicePlaceholder } from '../components/PortSelector'
@@ -7,6 +8,7 @@ import Button from '../components/Button'
 import Keyboard from '../components/Keyboard'
 import { findId } from '../utils/IdFinder'
 import * as MIDI from '../utils/MIDI'
+import MidiListener from '../components/MidiListener'
 
 const styles = {
     pedalContainer: {
@@ -17,7 +19,7 @@ const styles = {
     }
 }
 
-const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices }) => {
+const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices, activeNotes }) => {
     return <Container inner>
         <Flex>
             <PortSelector devices={midiDevices} io="inputs" selected={keyboard.inputDevice}/>
@@ -25,28 +27,14 @@ const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices }) => {
             <Spacer/>
             <Button onClick={deleteSelf}>delete</Button>
         </Flex>
-        <Keyboard keyboard={keyboard}/>
+        <Keyboard keyboard={keyboard} highlight={activeNotes}/>
     </Container>
 }
 
 const KeyboardPlaceholder = ({ addKeyboard }) => {
-    const style = {
-        cursor: 'pointer'
-    }
-
-    React.useEffect(() => {
-        const key = '###KEYBOARD_FINDER###'
-
-        MIDI.pushMidiReceiver(msg => console.log(msg), key)
-
-        return () => {
-            MIDI.removeMidiReceiver(key)
-        }
-    }, [])
-
-    return <Container inner style={style} onClick={() => addKeyboard()}>
-        Click to add a keyboard
-    </Container>
+    return <Button onClick={() => addKeyboard()}>
+        Add a keyboard, or press a key to auto discover
+    </Button>
 }
 
 const SynthConfig = ({ synth, midiDevices }) => {
@@ -74,44 +62,104 @@ const SustainPedalConfig = ({ pedal }) => {
     </Container>
 }
 
-const SetupTab = ({ midiDevices, data, setData }) => {
-    const { keyboards, synthesizers, editPedal, sustainPedal } = data.setup
-    const addKeyboard = () => {
+
+class SetupTab extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            activeNotes: {}
+        }
+    }
+
+    render() {
+        const { data: { setup : { keyboards, synthesizers, editPedal, sustainPedal } }, midiDevices } = this.props
+        const { activeNotes } = this.state
+        const multipleKeyboards = keyboards.length > 1
+
+        return <>
+            <Container title="Keyboards">
+                {keyboards.map((keyboard, index) =>
+                    <KeyboardConfig key={keyboard.id}
+                                    keyboard={keyboard}
+                                    multiple={multipleKeyboards}
+                                    midiDevices={midiDevices}
+                                    activeNotes={activeNotes[keyboard.id]}
+                                    deleteSelf={() => this.deleteKeyboard(index)}/>
+                )}
+                <KeyboardPlaceholder addKeyboard={() => this.addKeyboard()}/>
+                <div style={styles.pedalContainer}>
+                    <EditPedalConfig pedal={editPedal}/>
+                    <SustainPedalConfig pedal={sustainPedal}/>
+                </div>
+            </Container>
+            <Container title="Synthesizers">
+                {synthesizers.map(synth => <SynthConfig key={synth.id} {...{ synth, midiDevices }}/>)}
+                <SynthPlaceholder/>
+            </Container>
+            <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
+        </>
+    }
+    
+    addKeyboard(parsedMessage) {
+        const { data, data: { setup: { keyboards } }, setData } = this.props
+
+        const inputDevice = parsedMessage ? parsedMessage.device : MIDIDevicePlaceholder
+        const channel = parsedMessage ? parsedMessage.channel : 0
+
         keyboards.push({
             id: findId(keyboards),
-            inputDevice: MIDIDevicePlaceholder,
+            inputDevice,
             name: '',
-            range: [21, 108]
+            range: [21, 108],
+            channel
         })
         setData(data)
     }
-    const deleteKeyboard = (index) => {
+
+    deleteKeyboard(index) {
+        const { data, data: { setup: { keyboards } }, setData } = this.props
+
         keyboards.splice(index, 1)
         setData(data)
     }
 
-    const multipleKeyboards = keyboards.length > 1
+    handleMidi(parsedMessage) {
+        const { data: { setup: { keyboards } } } = this.props
+        if (_.isEmpty(keyboards)) {
+            this.addKeyboard(parsedMessage)
+            return
+        }
 
-    return <>
-        <Container title="Keyboards">
-            {keyboards.map((keyboard, index) =>
-                <KeyboardConfig key={keyboard.id}
-                                keyboard={keyboard}
-                                multiple={multipleKeyboards}
-                                midiDevices={midiDevices}
-                                deleteSelf={() => deleteKeyboard(index)}/>
-            )}
-            <KeyboardPlaceholder addKeyboard={addKeyboard}/>
-            <div style={styles.pedalContainer}>
-                <EditPedalConfig pedal={editPedal}/>
-                <SustainPedalConfig pedal={sustainPedal}/>
-            </div>
-        </Container>
-        <Container title="Synthesizers">
-            {synthesizers.map(synth => <SynthConfig key={synth.id} {...{ synth, midiDevices }}/>)}
-            <SynthPlaceholder/>
-        </Container>
-    </>
+        const { activeNotes } = this.state
+
+        const { device } = parsedMessage
+        const kbds = _.groupBy(keyboards, 'inputDevice')[device]
+        let kbd
+        if (kbds.length === 1) {
+            kbd = kbds[0]
+        } else if (kbds.length > 1) {
+            kbd = _.find(kbds, k => k.channel === parsedMessage.channel)
+        }
+
+        if (!kbd) {
+            this.addKeyboard(parsedMessage)
+            return
+        }
+        
+        const { type, note } = parsedMessage
+        let notes = activeNotes[kbd.id]
+        if (!notes) {
+            notes = new Set()
+        }
+        if (type === MIDI.NOTE_ON) {
+            notes.add(note)
+        } else if (type === MIDI.NOTE_OFF) {
+            notes.delete(note)
+        }
+        activeNotes[kbd.id] = notes
+        this.setState({ activeNotes })
+    }
 }
 
 export default SetupTab

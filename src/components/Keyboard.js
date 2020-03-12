@@ -45,7 +45,7 @@ class Keyboard extends React.Component {
     }
 
     render() {
-        const { keyboard, onKeyClick, onRangeDrag } = this.props
+        const { keyboard, onKeyClick, onRangeDrag, highlight } = this.props
         const { hoverKey, dragStart } = this.state
         const setHoverKey = hk => this.setState({ hoverKey: hk })
         const setDragStart = ds => this.setState({ dragStart: ds })
@@ -71,7 +71,6 @@ class Keyboard extends React.Component {
         }
     
         const handleClick = (k, e) => {
-            console.log(e.target.offsetLeft - e.target.parentElement.offsetLeft)
             onKeyClick(k)
             setDragStart(undefined)
         }
@@ -91,9 +90,10 @@ class Keyboard extends React.Component {
                     onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
                     onMouseUp={onRangeDrag ? handleRangeDrag : undefined}>
             {_.range(low, high+1).map(k => {
+                const shouldHighlight = (highlight && highlight.has(k)) || k === hoverKey || k === dragStart
                 return <div key={k}
                             ref={this.refs[k]}
-                            style={styles.key(k % 12, k === low, k === hoverKey || k === dragStart)}
+                            style={styles.key(k % 12, k === low, shouldHighlight)}
                             onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
                             onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
                             onClick={onKeyClick ? (e) => handleClick(k, e) : undefined}/>

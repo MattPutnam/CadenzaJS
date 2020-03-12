@@ -19,7 +19,7 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
     </span>
 }
 
-const NavBar = ({ selectedTab, setSelectedTab, perform, lastMidiMessage }) => {
+const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
     const style = {
         padding: '0.5rem'
     }
@@ -30,7 +30,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform, lastMidiMessage }) => {
         <Tab title="Cues" {...{ selectedTab, setSelectedTab }} last/>
         <Button onClick={perform}>Perform</Button>
         <Spacer/>
-        <MIDIMonitor lastMidiMessage={lastMidiMessage}/>
+        <MIDIMonitor/>
     </Flex>
 }
 
