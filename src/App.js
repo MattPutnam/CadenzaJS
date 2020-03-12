@@ -1,6 +1,7 @@
 import React from 'react'
 import EditPage from './pages/EditPage'
 import PerformPage from './pages/PerformPage'
+import * as MIDI from './utils/MIDI'
 
 import * as data from './sampleData.json'
 
@@ -14,17 +15,18 @@ class App extends React.Component {
         inputs: [],
         outputs: []
       },
-      data: data.default
+      data: data.default,
+      lastMidiMessage: undefined
     }
   }
 
   render() {
-    const { perform, midiDevices, data } = this.state
+    const { perform, midiDevices, data, lastMidiMessage } = this.state
     const setData = newData => this.setState({ data: newData })
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :
-      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData }}/>
+      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData, lastMidiMessage }}/>
   }
 
   componentDidMount() {
@@ -50,7 +52,13 @@ class App extends React.Component {
       let item = iterator.next()
       const inputs = []
       while (!item.done) {
-        inputs.push(item.value)
+        const input = item.value
+        input.onmidimessage = message => {
+          const parsed = MIDI.parseMidiMessage(message)
+          this.setState({ lastMidiMessage: parsed })
+          MIDI.notify(parsed)
+        }
+        inputs.push(input)
         item = iterator.next()
       }
 

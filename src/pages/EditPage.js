@@ -2,7 +2,7 @@ import React from 'react'
 import NavBar from '../components/NavBar'
 import SetupTab from './SetupTab'
 
-const EditPage = ({ perform, midiDevices, data, setData }) => {
+const EditPage = ({ perform, midiDevices, data, setData, lastMidiMessage }) => {
     const [selectedTab, setSelectedTab] = React.useState('Setup')
 
     const style = {
@@ -11,7 +11,7 @@ const EditPage = ({ perform, midiDevices, data, setData }) => {
     }
 
     return <div style={style}>
-        <NavBar {...{ selectedTab, setSelectedTab, perform }}/>
+        <NavBar {...{ selectedTab, setSelectedTab, perform, lastMidiMessage }}/>
         {selectedTab === 'Setup' && <SetupTab {...{ midiDevices, data, setData }}/>}
         {selectedTab === 'Patches' && <div>Patches!</div>}
         {selectedTab === 'Cues' && <div>Cues!</div>}

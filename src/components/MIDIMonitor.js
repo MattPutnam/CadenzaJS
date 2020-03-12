@@ -1,7 +1,7 @@
 import React from 'react'
-import * as MIDI from '../midi/MIDI'
+import * as MIDI from '../utils/MIDI'
 
-const MIDIMonitor = (lastEvent) => {
+const MIDIMonitor = ({ lastMidiMessage }) => {
     const styles = {
         container: {
             width: '100px',
@@ -21,7 +21,7 @@ const MIDIMonitor = (lastEvent) => {
     }
 
     return <div style={styles.container}>
-        <div style={styles.display}>{MIDI.toString(MIDI.fromRaw(lastEvent))}</div>
+        <div style={styles.display}>{MIDI.toString(lastMidiMessage || {})}</div>
         <div style={styles.label}>MIDI In</div>
     </div>
 }

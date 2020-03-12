@@ -1,11 +1,12 @@
 import React from 'react'
 import Container from '../components/Container'
 import { Flex, Spacer } from '../components/Flex'
-import PortSelector from '../components/PortSelector'
+import PortSelector, { MIDIDevicePlaceholder } from '../components/PortSelector'
 import SynthSelector from '../components/SynthSelector'
-import { findId } from '../utils/IdFinder'
 import Button from '../components/Button'
 import Keyboard from '../components/Keyboard'
+import { findId } from '../utils/IdFinder'
+import * as MIDI from '../utils/MIDI'
 
 const styles = {
     pedalContainer: {
@@ -16,9 +17,10 @@ const styles = {
     }
 }
 
-const KeyboardConfig = ({ keyboard, multiple, deleteSelf }) => {
+const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices }) => {
     return <Container inner>
         <Flex>
+            <PortSelector devices={midiDevices} io="inputs" selected={keyboard.inputDevice}/>
             {multiple && <input/>}
             <Spacer/>
             <Button onClick={deleteSelf}>delete</Button>
@@ -32,6 +34,16 @@ const KeyboardPlaceholder = ({ addKeyboard }) => {
     const style = {
         cursor: 'pointer'
     }
+
+    React.useEffect(() => {
+        const key = '###KEYBOARD_FINDER###'
+
+        MIDI.pushMidiReceiver(msg => console.log(msg), key)
+
+        return () => {
+            MIDI.removeMidiReceiver(key)
+        }
+    }, [])
 
     return <Container inner style={style} onClick={() => addKeyboard()}>
         Click to add a keyboard
@@ -68,6 +80,7 @@ const SetupTab = ({ midiDevices, data, setData }) => {
     const addKeyboard = () => {
         keyboards.push({
             id: findId(keyboards),
+            inputDevice: MIDIDevicePlaceholder,
             name: '',
             size: 88
         })
@@ -86,6 +99,7 @@ const SetupTab = ({ midiDevices, data, setData }) => {
                 <KeyboardConfig key={keyboard.id}
                                 keyboard={keyboard}
                                 multiple={multipleKeyboards}
+                                midiDevices={midiDevices}
                                 deleteSelf={() => deleteKeyboard(index)}/>
             )}
             <KeyboardPlaceholder addKeyboard={addKeyboard}/>

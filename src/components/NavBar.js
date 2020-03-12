@@ -18,7 +18,7 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
     </span>
 }
 
-const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
+const NavBar = ({ selectedTab, setSelectedTab, perform, lastMidiMessage }) => {
     const styles = {
         container: {
             display: 'flex',
@@ -36,7 +36,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
         <Tab title="Cues" {...{ selectedTab, setSelectedTab }} last/>
         <Button onClick={perform}>Perform</Button>
         <div style={styles.spacer}></div>
-        <MIDIMonitor/>
+        <MIDIMonitor lastMidiMessage={lastMidiMessage}/>
     </div>
 }
 
