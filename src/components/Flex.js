@@ -1,13 +1,14 @@
 import React from 'react'
+import _ from 'lodash'
 
 
-export const Flex = ({ children, align='baseline', ...props }) => {
-    const style = {
+export const Flex = ({ children, align='baseline', style, ...props }) => {
+    const myStyle = {
         display: 'flex',
         alignItems: align
     }
 
-    return <div style={style}>
+    return <div style={_.merge(myStyle, style)} {...props}>
         {children}
     </div>
 }

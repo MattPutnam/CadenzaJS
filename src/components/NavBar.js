@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from './Button'
 import MIDIMonitor from './MIDIMonitor'
+import { Flex, Spacer } from './Flex'
 
 const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
     const style = {
@@ -19,25 +20,18 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
 }
 
 const NavBar = ({ selectedTab, setSelectedTab, perform, lastMidiMessage }) => {
-    const styles = {
-        container: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0.5rem'
-        },
-        spacer: {
-            flex: '1 1 auto'
-        }
+    const style = {
+        padding: '0.5rem'
     }
 
-    return <div style={styles.container}>
+    return <Flex align="center" style={style}>
         <Tab title="Setup" {...{ selectedTab, setSelectedTab }} first/>
         <Tab title="Patches" {...{ selectedTab, setSelectedTab }}/>
         <Tab title="Cues" {...{ selectedTab, setSelectedTab }} last/>
         <Button onClick={perform}>Perform</Button>
-        <div style={styles.spacer}></div>
+        <Spacer/>
         <MIDIMonitor lastMidiMessage={lastMidiMessage}/>
-    </div>
+    </Flex>
 }
 
 export default NavBar
