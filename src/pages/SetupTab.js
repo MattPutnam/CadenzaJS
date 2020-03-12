@@ -25,7 +25,7 @@ const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices }) => {
             <Spacer/>
             <Button onClick={deleteSelf}>delete</Button>
         </Flex>
-        <Keyboard keyboard={keyboard}/>
+        <Keyboard keyboard={keyboard} onKeyClick={key => console.log('Clicked ', key)} onRangeDrag={([low, high]) => console.log('Dragged ', low, 'to', high)}/>
         
     </Container>
 }
@@ -82,7 +82,7 @@ const SetupTab = ({ midiDevices, data, setData }) => {
             id: findId(keyboards),
             inputDevice: MIDIDevicePlaceholder,
             name: '',
-            size: 88
+            range: [21, 108]
         })
         setData(data)
     }

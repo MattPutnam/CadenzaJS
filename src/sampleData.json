@@ -4,7 +4,7 @@
             {
                 "name": "",
                 "id": 0,
-                "size": 88,
+                "range": [21, 108],
                 "inputDevice": "PreSonus Studio 1824",
                 "channel": 0
             }
