@@ -7,7 +7,7 @@ const ChannelSelector = ({ id, selected, setSelected }) => {
                type='number'
                value={selected}
                min='0' max='15'
-               onChange={e => setSelected(e.target.value)}/>
+               onChange={e => setSelected(parseInt(e.target.value))}/>
     </>
 }
 

@@ -58,6 +58,7 @@ class Keyboard extends React.Component {
                 display: 'inline-flex',
                 alignItems: 'flex-start',
                 border: '1px solid black',
+                margin: '0.5rem'
             },
             key: (note, first, highlight) => {
                 const noteMod = note % 12

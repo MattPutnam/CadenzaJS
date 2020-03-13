@@ -20,18 +20,24 @@ const styles = {
     }
 }
 
-const KeyboardConfig = ({ keyboard, deleteSelf, midiDevices, moveUp, moveDown }) => {
+const KeyboardConfig = ({ keyboard, deleteSelf, midiDevices, moveUp, moveDown, setDevice, setChannel }) => {
     return <Container inner>
         <Flex>
-            <PortSelector id={`inDevice${keyboard.id}`} devices={midiDevices} io="inputs" selected={keyboard.device}/>
-            <ChannelSelector id={`keyboard${keyboard.id}`} selected={keyboard.channel} setSelected={() => undefined}/>
+            <PortSelector id={`inDevice${keyboard.id}`}
+                          devices={midiDevices}
+                          io="inputs"
+                          selected={keyboard.device}
+                          setSelected={setDevice}/>
+            <ChannelSelector id={`keyboard${keyboard.id}`}
+                             selected={keyboard.channel}
+                             setSelected={setChannel}/>
             <Spacer/>
             {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
             {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
             <Button onClick={deleteSelf} iconButton><FaTrash/></Button>
         </Flex>
         <Center>
-            <Keyboard keyboard={keyboard} style={{margin: '0.5rem'}}/>
+            <Keyboard keyboard={keyboard}/>
         </Center>
     </Container>
 }
@@ -42,17 +48,18 @@ const KeyboardPlaceholder = ({ addKeyboard }) => {
     </Button>
 }
 
-const SynthConfig = ({ synth, midiDevices }) => {
+const SynthConfig = ({ synth, midiDevices, setDevice }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>
-        <PortSelector id={`outDevice${synth.id}`} devices={midiDevices} io="outputs" selected={synth.device}/>
+        <PortSelector id={`outDevice${synth.id}`}
+                      devices={midiDevices} io="outputs"
+                      selected={synth.device}
+                      setSelected={setDevice}/>
     </Container>
 }
 
 const SynthPlaceholder = () => {
-    return <Container inner>
-        Hey! Add a synthesizer!
-    </Container>
+    return <Button>Add a synthesizer</Button>
 }
 
 const EditPedalConfig = ({ pedal }) => {
@@ -86,6 +93,14 @@ class SetupTab extends React.Component {
             keyboards[index] = next
             setData(data)
         }
+        const setChannel = (channel, keyboard) => {
+            keyboard.channel = channel
+            setData(data)
+        }
+        const setDevice = (device, hardware) => {
+            hardware.device = device
+            setData(data)
+        }
 
         return <>
             <Container title="Keyboards">
@@ -95,7 +110,9 @@ class SetupTab extends React.Component {
                                     midiDevices={midiDevices}
                                     deleteSelf={() => this.deleteKeyboard(index)}
                                     moveUp={index > 0 ? moveUp(index) : undefined}
-                                    moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}/>
+                                    moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}
+                                    setDevice={device => setDevice(device, keyboard)}
+                                    setChannel={channel => setChannel(channel, keyboard)}/>
                 )}
                 <KeyboardPlaceholder addKeyboard={() => this.addKeyboard()}/>
                 <div style={styles.pedalContainer}>
@@ -104,7 +121,11 @@ class SetupTab extends React.Component {
                 </div>
             </Container>
             <Container title="Synthesizers">
-                {synthesizers.map(synth => <SynthConfig key={synth.id} {...{ synth, midiDevices }}/>)}
+                {synthesizers.map(synth =>
+                    <SynthConfig key={synth.id}
+                                 setDevice={device => setDevice(device, synth)}
+                                 {...{ synth, midiDevices }}/>
+                )}
                 <SynthPlaceholder/>
             </Container>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
@@ -112,7 +133,8 @@ class SetupTab extends React.Component {
     }
     
     addKeyboard(parsedMessage) {
-        const { data, data: { setup: { keyboards } }, setData } = this.props
+        const { data, setData } = this.props
+        const { keyboards } = data.setup
 
         const device = parsedMessage ? parsedMessage.device : MidiDevicePlaceholder
         const channel = parsedMessage ? parsedMessage.channel : 0
@@ -127,7 +149,8 @@ class SetupTab extends React.Component {
     }
 
     deleteKeyboard(index) {
-        const { data, data: { setup: { keyboards } }, setData } = this.props
+        const { data, setData } = this.props
+        const { keyboards } = data.setup
 
         keyboards.splice(index, 1)
         setData(data)
