@@ -118,8 +118,8 @@ class Keyboard extends React.Component {
 
     handleMidi(parsedMessage) {
         const { keyboard } = this.props
-        const { device, channel } = parsedMessage
-        if (keyboard.channel === channel && keyboard.device === device) {
+        const { midiInterface, channel } = parsedMessage
+        if (keyboard.channel === channel && keyboard.midiInterface === midiInterface) {
             const { type, note } = parsedMessage
             const { pressedNotes } = this.state
             if (type === Midi.NOTE_ON) {

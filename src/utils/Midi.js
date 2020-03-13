@@ -58,7 +58,7 @@ export const parseMidiMessage = (rawMsg) => {
 
     const parsed = parseHelper(command, byte1, byte2)
     parsed.channel = channel
-    parsed.device = midiDeviceToName(rawMsg.target)
+    parsed.midiInterface = midiInterfaceToName(rawMsg.target)
 
     return parsed
 }
@@ -100,4 +100,4 @@ export const notifyMidiListeners = (parsedMessage) => {
 }
 
 
-export const midiDeviceToName = device => `${device.manufacturer} ${device.name}`
+export const midiInterfaceToName = midiInterface => `${midiInterface.manufacturer} ${midiInterface.name}`

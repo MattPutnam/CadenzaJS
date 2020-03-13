@@ -11,7 +11,7 @@ class App extends React.Component {
 
     this.state = {
       perform: false,
-      midiDevices: {
+      midiInterfaces: {
         inputs: [],
         outputs: []
       },
@@ -20,30 +20,30 @@ class App extends React.Component {
   }
 
   render() {
-    const { perform, midiDevices, data } = this.state
+    const { perform, midiInterfaces, data } = this.state
     const setData = newData => this.setState({ data: newData })
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :
-      <EditPage perform={() => this.setState({ perform: true })} {...{ midiDevices, data, setData }}/>
+      <EditPage perform={() => this.setState({ perform: true })} {...{ midiInterfaces, data, setData }}/>
   }
 
   componentDidMount() {
     // The effect hook was not working for this, hence the manual lifecycle management:
     navigator.requestMIDIAccess().then(access => {
       access.onstatechange = ({ port }) => {
-        const { midiDevices } = this.state
+        const { midiInterfaces } = this.state
         const key = `${port.type}s`
 
         if (port.state === 'connected') {
-          const arr = midiDevices[key]
-          if (!arr.some(device => device.id === port.id)) {
+          const arr = midiInterfaces[key]
+          if (!arr.some(midiInterface => midiInterface.id === port.id)) {
             arr.push(port)
-            this.setState(midiDevices)
+            this.setState(midiInterfaces)
           }
         } else if (port.state === 'disconnected') {
-          midiDevices[key] = midiDevices[key].filter(device => device.id !== port.id)
-          this.setState(midiDevices)
+          midiInterfaces[key] = midiInterfaces[key].filter(midiInterface => midiInterface.id !== port.id)
+          this.setState(midiInterfaces)
         }
       }
 
@@ -68,7 +68,7 @@ class App extends React.Component {
         item = iterator.next()
       }
 
-      this.setState({ midiDevices: { inputs, outputs } })
+      this.setState({ midiInterfaces: { inputs, outputs } })
     })
   }
 }
