@@ -14,3 +14,11 @@ export const Flex = ({ children, align='baseline', style, ...props }) => {
 }
 
 export const Spacer = () => <div style={{ flex: '1 1 auto' }}/>
+
+export const Center = ({ children }) => {
+    return <Flex>
+        <Spacer/>
+        {children}
+        <Spacer/>
+    </Flex>
+}

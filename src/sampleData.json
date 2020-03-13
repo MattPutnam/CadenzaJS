@@ -2,7 +2,6 @@
     "setup": {
         "keyboards": [
             {
-                "name": "",
                 "id": 0,
                 "range": [21, 108],
                 "device": "PreSonus Studio 1824",

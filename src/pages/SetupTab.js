@@ -1,8 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
 import Container from '../components/Container'
-import { Flex, Spacer } from '../components/Flex'
+import { Flex, Spacer, Center } from '../components/Flex'
 import PortSelector, { MidiDevicePlaceholder } from '../components/PortSelector'
+import ChannelSelector from '../components/ChannelSelector'
 import SynthSelector from '../components/SynthSelector'
 import Button from '../components/Button'
 import Keyboard from '../components/Keyboard'
@@ -18,16 +19,19 @@ const styles = {
     }
 }
 
-const KeyboardConfig = ({ keyboard, multiple, deleteSelf, midiDevices }) => {
+const KeyboardConfig = ({ keyboard, deleteSelf, midiDevices, moveUp, moveDown }) => {
     return <Container inner>
         <Flex>
-            <PortSelector devices={midiDevices} io="inputs" selected={keyboard.device}/>
-            {keyboard.channel}
-            {multiple && <input/>}
+            <PortSelector id={`inDevice${keyboard.id}`} devices={midiDevices} io="inputs" selected={keyboard.device}/>
+            <ChannelSelector id={`keyboard${keyboard.id}`} selected={keyboard.channel} setSelected={() => undefined}/>
             <Spacer/>
             <Button onClick={deleteSelf}>delete</Button>
+            {moveUp && <Button onClick={moveUp}>Up</Button>}
+            {moveDown && <Button onClick={moveDown}>Down</Button>}
         </Flex>
-        <Keyboard keyboard={keyboard}/>
+        <Center>
+            <Keyboard keyboard={keyboard}/>
+        </Center>
     </Container>
 }
 
@@ -40,7 +44,7 @@ const KeyboardPlaceholder = ({ addKeyboard }) => {
 const SynthConfig = ({ synth, midiDevices }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>
-        <PortSelector devices={midiDevices} io="outputs" selected={synth.device}/>
+        <PortSelector id={`outDevice${synth.id}`} devices={midiDevices} io="outputs" selected={synth.device}/>
     </Container>
 }
 
@@ -65,17 +69,32 @@ const SustainPedalConfig = ({ pedal }) => {
 
 class SetupTab extends React.Component {
     render() {
-        const { data: { setup : { keyboards, synthesizers, editPedal, sustainPedal } }, midiDevices } = this.props
-        const multipleKeyboards = keyboards.length > 1
+        const { data, midiDevices, setData } = this.props
+        const { keyboards, synthesizers, editPedal, sustainPedal } = data.setup
+        const moveUp = (index) => () => {
+            const elem = keyboards[index]
+            const prev = keyboards[index-1]
+            keyboards[index-1] = elem
+            keyboards[index] = prev
+            setData(data)
+        }
+        const moveDown = (index) => () => {
+            const elem = keyboards[index]
+            const next = keyboards[index+1]
+            keyboards[index+1] = elem
+            keyboards[index] = next
+            setData(data)
+        }
 
         return <>
             <Container title="Keyboards">
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     keyboard={keyboard}
-                                    multiple={multipleKeyboards}
                                     midiDevices={midiDevices}
-                                    deleteSelf={() => this.deleteKeyboard(index)}/>
+                                    deleteSelf={() => this.deleteKeyboard(index)}
+                                    moveUp={index > 0 ? moveUp(index) : undefined}
+                                    moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}/>
                 )}
                 <KeyboardPlaceholder addKeyboard={() => this.addKeyboard()}/>
                 <div style={styles.pedalContainer}>
@@ -100,7 +119,6 @@ class SetupTab extends React.Component {
         keyboards.push({
             id: findId(keyboards),
             device,
-            name: '',
             range: [21, 108],
             channel
         })

@@ -11,6 +11,11 @@ body {
   box-sizing: border-box;
 }
 
-select {
+select, input {
   font-size: 100%;
+  margin-right: 0.5rem;
+}
+
+label {
+  margin-right: 0.25rem;
 }
