@@ -23,13 +23,11 @@ const styles = {
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setInterface, setChannel }) => {
     return <Container inner>
         <Flex>
-            <InterfaceSelector id={`inputInterfaceFor${keyboard.id}`}
+            <InterfaceSelector hardware={keyboard}
                                midiInterfaces={midiInterfaces}
                                io="inputs"
-                               selected={keyboard.midiInterface}
                                setSelected={setInterface}/>
-            <ChannelSelector id={`keyboard${keyboard.id}`}
-                             selected={keyboard.channel}
+            <ChannelSelector keyboard={keyboard}
                              setSelected={setChannel}/>
             <Spacer/>
             {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
@@ -51,9 +49,9 @@ const KeyboardPlaceholder = ({ addKeyboard }) => {
 const SynthConfig = ({ synth, midiInterfaces, setInterface }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>
-        <InterfaceSelector id={`outputInterfaceFor${synth.id}`}
-                           midiInterfaces={midiInterfaces} io="outputs"
-                           selected={synth.midiInterface}
+        <InterfaceSelector hardware={synth}
+                           midiInterfaces={midiInterfaces}
+                           io="outputs"
                            setSelected={setInterface}/>
     </Container>
 }

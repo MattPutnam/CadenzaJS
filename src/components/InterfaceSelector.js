@@ -4,7 +4,9 @@ import * as Midi from '../utils/Midi'
 
 export const MidiInterfacePlaceholder = 'I\'ll connect later'
 
-const InterfaceSelector = ({ midiInterfaces, io, selected, setSelected, id }) => {
+const InterfaceSelector = ({ midiInterfaces, io, setSelected, hardware }) => {
+    const id = `${io}SelectorFor${hardware.id}`
+    const selected = hardware.midiInterface
     const values = midiInterfaces[io].map(midiInterface => `${midiInterface.manufacturer} ${midiInterface.name}`)
     const missing = selected !== MidiInterfacePlaceholder && !values.includes(selected)
 
