@@ -6,9 +6,9 @@ const ChannelSelector = ({ keyboard, setData }) => {
         <label htmlFor={id}>Channel: </label>
         <input id={id}
                type='number'
-               value={keyboard.channel}
-               min='0' max='15'
-               onChange={e => {keyboard.channel = parseInt(e.target.value); setData()}}/>
+               value={keyboard.channel+1}
+               min='1' max='16'
+               onChange={e => {keyboard.channel = parseInt(e.target.value)-1; setData()}}/>
     </>
 }
 
