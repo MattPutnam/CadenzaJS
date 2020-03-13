@@ -21,7 +21,7 @@ class App extends React.Component {
 
   render() {
     const { perform, midiInterfaces, data } = this.state
-    const setData = newData => this.setState({ data: newData })
+    const setData = () => this.setState({ data })
 
     return perform ?
       <PerformPage exit={() => this.setState({ perform: false })}/> :

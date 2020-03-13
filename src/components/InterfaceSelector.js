@@ -4,7 +4,7 @@ import * as Midi from '../utils/Midi'
 
 export const MidiInterfacePlaceholder = 'I\'ll connect later'
 
-const InterfaceSelector = ({ midiInterfaces, io, setSelected, hardware }) => {
+const InterfaceSelector = ({ midiInterfaces, io, setData, hardware }) => {
     const id = `${io}SelectorFor${hardware.id}`
     const selected = hardware.midiInterface
     const values = midiInterfaces[io].map(midiInterface => `${midiInterface.manufacturer} ${midiInterface.name}`)
@@ -12,7 +12,7 @@ const InterfaceSelector = ({ midiInterfaces, io, setSelected, hardware }) => {
 
     return <>
         <label htmlFor={id}>Interface: </label>
-        <select id={id} value={selected} onChange={e => setSelected(e.target.value)}>
+        <select id={id} value={selected} onChange={e => { hardware.midiInterface = e.target.value; setData() }}>
             <option value={MidiInterfacePlaceholder}>{MidiInterfacePlaceholder}</option>
             {midiInterfaces[io].map(midiInterface => {
                 const label = Midi.midiInterfaceToName(midiInterface)

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ChannelSelector = ({ keyboard, setSelected }) => {
+const ChannelSelector = ({ keyboard, setData }) => {
     const id = `channelSelectorFor${keyboard.id}`
     return <>
         <label htmlFor={id}>Channel: </label>
@@ -8,7 +8,7 @@ const ChannelSelector = ({ keyboard, setSelected }) => {
                type='number'
                value={keyboard.channel}
                min='0' max='15'
-               onChange={e => setSelected(parseInt(e.target.value))}/>
+               onChange={e => {keyboard.channel = parseInt(e.target.value); setData()}}/>
     </>
 }
 

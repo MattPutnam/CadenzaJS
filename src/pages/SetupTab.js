@@ -20,15 +20,15 @@ const styles = {
     }
 }
 
-const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setInterface, setChannel }) => {
+const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
     return <Container inner>
         <Flex>
             <InterfaceSelector hardware={keyboard}
                                midiInterfaces={midiInterfaces}
                                io="inputs"
-                               setSelected={setInterface}/>
+                               setData={setData}/>
             <ChannelSelector keyboard={keyboard}
-                             setSelected={setChannel}/>
+                             setData={setData}/>
             <Spacer/>
             {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
             {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
@@ -46,13 +46,13 @@ const KeyboardPlaceholder = ({ addKeyboard }) => {
     </Button>
 }
 
-const SynthConfig = ({ synth, midiInterfaces, setInterface }) => {
+const SynthConfig = ({ synth, midiInterfaces, setData }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>
         <InterfaceSelector hardware={synth}
                            midiInterfaces={midiInterfaces}
                            io="outputs"
-                           setSelected={setInterface}/>
+                           setData={setData}/>
     </Container>
 }
 
@@ -82,22 +82,14 @@ class SetupTab extends React.Component {
             const prev = keyboards[index-1]
             keyboards[index-1] = elem
             keyboards[index] = prev
-            setData(data)
+            setData()
         }
         const moveDown = (index) => () => {
             const elem = keyboards[index]
             const next = keyboards[index+1]
             keyboards[index+1] = elem
             keyboards[index] = next
-            setData(data)
-        }
-        const setChannel = (channel, keyboard) => {
-            keyboard.channel = channel
-            setData(data)
-        }
-        const setInterface = (midiInterface, hardware) => {
-            hardware.midiInterface = midiInterface
-            setData(data)
+            setData()
         }
 
         return <>
@@ -109,8 +101,7 @@ class SetupTab extends React.Component {
                                     deleteSelf={() => this.deleteKeyboard(index)}
                                     moveUp={index > 0 ? moveUp(index) : undefined}
                                     moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}
-                                    setInterface={midiInterface => setInterface(midiInterface, keyboard)}
-                                    setChannel={channel => setChannel(channel, keyboard)}/>
+                                    setData={setData}/>
                 )}
                 <KeyboardPlaceholder addKeyboard={() => this.addKeyboard()}/>
                 <div style={styles.pedalContainer}>
@@ -121,7 +112,7 @@ class SetupTab extends React.Component {
             <Container title="Synthesizers">
                 {synthesizers.map(synth =>
                     <SynthConfig key={synth.id}
-                                 setInterface={midiInterface => setInterface(midiInterface, synth)}
+                                 setData={setData}
                                  {...{ synth, midiInterfaces }}/>
                 )}
                 <SynthPlaceholder/>
@@ -143,7 +134,7 @@ class SetupTab extends React.Component {
             range: [21, 108],
             channel
         })
-        setData(data)
+        setData()
     }
 
     deleteKeyboard(index) {
@@ -151,7 +142,7 @@ class SetupTab extends React.Component {
         const { keyboards } = data.setup
 
         keyboards.splice(index, 1)
-        setData(data)
+        setData()
     }
 
     handleMidi(parsedMessage) {
