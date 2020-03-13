@@ -10,6 +10,7 @@ import Keyboard from '../components/Keyboard'
 import { findId } from '../utils/IdFinder'
 import MidiListener from '../components/MidiListener'
 import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
+import KeyboardSizeSelector from '../components/KeyboardSizeSelector'
 
 const styles = {
     pedalContainer: {
@@ -36,6 +37,9 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
         </Flex>
         <Center>
             <Keyboard keyboard={keyboard}/>
+        </Center>
+        <Center>
+            <KeyboardSizeSelector keyboard={keyboard} setData={setData}/>
         </Center>
     </Container>
 }

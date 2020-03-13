@@ -2,11 +2,14 @@ import React from 'react'
 
 const PerformPage = ({ exit }) => {
     React.useEffect(() => {
-        document.addEventListener('keydown', e => {
+        const esc = e => {
             if (e.key === 'Escape') {
                 exit()
             }
-        })
+        }
+
+        document.addEventListener('keydown', esc)
+        return () => document.removeEventListener('keydown', esc)
     })
 
     const styles = {
