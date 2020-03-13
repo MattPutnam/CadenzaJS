@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from './Button'
-import MIDIMonitor from './MIDIMonitor'
+import MidiMonitor from './MidiMonitor'
 import { Flex, Spacer } from './Flex'
 
 const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
@@ -30,7 +30,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
         <Tab title="Cues" {...{ selectedTab, setSelectedTab }} last/>
         <Button onClick={perform}>Perform</Button>
         <Spacer/>
-        <MIDIMonitor/>
+        <MidiMonitor/>
     </Flex>
 }
 

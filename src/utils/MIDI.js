@@ -58,7 +58,7 @@ export const parseMidiMessage = (rawMsg) => {
 
     const parsed = parseHelper(command, byte1, byte2)
     parsed.channel = channel
-    parsed.device = MIDIDeviceToName(rawMsg.target)
+    parsed.device = midiDeviceToName(rawMsg.target)
 
     return parsed
 }
@@ -72,10 +72,10 @@ const midiNoteNumberToName = (midiNumber) => {
     return noteList[noteIndex] + octave
 }
 
-export const toString = (midi) => {
-    const { channel, note, velocity, controller, value } = midi
+export const toString = (parsedMessage) => {
+    const { type, channel, note, velocity, controller, value } = parsedMessage
 
-    switch (midi.type) {
+    switch (type) {
         case NOTE_ON:
             return `${channel} ${midiNoteNumberToName(note)} ${velocity}`
         case NOTE_OFF:
@@ -100,4 +100,4 @@ export const notifyMidiListeners = (parsedMessage) => {
 }
 
 
-export const MIDIDeviceToName = device => `${device.manufacturer} ${device.name}`
+export const midiDeviceToName = device => `${device.manufacturer} ${device.name}`

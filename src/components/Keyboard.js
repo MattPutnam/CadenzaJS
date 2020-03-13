@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import Colors from './colors'
+import * as Midi from '../utils/Midi'
+import MidiListener from './MidiListener'
 
 
 const WHITE_HEIGHT = 81 // height of white key
@@ -34,7 +36,8 @@ class Keyboard extends React.Component {
 
         this.state = {
             hoverKey: undefined,
-            dragStart: undefined
+            dragStart: undefined,
+            pressedNotes: new Set()
         }
 
         this.mouseUpListener = () => this.setState({ dragStart: undefined })
@@ -45,8 +48,8 @@ class Keyboard extends React.Component {
     }
 
     render() {
-        const { keyboard, onKeyClick, onRangeDrag, highlight } = this.props
-        const { hoverKey, dragStart } = this.state
+        const { keyboard, onKeyClick, onRangeDrag } = this.props
+        const { hoverKey, dragStart, pressedNotes } = this.state
         const setHoverKey = hk => this.setState({ hoverKey: hk })
         const setDragStart = ds => this.setState({ dragStart: ds })
 
@@ -56,21 +59,22 @@ class Keyboard extends React.Component {
                 alignItems: 'flex-start',
                 border: '1px solid black',
             },
-            key: (keymod, first, highlight) => {
-                const isWhite = [0, 2, 4, 5, 7, 9, 11].includes(keymod)
+            key: (note, first, highlight) => {
+                const noteMod = note % 12
+                const isWhite = [0, 2, 4, 5, 7, 9, 11].includes(noteMod)
                 return {
                     display: 'inline-block',
                     border: '1px solid black',
-                    backgroundColor: highlight ? Colors.blue : isWhite ? 'white' : 'black',
+                    backgroundColor: pressedNotes.has(note) ? Colors.lightBlue : highlight ? Colors.blue : isWhite ? 'white' : 'black',
                     width: isWhite ? WHITE_WIDTH : BLACK_WIDTH,
                     height: isWhite ? WHITE_HEIGHT : BLACK_HEIGHT,
-                    marginLeft: first ? 0 : -LEFT_MARGINS[keymod],
+                    marginLeft: first ? 0 : -LEFT_MARGINS[noteMod],
                     zIndex: isWhite ? 0 : 1
                 }
             }
         }
     
-        const handleClick = (k, e) => {
+        const handleClick = (k) => {
             onKeyClick(k)
             setDragStart(undefined)
         }
@@ -89,14 +93,15 @@ class Keyboard extends React.Component {
         return <div style={styles.container}
                     onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
                     onMouseUp={onRangeDrag ? handleRangeDrag : undefined}>
+            <MidiListener id={`KEYBOARD ${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
             {_.range(low, high+1).map(k => {
-                const shouldHighlight = (highlight && highlight.has(k)) || k === hoverKey || k === dragStart
+                const shouldHighlight = k === hoverKey || k === dragStart
                 return <div key={k}
                             ref={this.refs[k]}
-                            style={styles.key(k % 12, k === low, shouldHighlight)}
+                            style={styles.key(k, k === low, shouldHighlight)}
                             onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
                             onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
-                            onClick={onKeyClick ? (e) => handleClick(k, e) : undefined}/>
+                            onClick={onKeyClick ? () => handleClick(k) : undefined}/>
             })}
         </div>
     }
@@ -107,6 +112,21 @@ class Keyboard extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('mouseup', this.mouseUpListener)
+    }
+
+    handleMidi(parsedMessage) {
+        const { keyboard } = this.props
+        const { device, channel } = parsedMessage
+        if (keyboard.channel === channel && keyboard.device === device) {
+            const { type, note } = parsedMessage
+            const { pressedNotes } = this.state
+            if (type === Midi.NOTE_ON) {
+                pressedNotes.add(note)
+            } else if (type === Midi.NOTE_OFF) {
+                pressedNotes.delete(note)
+            }
+            this.setState({ pressedNotes })
+        }
     }
 
     getBounds(key) {

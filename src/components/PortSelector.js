@@ -1,18 +1,18 @@
 import React from 'react'
 import Warning from './Warning'
-import * as MIDI from '../utils/MIDI'
+import * as Midi from '../utils/Midi'
 
-export const MIDIDevicePlaceholder = 'I\'ll connect later'
+export const MidiDevicePlaceholder = 'I\'ll connect later'
 
 const PortSelector = ({ devices, io, selected }) => {
     const values = devices[io].map(device => `${device.manufacturer} ${device.name}`)
-    const missing = selected !== MIDIDevicePlaceholder && !values.includes(selected)
+    const missing = selected !== MidiDevicePlaceholder && !values.includes(selected)
 
     return <>
         <select value={selected} onChange={() => console.log("TODO")}>
-            <option value={0}>{MIDIDevicePlaceholder}</option>
+            <option value={0}>{MidiDevicePlaceholder}</option>
             {devices[io].map(device => {
-                const label = MIDI.MIDIDeviceToName(device)
+                const label = Midi.midiDeviceToName(device)
                 return <option key={device.id} value={label}>{label}</option>
             })}
             {missing && <option value={selected}>{selected}</option>}

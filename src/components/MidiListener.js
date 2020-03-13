@@ -1,11 +1,11 @@
 import React from 'react'
-import * as MIDI from '../utils/MIDI'
+import * as Midi from '../utils/Midi'
 
 
 const MidiListener = ({ dispatch, id }) => {
     React.useEffect(() => {
-        MIDI.addMidiListener(dispatch, id)
-        return () => MIDI.removeMidiListener(id)
+        Midi.addMidiListener(dispatch, id)
+        return () => Midi.removeMidiListener(id)
     })
     return null
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import EditPage from './pages/EditPage'
 import PerformPage from './pages/PerformPage'
-import * as MIDI from './utils/MIDI'
+import * as Midi from './utils/Midi'
 
 import * as data from './sampleData.json'
 
@@ -53,8 +53,8 @@ class App extends React.Component {
       while (!item.done) {
         const input = item.value
         input.onmidimessage = message => {
-          const parsed = MIDI.parseMidiMessage(message)
-          MIDI.notifyMidiListeners(parsed)
+          const parsed = Midi.parseMidiMessage(message)
+          Midi.notifyMidiListeners(parsed)
         }
         inputs.push(input)
         item = iterator.next()
