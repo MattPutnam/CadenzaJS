@@ -48,7 +48,7 @@ class Keyboard extends React.Component {
     }
 
     render() {
-        const { keyboard, onKeyClick, onRangeDrag } = this.props
+        const { keyboard, onKeyClick, onRangeDrag, style, ...props } = this.props
         const { hoverKey, dragStart, pressedNotes } = this.state
         const setHoverKey = hk => this.setState({ hoverKey: hk })
         const setDragStart = ds => this.setState({ dragStart: ds })
@@ -90,9 +90,10 @@ class Keyboard extends React.Component {
         const highlightHover = !!(onKeyClick || onRangeDrag)
     
         const [low, high] = keyboard.range
-        return <div style={styles.container}
+        return <div style={_.merge(styles.container, style)}
                     onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
-                    onMouseUp={onRangeDrag ? handleRangeDrag : undefined}>
+                    onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
+                    {...props}>
             <MidiListener id={`KEYBOARD ${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
             {_.range(low, high+1).map(k => {
                 const shouldHighlight = k === hoverKey || k === dragStart

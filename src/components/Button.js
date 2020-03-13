@@ -1,10 +1,10 @@
 import React from 'react'
 import Colors from './colors'
 
-const Button = ({ children, onClick }) => {
+const Button = ({ children, onClick, iconButton }) => {
     const style = {
         margin: '0 0.5rem',
-        padding: '0.5rem 0.75rem',
+        padding: iconButton ? '0.5rem 0.6rem' : '0.5rem 0.75rem',
         color: 'white',
         backgroundColor: Colors.blue,
         fontSize: 'unset',

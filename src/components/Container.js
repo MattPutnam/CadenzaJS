@@ -7,7 +7,8 @@ const Container = ({ title, style, inner, children, ...props }) => {
             margin: '0.5rem',
             backgroundColor: inner ? '#616161' : '#484848',
             border: '1px solid black',
-            borderRadius: 3
+            borderRadius: 3,
+            color: '#cecece'
         },
         title: {
             margin: 0,

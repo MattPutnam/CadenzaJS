@@ -9,6 +9,7 @@ import Button from '../components/Button'
 import Keyboard from '../components/Keyboard'
 import { findId } from '../utils/IdFinder'
 import MidiListener from '../components/MidiListener'
+import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
 
 const styles = {
     pedalContainer: {
@@ -25,12 +26,12 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiDevices, moveUp, moveDown })
             <PortSelector id={`inDevice${keyboard.id}`} devices={midiDevices} io="inputs" selected={keyboard.device}/>
             <ChannelSelector id={`keyboard${keyboard.id}`} selected={keyboard.channel} setSelected={() => undefined}/>
             <Spacer/>
-            <Button onClick={deleteSelf}>delete</Button>
-            {moveUp && <Button onClick={moveUp}>Up</Button>}
-            {moveDown && <Button onClick={moveDown}>Down</Button>}
+            {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
+            {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
+            <Button onClick={deleteSelf} iconButton><FaTrash/></Button>
         </Flex>
         <Center>
-            <Keyboard keyboard={keyboard}/>
+            <Keyboard keyboard={keyboard} style={{margin: '0.5rem'}}/>
         </Center>
     </Container>
 }
