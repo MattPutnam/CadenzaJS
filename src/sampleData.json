@@ -26,14 +26,10 @@
                 "channels": [14, 15]
             }
         ],
-        "editPedal": {
+        "actionPedal": {
             "keyboardId": 0,
-            "control": "expression - TODO: convert to number",
+            "control": 11,
             "type": "continuous"
-        },
-        "sustainPedal": {
-            "keyboardId": 0,
-            "control": 7
         }
     },
     "patches": [
