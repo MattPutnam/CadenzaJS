@@ -74,12 +74,12 @@ const midiNoteNumberToName = (midiNumber) => {
 
 
 export const ccNames = {
-    0: { short: 'BS', long: 'Bank Select' },
+    0: { short: 'BANK', long: 'Bank Select' },
     1: { short: 'MOD', long: 'Modulation Wheel' },
-    2: { short: 'BC', long: 'Breath Controller' },
+    2: { short: 'BRCTL', long: 'Breath Controller' },
     4: { short: 'FC', long: 'Foot Controller' },
-    5: { short: 'PT', long: 'Portamento Time' },
-    6: { short: 'DMSB', long: 'Data Entry MSB' },
+    5: { short: 'PRTTM', long: 'Portamento Time' },
+    6: { short: 'DEMSB', long: 'Data Entry MSB' },
     7: { short: 'VOL', long: 'Main Volume' },
     8: { short: 'BAL', long: 'Balance' },
     10: { short: 'PAN', long: 'Pan' },
@@ -94,8 +94,8 @@ export const ccNames = {
     65: { short: 'PORT', long: 'Portamento' },
     66: { short: 'SOST', long: 'Sostenuto' },
     67: { short: 'SOFT', long: 'Soft Pedal' },
-    68: { short: 'LGFS', long: 'Legato Footswitch' },
-    69: { short: 'HLD2', long: 'Hold 2' },
+    68: { short: 'LEGFS', long: 'Legato Footswitch' },
+    69: { short: 'HOLD2', long: 'Hold 2' },
     70: { short: 'SC1', long: 'Sound Controller 1 (default: Sound Variation)' },
     71: { short: 'SC2', long: 'Sound Controller 2 (default: Timbre/Harmonic Content)' },
     72: { short: 'SC3', long: 'Sound Controller 3 (default: Release Time)' },
@@ -110,7 +110,7 @@ export const ccNames = {
     81: { short: 'GPC6', long: 'General Purpose Controller 6' },
     82: { short: 'GPC7', long: 'General Purpose Controller 7' },
     83: { short: 'GPC8', long: 'General Purpose Controller 8' },
-    84: { short: 'PCTL', long: 'Portamento Control' },
+    84: { short: 'PTCTL', long: 'Portamento Control' },
     91: { short: 'FX1D', long: 'Effects 1 Depth (previously External Effects Depth)' },
     92: { short: 'FX2D', long: 'Effects 2 Depth (previously Tremolo Depth)' },
     93: { short: 'FX3D', long: 'Effects 3 Depth (previously Chorus Depth)' },
@@ -118,37 +118,51 @@ export const ccNames = {
     95: { short: 'FX5D', long: 'Effects 5 Depth (previously Phaser Depth)' },
     96: { short: 'INC', long: 'Data Increment' },
     97: { short: 'DEC', long: 'Data Decrement' },
-    98: { short: 'NLSB', long: 'Non-Registered Parameter Number LSB' },
-    99: { short: 'NMSB', long: 'Non-Registered Parameter Number MSB' },
-    100: { short: 'RLSB', long: 'Registered Parameter Number LSB' },
-    101: { short: 'RMSB', long: 'Registered Parameter Number MSB' },
-    121: { short: 'RAC', long: 'Reset All Controllers' },
-    122: { short: 'LOCL', long: 'Local Control' },
-    123: { short: 'ANO', long: 'All Notes Off' },
-    124: { short: 'OOFF', long: 'Omni Off' },
-    125: { short: 'OON', long: 'Omni On' },
-    126: { short: 'MON', long: 'Mono On (Poly Off)' },
-    127: { short: 'PON', long: 'Poly On (Mono Off)' }
+    98: { short: 'NPLSB', long: 'Non-Registered Parameter Number LSB' },
+    99: { short: 'NPMSB', long: 'Non-Registered Parameter Number MSB' },
+    100: { short: 'RPLSB', long: 'Registered Parameter Number LSB' },
+    101: { short: 'RPMSB', long: 'Registered Parameter Number MSB' },
+    121: { short: 'RESET', long: 'Reset All Controllers' },
+    122: { short: 'LOCAL', long: 'Local Control' },
+    123: { short: 'PANIC', long: 'All Notes Off' },
+    124: { short: 'OMOFF', long: 'Omni Off' },
+    125: { short: 'OMON', long: 'Omni On' },
+    126: { short: 'MONO', long: 'Mono On (Poly Off)' },
+    127: { short: 'POLY', long: 'Poly On (Mono Off)' }
 }
 
 const ccHelper = cc => {
     const n = ccNames[cc]
-    return n ? n.short : `CC${cc}`
+    return n ? n.short : `CC${cc}`.padEnd(5)
 }
 
 export const toString = (parsedMessage) => {
     const { type, channel, note, velocity, controller, value } = parsedMessage
 
+    let fields
+
     switch (type) {
         case NOTE_ON:
-            return `CH${channel+1} ${midiNoteNumberToName(note)} ${velocity}`
+            fields = [midiNoteNumberToName(note), velocity]
+            break
         case NOTE_OFF:
-            return `CH${channel+1} ${midiNoteNumberToName(note)} OFF`
+            fields = [midiNoteNumberToName(note), 'OFF']
+            break
         case CONTROL:
-            return `CH${channel+1} ${ccHelper(controller)} ${value}`
+            fields = [ccHelper(controller), value]
+            break
         case PITCH_BEND:
-            return `CH${channel+1} PB ${value}`
-        default: return '--'
+            fields = ['BEND', value]
+            break
+        default:
+    }
+
+    if (fields) {
+        const ch = `CH${channel+1}`.padEnd(4)
+        const [f2, f3] = fields
+        return `${ch} ${f2.toString().padEnd(5)} ${f3.toString().padEnd(3)}`
+    } else {
+        return '?'
     }
 }
 
