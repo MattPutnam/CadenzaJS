@@ -1,11 +1,11 @@
 import _ from 'lodash'
 
 
-export const NOTE_ON = "NOTE_ON"
-export const NOTE_OFF = "NOTE_OFF"
-export const CONTROL = "CONTROL"
-export const PITCH_BEND = "PITCH_BEND"
-export const UNKNOWN = "UNKNOWN"
+export const NOTE_ON = 'NOTE_ON'
+export const NOTE_OFF = 'NOTE_OFF'
+export const CONTROL = 'CONTROL'
+export const PITCH_BEND = 'PITCH_BEND'
+export const UNKNOWN = 'UNKNOWN'
 
 
 const parseHelper = (command, byte1, byte2) => {

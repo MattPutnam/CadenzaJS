@@ -12,21 +12,13 @@ import MidiListener from '../components/MidiListener'
 import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
 import KeyboardSizeSelector from '../components/KeyboardSizeSelector'
 
-const styles = {
-    pedalContainer: {
-        display: 'flex'
-    },
-    pedalItem: {
-        flex: '1 1 auto'
-    }
-}
 
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
     return <Container inner>
         <Flex>
             <InterfaceSelector hardware={keyboard}
                                midiInterfaces={midiInterfaces}
-                               io="inputs"
+                               io='inputs'
                                setData={setData}/>
             <ChannelSelector keyboard={keyboard}
                              setData={setData}/>
@@ -44,34 +36,24 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
     </Container>
 }
 
-const KeyboardPlaceholder = ({ addKeyboard }) => {
-    return <Button onClick={() => addKeyboard()}>
-        Add a keyboard, or press a key to auto discover
-    </Button>
-}
-
 const SynthConfig = ({ synth, midiInterfaces, setData }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>
         <InterfaceSelector hardware={synth}
                            midiInterfaces={midiInterfaces}
-                           io="outputs"
+                           io='outputs'
                            setData={setData}/>
     </Container>
 }
 
-const SynthPlaceholder = () => {
-    return <Button>Add a synthesizer</Button>
-}
-
 const EditPedalConfig = ({ pedal }) => {
-    return <Container inner style={styles.pedalItem} title="Edit Pedal">
+    return <Container inner title='Edit Pedal'>
         Edit Pedal
     </Container>
 }
 
 const SustainPedalConfig = ({ pedal }) => {
-    return <Container inner style={styles.pedalItem} title="Sustain Pedal">
+    return <Container inner title='Sustain Pedal'>
         Sustain Pedal
     </Container>
 }
@@ -97,7 +79,7 @@ class SetupTab extends React.Component {
         }
 
         return <>
-            <Container title="Keyboards">
+            <Container title='Keyboards'>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     keyboard={keyboard}
@@ -107,19 +89,21 @@ class SetupTab extends React.Component {
                                     moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}
                                     setData={setData}/>
                 )}
-                <KeyboardPlaceholder addKeyboard={() => this.addKeyboard()}/>
-                <div style={styles.pedalContainer}>
+                <Button onClick={() => this.addKeyboard()}>
+                    Add a keyboard, or press a key to auto discover
+                </Button>
+                <Flex>
                     <EditPedalConfig pedal={editPedal}/>
                     <SustainPedalConfig pedal={sustainPedal}/>
-                </div>
+                </Flex>
             </Container>
-            <Container title="Synthesizers">
+            <Container title='Synthesizers'>
                 {synthesizers.map(synth =>
                     <SynthConfig key={synth.id}
                                  setData={setData}
                                  {...{ synth, midiInterfaces }}/>
                 )}
-                <SynthPlaceholder/>
+                <Button>Add a synthesizer</Button>
             </Container>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
         </>

@@ -4,6 +4,7 @@ import _ from 'lodash'
 const Container = ({ title, style, inner, children, ...props }) => {
     const styles = {
         container: {
+            flex: '1 1 auto',
             margin: '0.5rem',
             backgroundColor: inner ? '#616161' : '#484848',
             border: '1px solid black',

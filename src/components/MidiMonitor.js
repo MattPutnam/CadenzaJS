@@ -35,7 +35,7 @@ const MidiMonitor = () => {
         <div style={styles.label}>Midi In</div>
         <div style={styles.midiInterface}>{message ? message.midiInterface : '--'}</div>
         <div style={styles.message}>{message ? Midi.toString(message) : '--'}</div>
-        <MidiListener id="###MONITOR###" dispatch={setMessage}/>
+        <MidiListener id='###MONITOR###' dispatch={setMessage}/>
     </div>
 }
 
