@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Warning = ({ children }) => {
     const style = {
         color: '#F5BE02',

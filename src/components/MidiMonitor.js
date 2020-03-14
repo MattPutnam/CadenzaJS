@@ -1,6 +1,9 @@
 import React from 'react'
-import * as Midi from '../utils/Midi'
+
 import MidiListener from './MidiListener'
+
+import * as Midi from '../utils/Midi'
+
 
 const MidiMonitor = () => {
     const styles = {

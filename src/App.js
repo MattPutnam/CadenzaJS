@@ -1,9 +1,12 @@
 import React from 'react'
+
 import EditPage from './pages/EditPage'
 import PerformPage from './pages/PerformPage'
+
 import * as Midi from './utils/Midi'
 
 import * as data from './sampleData.json'
+
 
 class App extends React.Component {
   constructor(props) {

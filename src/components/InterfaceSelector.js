@@ -1,6 +1,9 @@
 import React from 'react'
+
 import Warning from './Warning'
+
 import * as Midi from '../utils/Midi'
+
 
 export const MidiInterfacePlaceholder = 'I\'ll connect later'
 

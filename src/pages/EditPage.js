@@ -1,6 +1,9 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
+
 import SetupTab from './editPage/SetupTab'
+
+import NavBar from '../components/NavBar'
+
 
 const EditPage = ({ perform, midiInterfaces, data, setData }) => {
     const [selectedTab, setSelectedTab] = React.useState('Setup')

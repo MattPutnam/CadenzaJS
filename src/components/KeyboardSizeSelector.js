@@ -1,6 +1,8 @@
 import React from 'react'
+
 import Button from './Button'
 import MidiListener from './MidiListener'
+
 import * as Midi from '../utils/Midi'
 
 

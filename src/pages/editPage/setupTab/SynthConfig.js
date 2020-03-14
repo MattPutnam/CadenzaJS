@@ -4,6 +4,7 @@ import Container from '../../../components/Container'
 import InterfaceSelector from '../../../components/InterfaceSelector'
 import SynthSelector from '../../../components/SynthSelector'
 
+
 const SynthConfig = ({ synth, midiInterfaces, setData }) => {
     return <Container inner>
         <SynthSelector selected={synth.name}/>

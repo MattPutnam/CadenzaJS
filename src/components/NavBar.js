@@ -1,7 +1,9 @@
 import React from 'react'
+
 import Button from './Button'
-import MidiMonitor from './MidiMonitor'
 import { Flex, Spacer } from './Flex'
+import MidiMonitor from './MidiMonitor'
+
 
 const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
     const style = {

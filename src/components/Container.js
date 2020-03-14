@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
+
 const Container = ({ title, style, inner, children, ...props }) => {
     const styles = {
         container: {

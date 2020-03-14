@@ -9,6 +9,7 @@ import InterfaceSelector from '../../../components/InterfaceSelector'
 import Keyboard from '../../../components/Keyboard'
 import KeyboardSizeSelector from '../../../components/KeyboardSizeSelector'
 
+
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
     return <Container inner>
         <Flex>

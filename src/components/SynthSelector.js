@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { synthNames } from '../synthesizers/synthesizers'
+
 
 const SynthSelector = ({ selected }) => {
     return <select value={selected} onChange={() => console.log('TODO')}>

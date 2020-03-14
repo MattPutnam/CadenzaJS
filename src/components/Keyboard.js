@@ -1,8 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
+
 import Colors from './colors'
-import * as Midi from '../utils/Midi'
 import MidiListener from './MidiListener'
+
+import * as Midi from '../utils/Midi'
 
 
 const WHITE_HEIGHT = 81 // height of white key
