@@ -131,9 +131,14 @@ export const ccNames = {
     127: { short: 'POLY', long: 'Poly On (Mono Off)' }
 }
 
-const ccHelper = cc => {
+export const shortCCName = cc => {
     const n = ccNames[cc]
-    return n ? n.short : `CC${cc}`.padEnd(5)
+    return n ? n.short : `CC${cc}`
+}
+
+export const longCCName = cc => {
+    const n = ccNames[cc]
+    return n ? n.long : `Controller ${cc}`
 }
 
 export const toString = (parsedMessage) => {
@@ -149,7 +154,7 @@ export const toString = (parsedMessage) => {
             fields = [midiNoteNumberToName(note), 'OFF']
             break
         case CONTROL:
-            fields = [ccHelper(controller), value]
+            fields = [shortCCName(controller), value]
             break
         case PITCH_BEND:
             fields = ['BEND', value]

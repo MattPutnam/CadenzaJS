@@ -28,7 +28,7 @@
         ],
         "actionPedal": {
             "keyboardId": 0,
-            "control": 11,
+            "controller": 11,
             "type": "continuous"
         }
     },

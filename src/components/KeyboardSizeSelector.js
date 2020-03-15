@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Button from './Button'
+import Message from './Message'
 import MidiListener from './MidiListener'
 
 import * as Midi from '../utils/Midi'
@@ -52,7 +53,7 @@ class KeyboardSizeSelector extends React.Component {
                 {isCustomRange && <option value={selectedValue.toString()}>Custom Range</option>}
             </select>
             {!!stage && <>
-                {stage}
+                <Message>{stage}</Message>
                 <MidiListener id={`KSS${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
                 <Button onClick={() => this.cancelCustom()}>Cancel</Button>
             </>}

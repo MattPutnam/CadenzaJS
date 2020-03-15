@@ -16,7 +16,7 @@ import { findId } from '../../utils/IdFinder'
 class SetupTab extends React.Component {
     render() {
         const { data, midiInterfaces, setData } = this.props
-        const { keyboards, synthesizers, actionPedal } = data.setup
+        const { keyboards, synthesizers } = data.setup
         const moveUp = (index) => () => {
             const elem = keyboards[index]
             const prev = keyboards[index-1]
@@ -46,7 +46,7 @@ class SetupTab extends React.Component {
                 <Button onClick={() => this.addKeyboard()}>
                     Add a keyboard, or press a key to auto discover
                 </Button>
-                <ActionPedalConfig pedal={actionPedal} keyboards={keyboards}/>
+                <ActionPedalConfig data={data} setData={setData}/>
             </Container>
             <Container title='Synthesizers'>
                 {synthesizers.map(synth =>
