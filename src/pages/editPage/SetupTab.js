@@ -2,12 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 
 import ActionPedalConfig from './setupTab/ActionPedalConfig'
+import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
 import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import Button from '../../components/Button'
 import Container from '../../components/Container'
-import { MidiInterfacePlaceholder } from '../../components/InterfaceSelector'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'

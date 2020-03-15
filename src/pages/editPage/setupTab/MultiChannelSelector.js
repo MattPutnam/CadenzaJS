@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Button from './Button'
-import Colors from './colors'
+import Button from '../../../components/Button'
+import Colors from '../../../components/colors'
 
 
 const MultiChannelSelector = ({ synth, setData }) => {

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Warning from './Warning'
+import Warning from '../../../components/Warning'
 
-import * as Midi from '../utils/Midi'
+import * as Midi from '../../../utils/Midi'
 
 
 export const MidiInterfacePlaceholder = 'I\'ll connect later'

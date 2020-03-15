@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { synthNames } from '../synthesizers/synthesizers'
+import { synthNames } from '../../../synthesizers/synthesizers'
 
 
 const SynthSelector = ({ selected }) => {

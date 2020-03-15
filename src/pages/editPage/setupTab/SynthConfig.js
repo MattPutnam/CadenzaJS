@@ -1,10 +1,11 @@
 import React from 'react'
 
+import InterfaceSelector from './InterfaceSelector'
+import MultiChannelSelector from './MultiChannelSelector'
+import SynthSelector from './SynthSelector'
+
 import Container from '../../../components/Container'
 import { Flex } from '../../../components/Flex'
-import InterfaceSelector from '../../../components/InterfaceSelector'
-import MultiChannelSelector from '../../../components/MultiChannelSelector'
-import SynthSelector from '../../../components/SynthSelector'
 
 
 const SynthConfig = ({ synth, midiInterfaces, setData }) => {

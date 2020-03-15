@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Button from './Button'
-import Message from './Message'
-import MidiListener from './MidiListener'
+import Button from '../../../components/Button'
+import Message from '../../../components/Message'
+import MidiListener from '../../../components/MidiListener'
 
-import * as Midi from '../utils/Midi'
+import * as Midi from '../../../utils/Midi'
 
 
 const CUSTOM = 'CUSTOM'
