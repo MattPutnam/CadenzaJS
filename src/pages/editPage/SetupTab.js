@@ -17,18 +17,20 @@ class SetupTab extends React.Component {
     render() {
         const { data, midiInterfaces, setData } = this.props
         const { keyboards, synthesizers } = data.setup
-        const moveUp = (index) => () => {
-            const elem = keyboards[index]
-            const prev = keyboards[index-1]
-            keyboards[index-1] = elem
-            keyboards[index] = prev
+        const moveUp = (key, index) => () => {
+            const obj = data.setup[key]
+            const elem = obj[index]
+            const prev = obj[index-1]
+            obj[index-1] = elem
+            obj[index] = prev
             setData()
         }
-        const moveDown = (index) => () => {
-            const elem = keyboards[index]
-            const next = keyboards[index+1]
-            keyboards[index+1] = elem
-            keyboards[index] = next
+        const moveDown = (key, index) => () => {
+            const obj = data.setup[key]
+            const elem = obj[index]
+            const next = obj[index+1]
+            obj[index+1] = elem
+            obj[index] = next
             setData()
         }
 
@@ -36,9 +38,9 @@ class SetupTab extends React.Component {
             <Container title='Keyboards'>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
-                                    deleteSelf={() => this.deleteKeyboard(index)}
-                                    moveUp={index > 0 ? moveUp(index) : undefined}
-                                    moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}
+                                    deleteSelf={() => this.deleteItem('keyboards', index)}
+                                    moveUp={index > 0 ? moveUp('keyboards', index) : undefined}
+                                    moveDown={index < keyboards.length-1 ? moveDown('keyboards', index) : undefined}
                                     {...{ keyboard, midiInterfaces, setData }}/>
                 )}
                 <Button onClick={() => this.addKeyboard()}>
@@ -47,11 +49,14 @@ class SetupTab extends React.Component {
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
             <Container title='Synthesizers'>
-                {synthesizers.map(synth =>
+                {synthesizers.map((synth, index) =>
                     <SynthConfig key={synth.id}
+                                 deleteSelf={() => this.deleteItem('synthesizers', index)}
+                                 moveUp={index > 0 ? moveUp('synthesizers', index) : undefined}
+                                 moveDown={index < synthesizers.length-1 ? moveDown('synthesizers', index) : undefined}
                                  {...{ synth, midiInterfaces, setData }}/>
                 )}
-                <Button>Add a synthesizer</Button>
+                <Button onClick={() => this.addSynthesizer()}>Add a synthesizer</Button>
             </Container>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
         </>
@@ -73,11 +78,23 @@ class SetupTab extends React.Component {
         setData()
     }
 
-    deleteKeyboard(index) {
+    addSynthesizer() {
         const { data, setData } = this.props
-        const { keyboards } = data.setup
+        const { synthesizers } = data.setup
 
-        keyboards.splice(index, 1)
+        synthesizers.push({
+            name: 'Roland JV-1080',
+            id: findId(synthesizers),
+            midiInterface: MidiInterfacePlaceholder,
+            expansionCards: {},
+            channels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        })
+        setData()
+    }
+
+    deleteItem(key, index) {
+        const { data, setData } = this.props
+        data.setup[key].splice(index, 1)
         setData()
     }
 

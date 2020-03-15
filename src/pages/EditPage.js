@@ -10,7 +10,7 @@ const EditPage = ({ perform, midiInterfaces, data, setData }) => {
 
     const style = {
         backgroundColor: '#8F8F8F',
-        height: '100vh'
+        minHeight: '100vh'
     }
 
     return <div style={style}>
