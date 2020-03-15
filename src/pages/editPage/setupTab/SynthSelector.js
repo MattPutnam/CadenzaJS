@@ -1,11 +1,17 @@
 import React from 'react'
 
-import { synthNames } from '../../../synthesizers/synthesizers'
+import * as Synthesizers from '../../../synthesizers/synthesizers'
 
 
-const SynthSelector = ({ selected }) => {
-    return <select value={selected} onChange={() => console.log('TODO')}>
-        {synthNames.map(synthName => <option key={synthName} value={synthName}>{synthName}</option>)}
+const SynthSelector = ({ synth, setData }) => {
+    const onChange = selection => {
+        synth.name = selection
+        synth.expansionCards = {}
+        setData()
+    }
+
+    return <select value={synth.name} onChange={e => onChange(e.target.value)}>
+        {Synthesizers.synthNames.map(synthName => <option key={synthName} value={synthName}>{synthName}</option>)}
     </select>
 }
 

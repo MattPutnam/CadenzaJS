@@ -13,8 +13,8 @@
                 "name": "Roland XV-5080",
                 "id": 0,
                 "expansionCards": {
-                    "XpA": "SR-JV80-02",
-                    "XpB": "SR-JV80-05"
+                    "XpA": "SR-JV80-02 Orchestral",
+                    "XpB": "SR-JV80-05 World"
                 },
                 "midiInterface": "PreSonus Studio 1824",
                 "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -39,7 +39,7 @@
             "synthesizerId": 0,
             "bank": "PrB",
             "number": 12,
-            "name": "Fomger Bass"
+            "name": "Finger Bass"
         },
         {
             "id": 2,

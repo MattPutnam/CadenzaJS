@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ExpansionConfig from './ExpansionConfig'
 import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
@@ -16,9 +17,10 @@ const SynthConfig = ({ synth, midiInterfaces, setData }) => {
                                {...{ midiInterfaces, setData }}/>
             <MultiChannelSelector synth={synth} setData={setData}/>
         </Flex>
-        
-        <SynthSelector selected={synth.name}/>
-        
+        <h5>Synthesizer:</h5>
+        <SynthSelector synth={synth} setData={setData}/>
+        <h5>Expansions:</h5>
+        <ExpansionConfig synth={synth} setData={setData}/>
     </Container>
 }
 

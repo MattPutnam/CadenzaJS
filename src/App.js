@@ -32,7 +32,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // The effect hook was not working for this, hence the manual lifecycle management:
     navigator.requestMIDIAccess().then(access => {
       access.onstatechange = ({ port }) => {
         const { midiInterfaces } = this.state
