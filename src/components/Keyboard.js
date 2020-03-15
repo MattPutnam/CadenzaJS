@@ -84,7 +84,7 @@ class Keyboard extends React.Component {
 
         const handleRangeDrag = () => {
             if (dragStart && dragStart !== hoverKey) {
-                onRangeDrag([dragStart, hoverKey].sort())
+                onRangeDrag([dragStart, hoverKey].sort((a, b) => a - b))
                 
                 setDragStart(undefined)
             }

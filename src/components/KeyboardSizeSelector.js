@@ -88,7 +88,7 @@ class KeyboardSizeSelector extends React.Component {
             if (stage === STAGE1) {
                 this.setState({ leftNote: note, stage: STAGE2 })
             } else if (stage === STAGE2) {
-                const range = [leftNote, note].sort()
+                const range = [leftNote, note].sort((a, b) => a - b)
                 keyboard.range = range
                 setData()
                 this.setState({ selectedValue: range, stage: undefined, leftNote: undefined })

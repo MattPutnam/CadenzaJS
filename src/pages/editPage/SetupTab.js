@@ -36,12 +36,10 @@ class SetupTab extends React.Component {
             <Container title='Keyboards'>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
-                                    keyboard={keyboard}
-                                    midiInterfaces={midiInterfaces}
                                     deleteSelf={() => this.deleteKeyboard(index)}
                                     moveUp={index > 0 ? moveUp(index) : undefined}
                                     moveDown={index < keyboards.length-1 ? moveDown(index) : undefined}
-                                    setData={setData}/>
+                                    {...{ keyboard, midiInterfaces, setData }}/>
                 )}
                 <Button onClick={() => this.addKeyboard()}>
                     Add a keyboard, or press a key to auto discover
@@ -51,8 +49,7 @@ class SetupTab extends React.Component {
             <Container title='Synthesizers'>
                 {synthesizers.map(synth =>
                     <SynthConfig key={synth.id}
-                                 setData={setData}
-                                 {...{ synth, midiInterfaces }}/>
+                                 {...{ synth, midiInterfaces, setData }}/>
                 )}
                 <Button>Add a synthesizer</Button>
             </Container>
