@@ -1,6 +1,5 @@
 {
     "name": "SRX-12 Classic EPs",
-    "index": 1,
     "patches": [
         "Pure EP1",
         "Lo-Fi EP1",

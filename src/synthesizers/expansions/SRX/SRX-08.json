@@ -1,6 +1,5 @@
 {
     "name": "SRX-08 Platinum Trax",
-    "index": 1,
     "patches": [
         "Autopilot",
         "ElasticHouse",

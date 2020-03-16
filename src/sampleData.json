@@ -31,7 +31,7 @@
             "id": 0,
             "synthesizerId": 0,
             "bank": "PrE",
-            "number": 45,
+            "number": 44,
             "name": "Soft Padding"
         },
         {
@@ -44,15 +44,15 @@
         {
             "id": 2,
             "synthesizerId": 0,
-            "bank": "XV Orch 1",
-            "number": 76,
+            "bank": "XpA",
+            "number": 75,
             "name": "Pizzicato 2"
         },
         {
             "id": 3,
             "synthesizerId": 0,
             "bank": "PrA",
-            "number": 31,
+            "number": 30,
             "name": "EP+Mod Pad"
         }
     ],

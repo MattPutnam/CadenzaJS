@@ -19,3 +19,21 @@ select, input {
 label {
   margin-right: 0.25rem;
 }
+
+::-webkit-scrollbar {
+  width:12px;
+}
+
+::-webkit-scrollbar-track {
+  background:rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  background:rgba(0,0,0,0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:rgba(0,0,0,0.4);
+}

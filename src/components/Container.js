@@ -27,13 +27,13 @@ const Container = ({ title, buttons, style, inner, children, padContent=true, fl
     }
 
     return <div style={_.merge(styles.container, style)} {...props}>
-        <Flex style={styles.header}>
+        {(title || buttons) && <Flex style={styles.header}>
             <h5 style={styles.title}>{title}</h5>
             {buttons && <>
                 <Spacer/>
                 {buttons}
             </>}
-        </Flex>
+        </Flex>}
         <div style={styles.content}>{children}</div>
     </div>
 }

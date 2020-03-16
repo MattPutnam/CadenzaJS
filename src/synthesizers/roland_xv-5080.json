@@ -46,7 +46,6 @@
         {
             "name": "User",
             "isUser": true,
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -189,7 +188,6 @@
         },
         {
             "name": "PrA",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -332,7 +330,6 @@
         },
         {
             "name": "PrB",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -475,7 +472,6 @@
         },
         {
             "name": "PrC",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -618,7 +614,6 @@
         },
         {
             "name": "PrD",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -761,7 +756,6 @@
         },
         {
             "name": "PrE",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -904,7 +898,6 @@
         },
         {
             "name": "PrF",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -1047,7 +1040,6 @@
         },
         {
             "name": "PrG",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [

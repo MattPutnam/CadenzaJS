@@ -94,7 +94,6 @@
         {
             "name": "User",
             "isUser": true,
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -237,7 +236,6 @@
         },
         {
             "name": "PrA",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -380,7 +378,6 @@
         },
         {
             "name": "PrB",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -523,7 +520,6 @@
         },
         {
             "name": "PrC",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
@@ -666,7 +662,6 @@
         },
         {
             "name": "PrD",
-            "index": 1,
             "toSelect": [
                 {
                     "commands": [
