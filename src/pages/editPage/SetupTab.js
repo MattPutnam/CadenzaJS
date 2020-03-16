@@ -15,7 +15,7 @@ import { findId } from '../../utils/IdFinder'
 
 class SetupTab extends React.Component {
     render() {
-        const { data, midiInterfaces, setData } = this.props
+        const { data, midiInterfaces, setData, style } = this.props
         const { keyboards, synthesizers } = data.setup
         const moveUp = (key, index) => () => {
             const obj = data.setup[key]
@@ -34,7 +34,7 @@ class SetupTab extends React.Component {
             setData()
         }
 
-        return <>
+        return <div style={style}>
             <Container title='Keyboards'>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
@@ -59,7 +59,7 @@ class SetupTab extends React.Component {
                 <Button onClick={() => this.addSynthesizer()}>Add a synthesizer</Button>
             </Container>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
-        </>
+        </div>
     }
     
     addKeyboard(parsedMessage) {

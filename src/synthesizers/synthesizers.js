@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import * as rolandJv1080 from './roland_jv-1080.json'
 import * as rolandXv5080 from './roland_xv-5080.json'
 
@@ -9,4 +11,4 @@ const synthesizers = [
 
 export const synthNames = synthesizers.map(synth => synth.name)
 
-export const getSynthByName = synthName => synthesizers.filter(synth => synth.name === synthName)[0]
+export const getSynthByName = name => _.find(synthesizers, { name })

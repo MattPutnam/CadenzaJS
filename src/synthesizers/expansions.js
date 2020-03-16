@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import * as srJv80_02 from './expansions/SR-JV80/SR-JV80-02.json'
 import * as srJv80_04 from './expansions/SR-JV80/SR-JV80-04.json'
 import * as srJv80_05 from './expansions/SR-JV80/SR-JV80-05.json'
@@ -34,3 +36,5 @@ const expansions = {
 }
 
 export const expansionsOfType = expansionType => expansions[expansionType]
+
+export const getExpansionByTypeAndName = (expType, name) => _.find(expansions[expType], { name })
