@@ -3,8 +3,7 @@ import _ from 'lodash'
 import { FaCaretRight } from 'react-icons/fa'
 
 import Colors from '../../../components/colors'
-import Container from '../../../components/Container'
-import { Flex, Spacer } from '../../../components/Flex'
+import { Container, Flex, Spacer } from '../../../components/Layout'
 
 
 const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, allPatches }) => {

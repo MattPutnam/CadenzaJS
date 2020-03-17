@@ -5,9 +5,8 @@ import { FaPlus } from 'react-icons/fa'
 import PatchSelector from './patchesTab/PatchSelector'
 
 import Button from '../../components/Button'
-import Container from '../../components/Container'
 import Colors from '../../components/colors'
-import { Flex } from '../../components/Flex'
+import { Container, Flex } from '../../components/Layout'
 
 import * as Expansions from '../../synthesizers/expansions'
 import * as Synthesizers from '../../synthesizers/synthesizers'

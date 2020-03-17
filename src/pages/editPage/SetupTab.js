@@ -8,7 +8,7 @@ import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import Button from '../../components/Button'
-import Container from '../../components/Container'
+import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'

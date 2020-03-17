@@ -4,8 +4,7 @@ import _ from 'lodash'
 import { MidiInterfacePlaceholder } from './InterfaceSelector'
 
 import Button from '../../../components/Button'
-import Container from '../../../components/Container'
-import { Flex } from '../../../components/Flex'
+import { Container, Flex } from '../../../components/Layout'
 import Message from '../../../components/Message'
 import MidiListener from '../../../components/MidiListener'
 

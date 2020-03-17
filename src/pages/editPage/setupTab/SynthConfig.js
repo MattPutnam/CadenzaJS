@@ -7,8 +7,7 @@ import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
 import Button from '../../../components/Button'
-import Container from '../../../components/Container'
-import { Flex } from '../../../components/Flex'
+import { Container, Flex } from '../../../components/Layout'
 
 
 const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveDown }) => {

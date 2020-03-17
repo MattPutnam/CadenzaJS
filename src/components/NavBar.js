@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Button from './Button'
-import { Flex, Spacer } from './Flex'
+import { Flex, Spacer } from './Layout'
 import MidiMonitor from './MidiMonitor'
 
 

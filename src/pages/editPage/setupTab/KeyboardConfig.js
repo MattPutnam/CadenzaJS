@@ -6,9 +6,8 @@ import InterfaceSelector from './InterfaceSelector'
 import KeyboardSizeSelector from './KeyboardSizeSelector'
 
 import Button from '../../../components/Button'
-import Container from '../../../components/Container'
-import { Center } from '../../../components/Flex'
 import Keyboard from '../../../components/Keyboard'
+import { Center, Container } from '../../../components/Layout'
 
 
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
