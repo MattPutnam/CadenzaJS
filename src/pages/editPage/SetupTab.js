@@ -7,7 +7,8 @@ import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
 import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
-import Container, { ContainerButton } from '../../components/Container'
+import Button from '../../components/Button'
+import Container from '../../components/Container'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'
@@ -35,10 +36,10 @@ class SetupTab extends React.Component {
         }
 
         const keyboardButtons = [
-            <ContainerButton key={0} onClick={() => this.addKeyboard()}><FaPlus/></ContainerButton>
+            <Button small key={0} onClick={() => this.addKeyboard()}><FaPlus/></Button>
         ]
         const synthButtons = [
-            <ContainerButton key={0} onClick={() => this.addSynthesizer()}><FaPlus/></ContainerButton>
+            <Button small key={0} onClick={() => this.addSynthesizer()}><FaPlus/></Button>
         ]
 
         return <div style={style}>

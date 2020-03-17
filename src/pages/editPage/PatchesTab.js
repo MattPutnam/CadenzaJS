@@ -5,7 +5,7 @@ import { FaPlus } from 'react-icons/fa'
 import PatchSelector from './patchesTab/PatchSelector'
 
 import Button from '../../components/Button'
-import Container, { ContainerButton } from '../../components/Container'
+import Container from '../../components/Container'
 import Colors from '../../components/colors'
 import { Flex } from '../../components/Flex'
 
@@ -88,7 +88,7 @@ class PatchesTab extends React.Component {
         const { selectedPatchId } = this.state
 
         const buttons = [
-            <ContainerButton key={0}><FaPlus/></ContainerButton>
+            <Button small key={0}><FaPlus/></Button>
         ]
 
         const styles = {

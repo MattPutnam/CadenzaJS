@@ -6,7 +6,8 @@ import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
-import Container, { ContainerButton } from '../../../components/Container'
+import Button from '../../../components/Button'
+import Container from '../../../components/Container'
 import { Flex } from '../../../components/Flex'
 
 
@@ -19,9 +20,9 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
     </>
 
     const buttons = [
-        moveUp && <ContainerButton key={0} onClick={moveUp}><FaArrowUp/></ContainerButton>,
-        moveDown && <ContainerButton key={1} onClick={moveDown}><FaArrowDown/></ContainerButton>,
-        <ContainerButton key={2} onClick={deleteSelf}><FaTrash/></ContainerButton>
+        moveUp && <Button small key={0} onClick={moveUp}><FaArrowUp/></Button>,
+        moveDown && <Button small key={1} onClick={moveDown}><FaArrowDown/></Button>,
+        <Button small key={2} onClick={deleteSelf}><FaTrash/></Button>
     ]
 
     return <Container inner title={header} buttons={buttons}>

@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 
+import Button from '../../../components/Button'
 import Colors from '../../../components/colors'
-import { ContainerButton } from '../../../components/Container'
 
 
 const MultiChannelSelector = ({ synth, setData }) => {
@@ -52,8 +52,8 @@ const MultiChannelSelector = ({ synth, setData }) => {
                 </span>
             })}
         </div>
-        <ContainerButton onClick={setAll}>All</ContainerButton>
-        <ContainerButton onClick={setNone}>None</ContainerButton>
+        <Button small onClick={setAll}>All</Button>
+        <Button small onClick={setNone}>None</Button>
     </>
 }
 
