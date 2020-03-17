@@ -1,13 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
+import { FaPlus } from 'react-icons/fa'
 
 import ActionPedalConfig from './setupTab/ActionPedalConfig'
 import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
 import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
-import Button from '../../components/Button'
-import Container from '../../components/Container'
+import Container, { ContainerButton } from '../../components/Container'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'
@@ -34,8 +34,15 @@ class SetupTab extends React.Component {
             setData()
         }
 
+        const keyboardButtons = [
+            <ContainerButton key={0} onClick={() => this.addKeyboard()}><FaPlus/></ContainerButton>
+        ]
+        const synthButtons = [
+            <ContainerButton key={0} onClick={() => this.addSynthesizer()}><FaPlus/></ContainerButton>
+        ]
+
         return <div style={style}>
-            <Container title='Keyboards'>
+            <Container title='Keyboards' buttons={keyboardButtons}>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
@@ -43,12 +50,9 @@ class SetupTab extends React.Component {
                                     moveDown={index < keyboards.length-1 ? moveDown('keyboards', index) : undefined}
                                     {...{ keyboard, midiInterfaces, setData }}/>
                 )}
-                <Button onClick={() => this.addKeyboard()}>
-                    Add a keyboard, or press a key to auto discover
-                </Button>
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
-            <Container title='Synthesizers'>
+            <Container title='Synthesizers' buttons={synthButtons}>
                 {synthesizers.map((synth, index) =>
                     <SynthConfig key={synth.id}
                                  deleteSelf={() => this.deleteItem('synthesizers', index)}
@@ -56,7 +60,6 @@ class SetupTab extends React.Component {
                                  moveDown={index < synthesizers.length-1 ? moveDown('synthesizers', index) : undefined}
                                  {...{ synth, midiInterfaces, setData }}/>
                 )}
-                <Button onClick={() => this.addSynthesizer()}>Add a synthesizer</Button>
             </Container>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
         </div>

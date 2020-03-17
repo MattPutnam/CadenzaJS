@@ -13,7 +13,7 @@ import Keyboard from '../../../components/Keyboard'
 
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
     return <Container inner>
-        <Flex>
+        <Flex pad>
             <InterfaceSelector hardware={keyboard}
                                midiInterfaces={midiInterfaces}
                                io='inputs'
@@ -28,7 +28,7 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
         <Center>
             <Keyboard keyboard={keyboard}/>
         </Center>
-        <Center>
+        <Center pad>
             <KeyboardSizeSelector keyboard={keyboard} setData={setData}/>
         </Center>
     </Container>

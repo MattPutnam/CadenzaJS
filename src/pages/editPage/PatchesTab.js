@@ -4,6 +4,7 @@ import { FaPlus } from 'react-icons/fa'
 
 import PatchSelector from './patchesTab/PatchSelector'
 
+import Button from '../../components/Button'
 import Container, { ContainerButton } from '../../components/Container'
 import Colors from '../../components/colors'
 import { Flex } from '../../components/Flex'
@@ -19,10 +20,9 @@ class PatchesTab extends React.Component {
         super(props)
 
         const { synthesizers } = props.data.setup
-        this.synthList = []
-        this.synthsById = {}
+        this.synthTree = []
+        this.allPatches = []
         for (let synth of synthesizers) {
-            this.synthsById[synth.id] = synth
             const synthDefinition = Synthesizers.getSynthByName(synth.name)
 
             const synthItem = {
@@ -30,7 +30,7 @@ class PatchesTab extends React.Component {
                 banks: []
             }
             
-            for (var bank of synthDefinition.banks) {
+            for (let bank of synthDefinition.banks) {
                 if (bank.special) {
                     // TODO: GM
                 } else {
@@ -38,6 +38,12 @@ class PatchesTab extends React.Component {
                         name: bank.name,
                         patches: transformPatches(bank.patches)
                     })
+                    this.allPatches = this.allPatches.concat(...bank.patches.map((patch, index) => ({
+                        synthesizer: synth.name,
+                        bank: bank.name,
+                        number: index,
+                        name: patch
+                    })))
                 }
             }
 
@@ -50,9 +56,15 @@ class PatchesTab extends React.Component {
                     name: slotName,
                     patches: transformPatches(expansionDefinition.patches)
                 })
+                this.allPatches = this.allPatches.concat(...expansionDefinition.patches.map((patch, index) => ({
+                    synthesizer: synth.name,
+                    bank: slotName,
+                    number: index,
+                    name: patch
+                })))
             }
 
-            this.synthList.push(synthItem)
+            this.synthTree.push(synthItem)
         }
 
         this.state = {
@@ -82,6 +94,7 @@ class PatchesTab extends React.Component {
         const styles = {
             patch: selected => ({
                 padding: '0.5rem',
+                alignSelf: 'stretch',
                 fontWeight: selected ? 'bold' : undefined,
                 backgroundColor: selected ? Colors.blue : undefined,
                 color: selected ? 'white' : undefined,
@@ -90,7 +103,7 @@ class PatchesTab extends React.Component {
             })
         }
 
-        return <Container title='Patches' flex='0 0 200px' padContent={false} buttons={buttons}>
+        return <Container title='Patches' flex='0 0 200px' buttons={buttons}>
             {patches.map(patch => {
                 const { name, id } = patch
                 const selected = selectedPatchId === id
@@ -114,11 +127,20 @@ class PatchesTab extends React.Component {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            content = <PatchSelector key={selectedPatchId}
-                                     selectedSynth={selectedSynth}
-                                     selectedPatch={selectedPatch}
-                                     allSynths={synthesizers}
-                                     synthList={this.synthList}/>
+            content = <>
+                <PatchSelector key={selectedPatchId}
+                               selectedSynth={selectedSynth}
+                               selectedPatch={selectedPatch}
+                               allSynths={synthesizers}
+                               synthTree={this.synthTree}
+                               allPatches={this.allPatches}/>
+                <Container inner flex='none' title='Name'>
+                    <Flex pad>
+                        <input type='text'/>
+                        <Button>Use default</Button>
+                    </Flex>
+                </Container>
+                </>
         } else {
             if (_.isEmpty(patches)) {
                 content = <div>No patches defined. Click the '+' icon to add one</div>
@@ -127,7 +149,7 @@ class PatchesTab extends React.Component {
             }
         }
 
-        return <Container title='Edit' padContent={false}>{content}</Container>
+        return <Container title='Edit'>{content}</Container>
     }
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
+import _ from 'lodash'
 
 import Colors from './colors'
 
 
-const Button = ({ children, onClick, iconButton }) => {
-    const style = {
+const Button = ({ children, onClick, iconButton, style }) => {
+    const myStyle = {
         marginLeft: '0.5rem',
         padding: iconButton ? '0.5rem 0.6rem' : '0.5rem 0.75rem',
         color: 'white',
@@ -15,7 +16,7 @@ const Button = ({ children, onClick, iconButton }) => {
         cursor: 'pointer'
     }
 
-    return <button style={style} onClick={onClick}>
+    return <button style={_.merge(myStyle, style)} onClick={onClick}>
         {children}
     </button>
 }

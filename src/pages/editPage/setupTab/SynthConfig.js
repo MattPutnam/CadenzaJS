@@ -13,7 +13,7 @@ import { Flex, Spacer } from '../../../components/Flex'
 
 const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveDown }) => {
     return <Container inner>
-        <Flex>
+        <Flex pad>
             <InterfaceSelector hardware={synth}
                                io='outputs'
                                {...{ midiInterfaces, setData }}/>
@@ -23,10 +23,12 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
             {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
             <Button onClick={deleteSelf} iconButton><FaTrash/></Button>
         </Flex>
-        <h5>Synthesizer:</h5>
-        <SynthSelector synth={synth} setData={setData}/>
-        <h5>Expansions:</h5>
-        <ExpansionConfig synth={synth} setData={setData}/>
+        <Flex column pad>
+            <h5>Synthesizer:</h5>
+            <SynthSelector synth={synth} setData={setData}/>
+            <h5>Expansions:</h5>
+            <ExpansionConfig synth={synth} setData={setData}/>
+        </Flex>
     </Container>
 }
 

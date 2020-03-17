@@ -32,7 +32,7 @@ class ActionPedalConfig extends React.Component {
 
         return <Container inner title='Action Pedal'>
             {stage && <MidiListener id='###ActionPedal###' dispatch={msg => this.handleMidi(msg)}/>}
-            <Flex align='center'>
+            <Flex pad align='center'>
                 {this.getDisplay()}
                 {stage && <Message>{stage}</Message>}
                 {error && <Message error>{error}</Message>}

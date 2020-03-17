@@ -7,7 +7,7 @@ import Container from '../../../components/Container'
 import { Flex, Spacer } from '../../../components/Flex'
 
 
-const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthList }) => {
+const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, allPatches }) => {
     const [selection, setSelection] = React.useState([
         selectedSynth ? selectedSynth.name : allSynths[0].name,
         selectedPatch ? selectedPatch.bank : undefined,
@@ -15,14 +15,14 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthList }) =
     ])
 
     const [selectedSynthName, selectedBankName, selectedNumber] = selection
-    const banks = _.find(synthList, { name: selectedSynthName }).banks
+    const banks = _.find(synthTree, { name: selectedSynthName }).banks
 
     const bank = banks && selectedBankName ? _.find(banks, { name: selectedBankName }) : undefined
     
 
-    return <Container inner title='Assignment' padContent={false}>
-        <Flex>
-            <Selection options={synthList}
+    return <Container inner flex='none' title='Assignment'>
+        <Flex align='stretch' style={{ height: 500 }}>
+            <Selection options={synthTree}
                        selected={selectedSynthName}
                        onChange={newName => setSelection([newName, undefined, undefined])}/>
             <Selection key={selectedSynthName}
@@ -36,7 +36,7 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthList }) =
                        selectionTransform={x => x.number}
                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
                        onChange={newNumber => setSelection([selectedSynthName, selectedBankName, newNumber])}/>
-            <Spacer/>
+            <SearchSection allPatches={allPatches} setSelectedPatch={selection => console.log(selection)}/>
         </Flex>
     </Container>
 }
@@ -50,7 +50,6 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
             flex: '0 1 250px',
             color: 'white',
             borderRight: '1px solid black',
-            height: 500,
             overflowY: 'scroll'
         },
         option: isSelected => ({
@@ -84,4 +83,35 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
             </Flex>
         })}
     </div>
+}
+
+const SearchSection = ({ allPatches, setSelectedPatch }) => {
+    const [searchText, setSearchText] = React.useState('')
+
+    const styles = {
+        searchField: {
+            flex: '0 1 300px'
+        },
+        list: {
+            alignSelf: 'stretch',
+            overflowY: 'auto'
+        }
+    }
+
+    const searchField = <input type='search'
+                               style={styles.searchField}
+                               value={searchText}
+                               placeholder='Search...'
+                               onChange={e => setSearchText(e.target.value.trim())}/>
+
+    return <Container title={searchField}>
+        <div key={searchText} style={styles.list}>
+            {!_.isEmpty(searchText) && allPatches.filter(patch => patch.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1).map(patch => {
+                const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
+                return <div key={key}>
+                    {patch.name} - {patch.synthesizer} > {patch.bank} > {patch.number}
+                </div>
+            })}
+        </div>
+    </Container>
 }

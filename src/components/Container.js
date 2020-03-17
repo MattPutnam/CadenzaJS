@@ -3,10 +3,11 @@ import _ from 'lodash'
 import { Flex, Spacer } from './Flex'
 
 
-const Container = ({ title, buttons, style, inner, children, padContent=true, flex, ...props }) => {
+const Container = ({ title, buttons, style, inner, children, flex, ...props }) => {
     const styles = {
         container: {
             flex: flex ? flex : '1 1 auto',
+            alignSelf: 'stretch',
             margin: '0.5rem',
             backgroundColor: inner ? '#616161' : '#484848',
             border: '1px solid black',
@@ -19,23 +20,22 @@ const Container = ({ title, buttons, style, inner, children, padContent=true, fl
             borderBottom: '1px solid black'
         },
         title: {
-            margin: 0
-        },
-        content: {
-            padding: padContent ? '0.5rem' : undefined
+            fontWeight: 'bold'
         }
     }
 
-    return <div style={_.merge(styles.container, style)} {...props}>
+    const resolvedTitle = _.isString(title) ? <span style={styles.title}>{title}</span> : title
+
+    return <Flex column style={_.merge(styles.container, style)} {...props}>
         {(title || buttons) && <Flex style={styles.header}>
-            <h5 style={styles.title}>{title}</h5>
+            {resolvedTitle}
             {buttons && <>
                 <Spacer/>
                 {buttons}
             </>}
         </Flex>}
-        <div style={styles.content}>{children}</div>
-    </div>
+        {children}
+    </Flex>
 }
 
 export default Container
