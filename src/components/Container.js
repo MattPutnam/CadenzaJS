@@ -8,15 +8,12 @@ const Container = ({ title, buttons, style, inner, children, flex, ...props }) =
         container: {
             flex: flex ? flex : '1 1 auto',
             alignSelf: 'stretch',
-            margin: '0.5rem',
             backgroundColor: inner ? '#616161' : '#484848',
             border: '1px solid black',
-            borderRadius: 3,
-            color: '#cecece'
+            borderRadius: 3
         },
         header: {
             padding: '0.5rem',
-            color: 'white',
             borderBottom: '1px solid black'
         },
         title: {
@@ -26,7 +23,7 @@ const Container = ({ title, buttons, style, inner, children, flex, ...props }) =
 
     const resolvedTitle = _.isString(title) ? <span style={styles.title}>{title}</span> : title
 
-    return <Flex column style={_.merge(styles.container, style)} {...props}>
+    return <Flex element='section' column style={_.merge(styles.container, style)} {...props}>
         {(title || buttons) && <Flex style={styles.header}>
             {resolvedTitle}
             {buttons && <>

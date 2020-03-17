@@ -10,7 +10,6 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
         display: 'inline-block',
         padding: '0.5rem 0.75rem',
         cursor: 'pointer',
-        color: 'white',
         backgroundColor: title === selectedTab ? '#585858' : '#808080',
         borderRadius: first ? '3px 0 0 3px' : last ? '0 3px 3px 0' : undefined,
         borderRight: last ? undefined : '1px solid #666666'

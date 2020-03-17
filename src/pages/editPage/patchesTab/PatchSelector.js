@@ -48,7 +48,6 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
     const styles = {
         container: {
             flex: '0 1 250px',
-            color: 'white',
             borderRight: '1px solid black',
             overflowY: 'scroll'
         },
@@ -93,7 +92,6 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
             flex: '0 1 300px'
         },
         list: {
-            color: 'white',
             alignSelf: 'stretch',
             padding: '0.25rem',
             overflowY: 'auto'

@@ -165,7 +165,7 @@ export const toString = (parsedMessage) => {
     if (fields) {
         const ch = `CH${channel+1}`.padEnd(4)
         const [f2, f3] = fields
-        return `${ch} ${f2.toString().padEnd(5)} ${f3.toString().padEnd(3)}`
+        return `${ch} ${f2.toString().padStart(3).padEnd(5)} ${f3.toString().padEnd(3)}`
     } else {
         return '?'
     }

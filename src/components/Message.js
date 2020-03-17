@@ -6,7 +6,6 @@ const Message = ({ children, error }) => {
         margin: '0 0.5rem',
         padding: '0.5rem 0.75rem',
         backgroundColor: error ? '#D93025' : '#8F8F8F',
-        color: 'white',
         border: '1px solid black',
         borderRadius: 3
     }
