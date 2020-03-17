@@ -5,27 +5,29 @@ import ChannelSelector from './ChannelSelector'
 import InterfaceSelector from './InterfaceSelector'
 import KeyboardSizeSelector from './KeyboardSizeSelector'
 
-import Button from '../../../components/Button'
-import Container from '../../../components/Container'
-import { Center, Flex, Spacer } from '../../../components/Flex'
+import Container, { ContainerButton } from '../../../components/Container'
+import { Center } from '../../../components/Flex'
 import Keyboard from '../../../components/Keyboard'
 
 
 const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
-    return <Container inner>
-        <Flex pad>
-            <InterfaceSelector hardware={keyboard}
-                               midiInterfaces={midiInterfaces}
-                               io='inputs'
-                               setData={setData}/>
-            <ChannelSelector keyboard={keyboard}
-                             setData={setData}/>
-            <Spacer/>
-            {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
-            {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
-            <Button onClick={deleteSelf} iconButton><FaTrash/></Button>
-        </Flex>
-        <Center>
+    const header = <>
+        <InterfaceSelector hardware={keyboard}
+                           midiInterfaces={midiInterfaces}
+                           io='inputs'
+                           setData={setData}/>
+        <ChannelSelector keyboard={keyboard}
+                         setData={setData}/>
+    </>
+
+    const buttons = [
+        moveUp && <ContainerButton key={0} onClick={moveUp}><FaArrowUp/></ContainerButton>,
+        moveDown && <ContainerButton key={1} onClick={moveDown}><FaArrowDown/></ContainerButton>,
+        <ContainerButton key={2} onClick={deleteSelf}><FaTrash/></ContainerButton>
+    ]
+
+    return <Container inner title={header} buttons={buttons}>
+        <Center pad>
             <Keyboard keyboard={keyboard}/>
         </Center>
         <Center pad>

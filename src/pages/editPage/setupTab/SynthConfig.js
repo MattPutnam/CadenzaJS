@@ -6,23 +6,25 @@ import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
-import Button from '../../../components/Button'
-import Container from '../../../components/Container'
-import { Flex, Spacer } from '../../../components/Flex'
+import Container, { ContainerButton } from '../../../components/Container'
+import { Flex } from '../../../components/Flex'
 
 
 const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveDown }) => {
-    return <Container inner>
-        <Flex pad>
-            <InterfaceSelector hardware={synth}
-                               io='outputs'
-                               {...{ midiInterfaces, setData }}/>
-            <MultiChannelSelector synth={synth} setData={setData}/>
-            <Spacer/>
-            {moveUp && <Button onClick={moveUp} iconButton><FaArrowUp/></Button>}
-            {moveDown && <Button onClick={moveDown} iconButton><FaArrowDown/></Button>}
-            <Button onClick={deleteSelf} iconButton><FaTrash/></Button>
-        </Flex>
+    const header = <>
+        <InterfaceSelector hardware={synth}
+                           io='outputs'
+                           {...{ midiInterfaces, setData }}/>
+        <MultiChannelSelector synth={synth} setData={setData}/>
+    </>
+
+    const buttons = [
+        moveUp && <ContainerButton key={0} onClick={moveUp}><FaArrowUp/></ContainerButton>,
+        moveDown && <ContainerButton key={1} onClick={moveDown}><FaArrowDown/></ContainerButton>,
+        <ContainerButton key={2} onClick={deleteSelf}><FaTrash/></ContainerButton>
+    ]
+
+    return <Container inner title={header} buttons={buttons}>
         <Flex column pad>
             <h5>Synthesizer:</h5>
             <SynthSelector synth={synth} setData={setData}/>
