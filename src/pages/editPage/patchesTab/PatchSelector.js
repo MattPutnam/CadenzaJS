@@ -93,25 +93,53 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
             flex: '0 1 300px'
         },
         list: {
+            color: 'white',
             alignSelf: 'stretch',
+            padding: '0.25rem',
             overflowY: 'auto'
+        },
+        table: {
+            borderCollapse: 'collapse'
+        },
+        tr: {
+            cursor: 'pointer'
+        },
+        nameColumn: {
+            width: '99%'
+        },
+        otherColumn: {
+            whiteSpace: 'nowrap'
         }
     }
+
+    const arrowColumn = <td><FaCaretRight/></td>
 
     const searchField = <input type='search'
                                style={styles.searchField}
                                value={searchText}
                                placeholder='Search...'
-                               onChange={e => setSearchText(e.target.value.trim())}/>
+                               onChange={e => setSearchText(e.target.value)}/>
+
+    const displayResults = !_.isEmpty(searchText)
+    const txt = searchText.trim().toLowerCase()
+    const results = displayResults && allPatches.filter(patch => patch.name.toLowerCase().indexOf(txt) !== -1)
 
     return <Container title={searchField}>
-        <div key={searchText} style={styles.list}>
-            {!_.isEmpty(searchText) && allPatches.filter(patch => patch.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1).map(patch => {
-                const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
-                return <div key={key}>
-                    {patch.name} - {patch.synthesizer} > {patch.bank} > {patch.number}
-                </div>
-            })}
-        </div>
+        {displayResults && <div key={searchText} style={styles.list}>
+            <table style={styles.table}>
+                <tbody>{results.map(patch => {
+                    const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
+                    return <tr key={key} style={styles.tr}>
+                        <td style={styles.nameColumn}>{patch.name}</td>
+                        <td style={styles.otherColumn}>{patch.synthesizer}</td>
+                        {arrowColumn}
+                        <td style={styles.otherColumn}>{patch.bank}</td>
+                        {arrowColumn}
+                        <td style={styles.otherColumn}>{patch.number}</td>
+                    </tr>
+                })}
+                </tbody>
+            </table>
+        </div>}
     </Container>
 }
