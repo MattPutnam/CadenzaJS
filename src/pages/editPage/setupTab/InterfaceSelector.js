@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Warning from '../../../components/Warning'
+import { Warning } from '../../../components/Components'
 
 import * as Midi from '../../../utils/Midi'
 

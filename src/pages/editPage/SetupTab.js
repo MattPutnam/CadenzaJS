@@ -7,7 +7,7 @@ import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
 import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
-import Button from '../../components/Button'
+import { Button } from '../../components/Components'
 import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 

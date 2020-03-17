@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Button from './Button'
+import { Button } from './Components'
 import { Flex, Spacer } from './Layout'
 import MidiMonitor from './MidiMonitor'
 

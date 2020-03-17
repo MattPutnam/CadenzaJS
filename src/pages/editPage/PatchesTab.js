@@ -4,7 +4,7 @@ import { FaPlus } from 'react-icons/fa'
 
 import PatchSelector from './patchesTab/PatchSelector'
 
-import Button from '../../components/Button'
+import { Button } from '../../components/Components'
 import Colors from '../../components/colors'
 import { Container, Flex } from '../../components/Layout'
 

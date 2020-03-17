@@ -5,7 +5,7 @@ import ChannelSelector from './ChannelSelector'
 import InterfaceSelector from './InterfaceSelector'
 import KeyboardSizeSelector from './KeyboardSizeSelector'
 
-import Button from '../../../components/Button'
+import { Button } from '../../../components/Components'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
 

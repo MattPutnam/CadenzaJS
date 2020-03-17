@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Button from '../../../components/Button'
+import { Button } from '../../../components/Components'
 import Colors from '../../../components/colors'
 
 

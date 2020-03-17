@@ -6,7 +6,6 @@ import SetupTab from './editPage/SetupTab'
 import NavBar from '../components/NavBar'
 
 
-
 const EditPage = ({ perform, midiInterfaces, data, setData }) => {
     const [selectedTab, setSelectedTab] = React.useState('Patches') // TODO set back to 'Setup'
 

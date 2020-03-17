@@ -6,7 +6,7 @@ import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
-import Button from '../../../components/Button'
+import { Button } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
 

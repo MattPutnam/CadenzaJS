@@ -1,7 +1,6 @@
 import React from 'react'
 
-import Button from '../../../components/Button'
-import Message from '../../../components/Message'
+import { Button, Message } from '../../../components/Components'
 import MidiListener from '../../../components/MidiListener'
 
 import * as Midi from '../../../utils/Midi'

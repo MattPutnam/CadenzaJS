@@ -4,7 +4,7 @@ import _ from 'lodash'
 import Colors from './colors'
 
 
-const Button = ({ children, small, onClick, style }) => {
+export const Button = ({ children, small, onClick, style }) => {
     const bigStyle = {
         marginLeft: '0.5rem',
         padding: '0.5rem 0.75rem',
@@ -31,4 +31,29 @@ const Button = ({ children, small, onClick, style }) => {
     </button>
 }
 
-export default Button
+export const Message = ({ children, error }) => {
+    const style = {
+        margin: '0 0.5rem',
+        padding: '0.5rem 0.75rem',
+        backgroundColor: error ? '#D93025' : '#8F8F8F',
+        border: '1px solid black',
+        borderRadius: 3
+    }
+
+    return <div style={style}>
+        {children}
+    </div>
+}
+
+export const Warning = ({ children }) => {
+    const style = {
+        color: '#F5BE02',
+        backgroundColor: '#FFFCE5',
+        border: '1px solid #F5BE02',
+        borderRadius: 3,
+        padding: '2px 0.5rem',
+        margin: '0.5rem'
+    }
+
+    return <span style={style}>{children}</span>
+}
