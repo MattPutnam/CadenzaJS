@@ -30,8 +30,6 @@ label {
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius:6px;
-  border-radius:6px;
   background:rgba(0,0,0,0.2);
 }
 

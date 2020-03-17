@@ -6,7 +6,7 @@ import Colors from '../../../components/colors'
 import { Container, Flex, Spacer } from '../../../components/Layout'
 
 
-const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, allPatches }) => {
+const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, allPatches, setData }) => {
     const [selection, setSelection] = React.useState([
         selectedSynth ? selectedSynth.name : allSynths[0].name,
         selectedPatch ? selectedPatch.bank : undefined,
@@ -16,7 +16,19 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
     const [selectedSynthName, selectedBankName, selectedNumber] = selection
     const banks = _.find(synthTree, { name: selectedSynthName }).banks
 
-    const bank = banks && selectedBankName ? _.find(banks, { name: selectedBankName }) : undefined
+    const bank = banks && selectedBankName ? _.find(banks, { name: selectedBankName }) : {
+        name: 'placeholder',
+        options: []
+    }
+
+    const updateSelection = ([synth, bank, number]) => {
+        setSelection([synth, bank, number])
+
+        selectedPatch.synthesizerId = _.find(allSynths, { name: synth }).id
+        selectedPatch.bank = bank
+        selectedPatch.number = number
+        setData()
+    }
     
 
     return <Container inner flex='none' title='Assignment'>
@@ -34,8 +46,8 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
                        selected={selectedNumber}
                        selectionTransform={x => x.number}
                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
-                       onChange={newNumber => setSelection([selectedSynthName, selectedBankName, newNumber])}/>
-            <SearchSection allPatches={allPatches} setSelectedPatch={selection => console.log(selection)}/>
+                       onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
+            <SearchSection allPatches={allPatches} setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
         </Flex>
     </Container>
 }
@@ -126,7 +138,7 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
             <table style={styles.table}>
                 <tbody>{results.map(patch => {
                     const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
-                    return <tr key={key} style={styles.tr}>
+                    return <tr key={key} style={styles.tr} onClick={() => setSelectedPatch(patch)}>
                         <td style={styles.nameColumn}>{patch.name}</td>
                         <td style={styles.otherColumn}>{patch.synthesizer}</td>
                         {arrowColumn}

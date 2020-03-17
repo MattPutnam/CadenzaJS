@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { FaPlus } from 'react-icons/fa'
 
+import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
 
 import { Button } from '../../components/Components'
@@ -39,6 +40,7 @@ class PatchesTab extends React.Component {
                     })
                     this.allPatches = this.allPatches.concat(...bank.patches.map((patch, index) => ({
                         synthesizer: synth.name,
+                        synthesizerId: synth.id,
                         bank: bank.name,
                         number: index,
                         name: patch
@@ -57,6 +59,7 @@ class PatchesTab extends React.Component {
                 })
                 this.allPatches = this.allPatches.concat(...expansionDefinition.patches.map((patch, index) => ({
                     synthesizer: synth.name,
+                    synthesizerId: synth.id,
                     bank: slotName,
                     number: index,
                     name: patch
@@ -116,7 +119,7 @@ class PatchesTab extends React.Component {
     }
 
     editPane() {
-        const { data } = this.props
+        const { data, setData } = this.props
         const { patches, setup: { synthesizers } } = data
 
         const { selectedPatchId } = this.state
@@ -132,13 +135,9 @@ class PatchesTab extends React.Component {
                                selectedPatch={selectedPatch}
                                allSynths={synthesizers}
                                synthTree={this.synthTree}
-                               allPatches={this.allPatches}/>
-                <Container inner flex='none' title='Name'>
-                    <Flex pad>
-                        <input type='text'/>
-                        <Button>Use default</Button>
-                    </Flex>
-                </Container>
+                               allPatches={this.allPatches}
+                               setData={setData}/>
+                <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
                 </>
         } else {
             if (_.isEmpty(patches)) {
