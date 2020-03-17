@@ -27,6 +27,13 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
         selectedPatch.synthesizerId = _.find(allSynths, { name: synth }).id
         selectedPatch.bank = bank
         selectedPatch.number = number
+
+        if (_.isEmpty(selectedPatch.name)) {
+            const query = _.pick(selectedPatch, ['synthesizerId', 'bank', 'number'])
+            const patch = _.find(allPatches, query)
+            selectedPatch.name = patch.name
+        }
+
         setData()
     }
     

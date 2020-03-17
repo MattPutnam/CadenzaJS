@@ -9,6 +9,8 @@ import { Button } from '../../components/Components'
 import Colors from '../../components/colors'
 import { Container, Flex } from '../../components/Layout'
 
+import { findId } from '../../utils/IdFinder'
+
 import * as Expansions from '../../synthesizers/expansions'
 import * as Synthesizers from '../../synthesizers/synthesizers'
 
@@ -90,7 +92,7 @@ class PatchesTab extends React.Component {
         const { selectedPatchId } = this.state
 
         const buttons = [
-            <Button small key={0}><FaPlus/></Button>
+            <Button small key={0} onClick={() => this.addPatch()}><FaPlus/></Button>
         ]
 
         const styles = {
@@ -112,7 +114,7 @@ class PatchesTab extends React.Component {
                 return <div key={id}
                             style={styles.patch(selected)}
                             onClick={() => this.setState({ selectedPatchId: id })}>
-                    {name}
+                    {name || '<Untitled>'}
                 </div>
             })}
         </Container>
@@ -148,6 +150,22 @@ class PatchesTab extends React.Component {
         }
 
         return <Container title='Edit'>{content}</Container>
+    }
+
+    addPatch() {
+        const { data, setData } = this.props
+        const { patches, setup: { synthesizers } } = data
+
+        const id = findId(patches)
+        const synthesizerId = synthesizers[0].id
+
+        patches.push({
+            id,
+            synthesizerId,
+            name: ''
+        })
+        setData()
+        this.setState({ selectedPatchId: id })
     }
 }
 
