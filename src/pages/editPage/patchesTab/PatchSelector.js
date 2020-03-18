@@ -72,9 +72,7 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
         container: {
             flex: '0 1 250px',
             borderRight: '1px solid black',
-            overflowY: 'scroll',
-            display: 'flex',
-            flexDirection: 'column'
+            overflowY: 'scroll'
         },
         option: isSelected => ({
             cursor: 'pointer',

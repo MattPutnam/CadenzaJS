@@ -1,43 +1,50 @@
 import React from 'react'
 import _ from 'lodash'
+import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 
 
-export const Container = ({ header, buttons, alt, flex, style, children, ...props }) => {
+export const Container = ({ header, buttons, alt, collapse, flex, style, children, ...props }) => {
+    const [collapsed, setCollapsed] = React.useState(false)
+
     const styles = {
         container: {
-            flex: flex ? flex : '1 1 auto',
+            flex: collapsed ? 'none' : flex ? flex : '1 1 auto',
             alignSelf: 'stretch',
             backgroundColor: alt ? '#616161' : '#484848',
             border: '1px solid black',
             borderRadius: 3,
             overflow: 'hidden'
         },
-        header: {
-            padding: '0.5rem',
-            borderBottom: '1px solid black'
-        },
         title: {
             fontWeight: 'bold'
         },
         contentContainer: {
             flex: '1 1 auto',
-            overflow: 'auto'
+            overflow: 'auto',
+            borderTop: '1px solid black'
+        },
+        caret: {
+            alignSelf: 'center',
+            cursor: 'pointer',
+            marginRight: '0.5rem'
         }
     }
 
     const resolvedTitle = _.isString(header) ? <span style={styles.title}>{header}</span> : header
 
     return <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
-        {(header || buttons) && <Flex style={styles.header}>
+        {(header || buttons) && <Flex pad>
+            {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
+            {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
             {resolvedTitle}
             {buttons && <>
                 <Spacer/>
                 {buttons}
             </>}
         </Flex>}
-        <div style={styles.contentContainer}>
+        {!collapsed && <div style={styles.contentContainer}>
             {children}
-        </div>
+        </div>}
     </Flex>
 }
 
