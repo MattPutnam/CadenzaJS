@@ -114,7 +114,7 @@ class PatchesTab extends React.Component {
             }
         }
 
-        return <Container title='Patches' flex='0 0 200px' buttons={buttons}>
+        return <Container header='Patches' flex='0 0 200px' buttons={buttons}>
             <div style={styles.list}>
                 {patches.map(patch => {
                     const { name, id } = patch
@@ -158,7 +158,7 @@ class PatchesTab extends React.Component {
             }
         }
 
-        return <Container title='Edit'>{content}</Container>
+        return <Container header='Edit'>{content}</Container>
     }
 
     addPatch() {

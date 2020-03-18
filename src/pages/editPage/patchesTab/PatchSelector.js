@@ -42,7 +42,7 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
         height: '100%'
     }
 
-    return <Container inner title='Assignment'>
+    return <Container alt header='Assignment'>
         <Flex align='stretch' style={style}>
             <Selection options={synthTree}
                        selected={selectedSynthName}
@@ -147,7 +147,7 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
     const txt = searchText.trim().toLowerCase()
     const results = displayResults && allPatches.filter(patch => patch.name.toLowerCase().indexOf(txt) !== -1)
 
-    return <Container title={searchField}>
+    return <Container header={searchField}>
         {displayResults && <div key={searchText} style={styles.list}>
             <table style={styles.table}>
                 <tbody>{results.map(patch => {

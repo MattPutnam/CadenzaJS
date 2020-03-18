@@ -26,7 +26,7 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
         <Button small key={2} onClick={deleteSelf}><FaTrash/></Button>
     ]
 
-    return <Container inner title={header} buttons={buttons}>
+    return <Container alt header={header} buttons={buttons}>
         <Center pad>
             <Keyboard keyboard={keyboard}/>
         </Center>

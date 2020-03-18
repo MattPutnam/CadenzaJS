@@ -43,7 +43,7 @@ class SetupTab extends React.Component {
         ]
 
         return <>
-            <Container title='Keyboards' buttons={keyboardButtons}>
+            <Container header='Keyboards' buttons={keyboardButtons}>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
@@ -53,7 +53,7 @@ class SetupTab extends React.Component {
                 )}
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
-            <Container title='Synthesizers' buttons={synthButtons}>
+            <Container header='Synthesizers' buttons={synthButtons}>
                 {synthesizers.map((synth, index) =>
                     <SynthConfig key={synth.id}
                                  deleteSelf={() => this.deleteItem('synthesizers', index)}

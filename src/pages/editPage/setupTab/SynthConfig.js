@@ -28,7 +28,7 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
         verticalAlign: 'top'
     }
 
-    return <Container inner title={header} buttons={buttons}>
+    return <Container alt header={header} buttons={buttons}>
         <Flex pad>
             <table>
                 <tbody>

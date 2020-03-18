@@ -28,7 +28,7 @@ class ActionPedalConfig extends React.Component {
     render() {
         const { stage, error } = this.state
 
-        return <Container inner title='Action Pedal'>
+        return <Container alt header='Action Pedal'>
             {stage && <MidiListener id='###ActionPedal###' dispatch={msg => this.handleMidi(msg)}/>}
             <Flex pad align='center'>
                 {this.getDisplay()}

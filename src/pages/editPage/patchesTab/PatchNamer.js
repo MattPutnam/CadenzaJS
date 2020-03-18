@@ -17,7 +17,7 @@ const PatchNamer = ({ selectedPatch, allPatches, setData }) => {
         setData()
     }
 
-    return <Container inner flex='none' title='Name'>
+    return <Container alt flex='none' header='Name'>
         <Flex pad>
             <input type='text' value={selectedPatch.name} onChange={e => changeName(e.target.value)}/>
             <Button onClick={useDefaultName}>Use default</Button>

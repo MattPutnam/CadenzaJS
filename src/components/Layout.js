@@ -2,12 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 
 
-export const Container = ({ title, buttons, style, innerStyle, inner, children, flex, ...props }) => {
+export const Container = ({ header, buttons, alt, flex, style, children, ...props }) => {
     const styles = {
         container: {
             flex: flex ? flex : '1 1 auto',
             alignSelf: 'stretch',
-            backgroundColor: inner ? '#616161' : '#484848',
+            backgroundColor: alt ? '#616161' : '#484848',
             border: '1px solid black',
             borderRadius: 3,
             overflow: 'hidden'
@@ -25,17 +25,17 @@ export const Container = ({ title, buttons, style, innerStyle, inner, children, 
         }
     }
 
-    const resolvedTitle = _.isString(title) ? <span style={styles.title}>{title}</span> : title
+    const resolvedTitle = _.isString(header) ? <span style={styles.title}>{header}</span> : header
 
     return <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
-        {(title || buttons) && <Flex style={styles.header}>
+        {(header || buttons) && <Flex style={styles.header}>
             {resolvedTitle}
             {buttons && <>
                 <Spacer/>
                 {buttons}
             </>}
         </Flex>}
-        <div style={_.merge(innerStyle, styles.contentContainer)}>
+        <div style={styles.contentContainer}>
             {children}
         </div>
     </Flex>
