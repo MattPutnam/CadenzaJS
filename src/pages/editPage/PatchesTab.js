@@ -77,7 +77,10 @@ class PatchesTab extends React.Component {
     }
 
     render() {
-        const { style } = this.props
+        const style = {
+            flex: '1 1 auto',
+            overflow: 'hidden'
+        }
 
         return <Flex align='stretch' style={style}>
             {this.patchList()}
@@ -104,19 +107,25 @@ class PatchesTab extends React.Component {
                 color: selected ? 'white' : undefined,
                 borderBottom: '1px solid black',
                 cursor: 'pointer'
-            })
+            }),
+            list: {
+                alignSelf: 'stretch',
+                overflowY: 'auto'
+            }
         }
 
         return <Container title='Patches' flex='0 0 200px' buttons={buttons}>
-            {patches.map(patch => {
-                const { name, id } = patch
-                const selected = selectedPatchId === id
-                return <div key={id}
-                            style={styles.patch(selected)}
-                            onClick={() => this.setState({ selectedPatchId: id })}>
-                    {name || '<Untitled>'}
-                </div>
-            })}
+            <div style={styles.list}>
+                {patches.map(patch => {
+                    const { name, id } = patch
+                    const selected = selectedPatchId === id
+                    return <div key={id}
+                                style={styles.patch(selected)}
+                                onClick={() => this.setState({ selectedPatchId: id })}>
+                        {name || '<Untitled>'}
+                    </div>
+                })}
+            </div>
         </Container>
     }
 
@@ -131,7 +140,7 @@ class PatchesTab extends React.Component {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            content = <>
+            content = <Flex column style={{height: '100%'}}>
                 <PatchSelector key={selectedPatchId}
                                selectedSynth={selectedSynth}
                                selectedPatch={selectedPatch}
@@ -140,7 +149,7 @@ class PatchesTab extends React.Component {
                                allPatches={this.allPatches}
                                setData={setData}/>
                 <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
-                </>
+            </Flex>
         } else {
             if (_.isEmpty(patches)) {
                 content = <div>No patches defined. Click the '+' icon to add one</div>

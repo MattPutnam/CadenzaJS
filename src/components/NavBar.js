@@ -22,7 +22,8 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
 
 const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
     const style = {
-        padding: '0.5rem'
+        padding: '0.5rem',
+        flex: '0 0 auto'
     }
 
     return <Flex align='center' style={style}>

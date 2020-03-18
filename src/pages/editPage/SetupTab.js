@@ -8,7 +8,7 @@ import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import { Button } from '../../components/Components'
-import { Container } from '../../components/Layout'
+import { Container, Spacer } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'
@@ -16,7 +16,7 @@ import { findId } from '../../utils/IdFinder'
 
 class SetupTab extends React.Component {
     render() {
-        const { data, midiInterfaces, setData, style } = this.props
+        const { data, midiInterfaces, setData } = this.props
         const { keyboards, synthesizers } = data.setup
         const moveUp = (key, index) => () => {
             const obj = data.setup[key]
@@ -42,8 +42,8 @@ class SetupTab extends React.Component {
             <Button small key={0} onClick={() => this.addSynthesizer()}><FaPlus/></Button>
         ]
 
-        return <div style={style}>
-            <Container title='Keyboards' buttons={keyboardButtons}>
+        return <>
+            <Container title='Keyboards' flex={'0 1 auto'} buttons={keyboardButtons}>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
@@ -53,7 +53,7 @@ class SetupTab extends React.Component {
                 )}
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
-            <Container title='Synthesizers' buttons={synthButtons}>
+            <Container title='Synthesizers' flex={'0 1 auto'} buttons={synthButtons}>
                 {synthesizers.map((synth, index) =>
                     <SynthConfig key={synth.id}
                                  deleteSelf={() => this.deleteItem('synthesizers', index)}
@@ -62,8 +62,9 @@ class SetupTab extends React.Component {
                                  {...{ synth, midiInterfaces, setData }}/>
                 )}
             </Container>
+            <Spacer/>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
-        </div>
+        </>
     }
     
     addKeyboard(parsedMessage) {

@@ -3,6 +3,7 @@ import React from 'react'
 import PatchesTab from './editPage/PatchesTab'
 import SetupTab from './editPage/SetupTab'
 
+import { Flex } from '../components/Layout'
 import NavBar from '../components/NavBar'
 
 
@@ -11,22 +12,17 @@ const EditPage = ({ perform, midiInterfaces, data, setData }) => {
 
     const styles = {
         page: {
-            display: 'flex',
-            flexDirection: 'column',
             backgroundColor: '#8F8F8F',
-            minHeight: '100vh'
-        },
-        tabs: {
-            flex: '1 1 auto'
+            height: '100vh'
         }
     }
 
-    return <div style={styles.page}>
+    return <Flex column align='stretch' style={styles.page}>
         <NavBar {...{ selectedTab, setSelectedTab, perform }}/>
-        {selectedTab === 'Setup' && <SetupTab style={styles.tabs} {...{ midiInterfaces, data, setData }}/>}
-        {selectedTab === 'Patches' && <PatchesTab style={styles.tabs} {...{ data, setData }}/>}
+        {selectedTab === 'Setup' && <SetupTab {...{ midiInterfaces, data, setData }}/>}
+        {selectedTab === 'Patches' && <PatchesTab {...{ data, setData }}/>}
         {selectedTab === 'Cues' && <div>Cues!</div>}
-     </div>
+     </Flex>
 }
 
 export default EditPage

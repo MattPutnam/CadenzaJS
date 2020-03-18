@@ -37,9 +37,13 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
         setData()
     }
     
+    const style = {
+        overflowY: 'hidden',
+        height: '100%'
+    }
 
-    return <Container inner flex='none' title='Assignment'>
-        <Flex align='stretch' style={{ height: 500 }}>
+    return <Container inner title='Assignment'>
+        <Flex align='stretch' style={style}>
             <Selection options={synthTree}
                        selected={selectedSynthName}
                        onChange={newName => setSelection([newName, undefined, undefined])}/>
@@ -54,7 +58,8 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
                        selectionTransform={x => x.number}
                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
-            <SearchSection allPatches={allPatches} setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
+            <SearchSection allPatches={allPatches}
+                           setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
         </Flex>
     </Container>
 }
@@ -67,7 +72,9 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
         container: {
             flex: '0 1 250px',
             borderRight: '1px solid black',
-            overflowY: 'scroll'
+            overflowY: 'scroll',
+            display: 'flex',
+            flexDirection: 'column'
         },
         option: isSelected => ({
             cursor: 'pointer',
