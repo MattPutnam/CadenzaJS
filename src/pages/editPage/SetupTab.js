@@ -8,7 +8,7 @@ import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import { Button } from '../../components/Components'
-import { Container, Spacer } from '../../components/Layout'
+import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'
@@ -43,7 +43,7 @@ class SetupTab extends React.Component {
         ]
 
         return <>
-            <Container title='Keyboards' flex={'0 1 auto'} buttons={keyboardButtons}>
+            <Container title='Keyboards' buttons={keyboardButtons}>
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
@@ -53,7 +53,7 @@ class SetupTab extends React.Component {
                 )}
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
-            <Container title='Synthesizers' flex={'0 1 auto'} buttons={synthButtons}>
+            <Container title='Synthesizers' buttons={synthButtons}>
                 {synthesizers.map((synth, index) =>
                     <SynthConfig key={synth.id}
                                  deleteSelf={() => this.deleteItem('synthesizers', index)}
@@ -62,7 +62,6 @@ class SetupTab extends React.Component {
                                  {...{ synth, midiInterfaces, setData }}/>
                 )}
             </Container>
-            <Spacer/>
             <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
         </>
     }

@@ -24,12 +24,28 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
         <Button small key={2} onClick={deleteSelf}><FaTrash/></Button>
     ]
 
+    const synthStyle = {
+        verticalAlign: 'top'
+    }
+
     return <Container inner title={header} buttons={buttons}>
-        <Flex column pad>
-            <h5>Synthesizer:</h5>
+        <Flex pad>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Synthesizer</td>
+                        <td>Expansions</td>
+                    </tr>
+                    <tr>
+                        <td style={synthStyle}><SynthSelector synth={synth} setData={setData}/></td>
+                        <td><ExpansionConfig synth={synth} setData={setData}/></td>
+                    </tr>
+                </tbody>
+            </table>
+            {/* <h5>Synthesizer:</h5>
             <SynthSelector synth={synth} setData={setData}/>
             <h5>Expansions:</h5>
-            <ExpansionConfig synth={synth} setData={setData}/>
+            <ExpansionConfig synth={synth} setData={setData}/> */}
         </Flex>
     </Container>
 }
