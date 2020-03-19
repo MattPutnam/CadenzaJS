@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { FaPlus, FaTrash } from 'react-icons/fa'
 
+import Transpose from './patchesTab/Transpose'
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
 
@@ -154,6 +155,7 @@ class PatchesTab extends React.Component {
                                    allPatches={this.allPatches}
                                    setData={setData}/>
                     <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
+                    <Transpose selectedPatch={selectedPatch} setData={setData}/>
                 </Flex>
             </Container>
         } else {

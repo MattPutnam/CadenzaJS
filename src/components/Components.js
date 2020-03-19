@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { v4 as uuid } from 'uuid'
 
 import Colors from './colors'
 import { Flex } from './Layout'
@@ -32,6 +33,18 @@ export const Button = ({ children, small, disabled, onClick, style }) => {
     </button>
 }
 
+export const Checkbox = ({ checked, onChange }) => {
+    return <input type='checkbox' checked={checked} onChange={e => onChange(e.target.checked)}/>
+}
+
+export const Label = ({ htmlFor, children }) => {
+    const style = {
+        marginRight: '0.5rem'
+    }
+
+    return <label htmlFor={htmlFor} style={style}>{children}</label>
+}
+
 export const Message = ({ children, error }) => {
     const style = {
         margin: '0 0.5rem',
@@ -46,17 +59,16 @@ export const Message = ({ children, error }) => {
     </div>
 }
 
-export const Warning = ({ children }) => {
-    const style = {
-        color: '#F5BE02',
-        backgroundColor: '#FFFCE5',
-        border: '1px solid #F5BE02',
-        borderRadius: 3,
-        padding: '2px 0.5rem',
-        margin: '0.5rem'
+export const NumberField = ({ value, setValue, min=0, max, label }) => {
+    if (label) {
+        const id = uuid()
+        return <>
+            <Label htmlFor={id}>{label}</Label>
+            <input id={id} type='number' value={value} min={min} max={max} onChange={e => setValue(parseInt(e.target.value))}/>
+        </>
+    } else {
+        return <input type='number' value={value} min={min} max={max} onChange={e => setValue(parseInt(e.target.value))}/>
     }
-
-    return <span style={style}>{children}</span>
 }
 
 export const Placeholder = ({ width='100%', height='100%', children }) => {
@@ -69,4 +81,25 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     return <Flex align='center' style={style}>
         {children}
     </Flex>
+}
+
+export const Select = ({ options, selected, setSelected, render=(x => x) }) => {
+    return <select value={selected} onChange={e => setSelected(e.target.value)}>
+        {options.map((option, index) => {
+            return <option value={option} key={index}>{render(option)}</option>
+        })}
+    </select>
+}
+
+export const Warning = ({ children }) => {
+    const style = {
+        color: '#F5BE02',
+        backgroundColor: '#FFFCE5',
+        border: '1px solid #F5BE02',
+        borderRadius: 3,
+        padding: '2px 0.5rem',
+        margin: '0.5rem'
+    }
+
+    return <span style={style}>{children}</span>
 }
