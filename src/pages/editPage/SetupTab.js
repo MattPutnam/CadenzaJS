@@ -55,12 +55,11 @@ class SetupTab extends React.Component {
             </Container>
             <Container collapse header='Synthesizers' buttons={synthButtons}>
                 {synthesizers.map((synth, index) => {
-                    const inUse = _.some(data.patches, { synthesizerId: synth.id })
                     return <SynthConfig key={synth.id}
                                         deleteSelf={() => this.deleteItem('synthesizers', index)}
                                         moveUp={index > 0 ? moveUp('synthesizers', index) : undefined}
                                         moveDown={index < synthesizers.length-1 ? moveDown('synthesizers', index) : undefined}
-                                        {...{ synth, inUse, midiInterfaces, setData }}/>
+                                        {...{ synth, midiInterfaces, data, setData }}/>
                 })}
             </Container>
             <MidiListener id='SETUP_TAB' dispatch={msg => this.handleMidi(msg)}/>
