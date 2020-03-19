@@ -62,7 +62,7 @@ class SetupTab extends React.Component {
                                  {...{ synth, midiInterfaces, setData }}/>
                 )}
             </Container>
-            <MidiListener id='###SETUP_TAB###' dispatch={msg => this.handleMidi(msg)}/>
+            <MidiListener id='SETUP_TAB' dispatch={msg => this.handleMidi(msg)}/>
         </>
     }
     

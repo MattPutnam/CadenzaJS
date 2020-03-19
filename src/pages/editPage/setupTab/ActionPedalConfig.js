@@ -29,7 +29,7 @@ class ActionPedalConfig extends React.Component {
         const { stage, error } = this.state
 
         return <Container alt header='Action Pedal'>
-            {stage && <MidiListener id='###ActionPedal###' dispatch={msg => this.handleMidi(msg)}/>}
+            {stage && <MidiListener id='ActionPedal' dispatch={msg => this.handleMidi(msg)}/>}
             <Flex pad align='center'>
                 {this.getDisplay()}
                 {stage && <Message>{stage}</Message>}

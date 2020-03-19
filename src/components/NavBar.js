@@ -21,12 +21,7 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
 }
 
 const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
-    const style = {
-        padding: '0.5rem',
-        flex: '0 0 auto'
-    }
-
-    return <Flex align='center' style={style}>
+    return <Flex pad align='center'>
         <Tab title='Setup' {...{ selectedTab, setSelectedTab }} first/>
         <Tab title='Patches' {...{ selectedTab, setSelectedTab }}/>
         <Tab title='Cues' {...{ selectedTab, setSelectedTab }} last/>
