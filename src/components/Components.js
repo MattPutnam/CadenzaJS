@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import Colors from './colors'
+import { Flex } from './Layout'
 
 
 export const Button = ({ children, small, disabled, onClick, style }) => {
@@ -56,4 +57,16 @@ export const Warning = ({ children }) => {
     }
 
     return <span style={style}>{children}</span>
+}
+
+export const Placeholder = ({ width='100%', height='100%', children }) => {
+    const style = {
+        justifyContent: 'center',
+        height: height,
+        width: width
+    }
+
+    return <Flex align='center' style={style}>
+        {children}
+    </Flex>
 }

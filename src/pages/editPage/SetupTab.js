@@ -7,7 +7,7 @@ import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
 import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
-import { Button } from '../../components/Components'
+import { Button, Placeholder } from '../../components/Components'
 import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
@@ -44,6 +44,7 @@ class SetupTab extends React.Component {
 
         return <>
             <Container collapse header='Keyboards' buttons={keyboardButtons}>
+                {_.isEmpty(keyboards) && <Placeholder height='199px'>No keyboards defined.</Placeholder>}
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
@@ -54,6 +55,7 @@ class SetupTab extends React.Component {
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
             <Container collapse header='Synthesizers' buttons={synthButtons}>
+                {_.isEmpty(synthesizers) && <Placeholder>No synthesizers defined.</Placeholder>}
                 {synthesizers.map((synth, index) => {
                     return <SynthConfig key={synth.id}
                                         deleteSelf={() => this.deleteItem('synthesizers', index)}

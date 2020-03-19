@@ -5,7 +5,7 @@ import { FaPlus, FaTrash } from 'react-icons/fa'
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
 
-import { Button } from '../../components/Components'
+import { Button, Placeholder } from '../../components/Components'
 import Colors from '../../components/colors'
 import { Container, Flex } from '../../components/Layout'
 
@@ -158,11 +158,11 @@ class PatchesTab extends React.Component {
             </Container>
         } else {
             if (this.noSynths) {
-                return <div>No synthesizers defined. Go to the Setup tab and define a synthesizer.</div>
+                return <Placeholder>No synthesizers defined. Go to the Setup tab and define a synthesizer.</Placeholder>
             } else if (_.isEmpty(patches)) {
-                return <div>No patches defined. Click the '+' icon to add one</div>
+                return <Placeholder>No patches defined. Click the '+' icon to add one</Placeholder>
             } else {
-                return <div>Select a patch to edit it</div>
+                return <Placeholder>Select a patch to edit it</Placeholder>
             }
         }
     }
