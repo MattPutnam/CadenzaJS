@@ -49,15 +49,15 @@ export const Message = ({ children, error }) => {
     </div>
 }
 
-export const NumberField = ({ value, setValue, min=0, max, label }) => {
+export const NumberField = ({ value, setValue, min=0, max, label, style }) => {
     if (label) {
         const id = uuid()
         return <>
             <Label htmlFor={id}>{label}</Label>
-            <input id={id} type='number' value={value} min={min} max={max} onChange={e => setValue(parseInt(e.target.value))}/>
+            <input id={id} type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
         </>
     } else {
-        return <input type='number' value={value} min={min} max={max} onChange={e => setValue(parseInt(e.target.value))}/>
+        return <input type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
     }
 }
 

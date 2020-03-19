@@ -5,6 +5,7 @@ import { FaPlus, FaTrash } from 'react-icons/fa'
 import Transpose from './patchesTab/Transpose'
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
+import Volume from './patchesTab/Volume'
 
 import { Placeholder } from '../../components/Components'
 import Colors from '../../components/colors'
@@ -142,16 +143,19 @@ class PatchesTab extends React.Component {
             const buttons = [{ icon: <FaTrash/>, onClick: () => this.deleteSelectedPatch() }]
 
             return <Container header='Edit' buttons={buttons}>
-                <Flex column style={{height: '100%'}}>
-                    <PatchSelector key={selectedPatchId}
-                                   selectedSynth={selectedSynth}
-                                   selectedPatch={selectedPatch}
-                                   allSynths={synthesizers}
-                                   synthTree={this.synthTree}
-                                   allPatches={this.allPatches}
-                                   setData={setData}/>
-                    <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
-                    <Transpose selectedPatch={selectedPatch} setData={setData}/>
+                <Flex style={{height: '100%'}}>
+                    <Flex column style={{flex: '1 1 auto'}}>
+                        <PatchSelector key={selectedPatchId}
+                                       selectedSynth={selectedSynth}
+                                       selectedPatch={selectedPatch}
+                                       allSynths={synthesizers}
+                                       synthTree={this.synthTree}
+                                       allPatches={this.allPatches}
+                                       setData={setData}/>
+                        <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
+                        <Transpose selectedPatch={selectedPatch} setData={setData}/>
+                    </Flex>
+                    <Volume selectedPatch={selectedPatch} setData={setData}/>
                 </Flex>
             </Container>
         } else {

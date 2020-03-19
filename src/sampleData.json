@@ -32,28 +32,32 @@
             "synthesizerId": 0,
             "bank": "PrE",
             "number": 44,
-            "name": "Soft Padding"
+            "name": "Soft Padding",
+            "volume": 100
         },
         {
             "id": 1,
             "synthesizerId": 0,
             "bank": "PrB",
             "number": 12,
-            "name": "Finger Bass"
+            "name": "Finger Bass",
+            "volume": 100
         },
         {
             "id": 2,
             "synthesizerId": 0,
             "bank": "XpA",
             "number": 75,
-            "name": "Pizzicato 2"
+            "name": "Pizzicato 2",
+            "volume": 100
         },
         {
             "id": 3,
             "synthesizerId": 0,
             "bank": "PrA",
             "number": 30,
-            "name": "EP+Mod Pad"
+            "name": "EP+Mod Pad",
+            "volume": 100
         }
     ],
     "show": {
