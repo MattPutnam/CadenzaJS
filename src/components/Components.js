@@ -6,10 +6,10 @@ import Colors from './colors'
 import { Flex } from './Layout'
 
 
-export const Button = ({ children, small, disabled, onClick, style }) => {
-    const bigStyle = {
+export const Button = ({ large, disabled, onClick, style, children }) => {
+    const myStyle = {
         marginLeft: '0.5rem',
-        padding: '0.5rem 0.75rem',
+        padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',
         color: disabled ? 'gray' : 'white',
         backgroundColor: Colors.blue,
         fontSize: 'unset',
@@ -18,17 +18,7 @@ export const Button = ({ children, small, disabled, onClick, style }) => {
         cursor: disabled ? undefined : 'pointer'
     }
 
-    const smallStyle = {
-        backgroundColor: '#3A3A3A',
-        color: disabled ? 'gray' : 'white',
-        border: '1px solid #2E2E2E',
-        borderRadius: 3,
-        cursor: disabled ? undefined : 'pointer',
-        margin: '-0.5rem 0 -0.5rem 0.5rem',
-        padding: '0.25rem 0.75rem'
-    }
-
-    return <button disabled={disabled} style={_.merge(small ? smallStyle : bigStyle, style)} onClick={onClick}>
+    return <button disabled={disabled} style={_.merge(myStyle, style)} onClick={onClick}>
         {children}
     </button>
 }

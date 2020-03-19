@@ -7,7 +7,6 @@ import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
-import { Button } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
 
@@ -22,9 +21,9 @@ const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data
     const inUse = _.some(data.patches, { synthesizerId: synth.id })
 
     const buttons = [
-        moveUp && <Button small key={0} onClick={moveUp}><FaArrowUp/></Button>,
-        moveDown && <Button small key={1} onClick={moveDown}><FaArrowDown/></Button>,
-        <Button small disabled={inUse} key={2} onClick={deleteSelf}><FaTrash/></Button>
+        moveUp && { icon: <FaArrowUp/>, onClick: moveUp },
+        moveDown && { icon: <FaArrowDown/>, onClick: moveDown },
+        { icon: <FaTrash/>, disabled: inUse, onClick: deleteSelf }
     ]
 
     const synthStyle = {

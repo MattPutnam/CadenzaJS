@@ -5,7 +5,6 @@ import ChannelSelector from './ChannelSelector'
 import InterfaceSelector from './InterfaceSelector'
 import KeyboardSizeSelector from './KeyboardSizeSelector'
 
-import { Button } from '../../../components/Components'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
 
@@ -21,9 +20,9 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
     </>
 
     const buttons = [
-        moveUp && <Button small key={0} onClick={moveUp}><FaArrowUp/></Button>,
-        moveDown && <Button small key={1} onClick={moveDown}><FaArrowDown/></Button>,
-        <Button small key={2} onClick={deleteSelf}><FaTrash/></Button>
+        moveUp && { icon: <FaArrowUp/>, onClick: moveUp },
+        moveDown && { icon: <FaArrowDown/>, onClick: moveDown },
+        { icon: <FaTrash/>, onClick: deleteSelf }
     ]
 
     return <Container alt header={header} buttons={buttons}>

@@ -25,7 +25,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
         <Tab title='Setup' {...{ selectedTab, setSelectedTab }} first/>
         <Tab title='Patches' {...{ selectedTab, setSelectedTab }}/>
         <Tab title='Cues' {...{ selectedTab, setSelectedTab }} last/>
-        <Button onClick={perform}>Perform</Button>
+        <Button large onClick={perform}>Perform</Button>
         <Spacer/>
         <MidiMonitor/>
     </Flex>

@@ -34,8 +34,8 @@ class ActionPedalConfig extends React.Component {
                 {this.getDisplay()}
                 {stage && <Message>{stage}</Message>}
                 {error && <Message error>{error}</Message>}
-                {!stage && <Button onClick={() => this.startListening()}>Listen...</Button>}
-                {stage && <Button onClick={() => this.cancel()}>Cancel</Button>}
+                {!stage && <Button large onClick={() => this.startListening()}>Listen...</Button>}
+                {stage && <Button large onClick={() => this.cancel()}>Cancel</Button>}
             </Flex>
         </Container>
     }

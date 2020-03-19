@@ -2,6 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 
+import { Button } from './Components'
+
 
 export const Container = ({ header, buttons, alt, collapse, flex, style, children, ...props }) => {
     const [collapsed, setCollapsed] = React.useState(false)
@@ -27,6 +29,11 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
             alignSelf: 'center',
             cursor: 'pointer',
             marginRight: '0.5rem'
+        },
+        button: {
+            backgroundColor: '#3a3a3a',
+            border: '1px solid #2e2e2e',
+            margin: '-0.5rem 0 -0.5rem 0.5rem'
         }
     }
 
@@ -39,7 +46,13 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
             {resolvedTitle}
             {buttons && <>
                 <Spacer/>
-                {buttons}
+                {buttons.map((button, index) => {
+                    if (button) {
+                        const { icon, ...props } = button
+                        return <Button key={index} style={styles.button} {...props}>{icon}</Button>
+                    }
+                    return null
+                })}
             </>}
         </Flex>}
         {!collapsed && <div style={styles.contentContainer}>

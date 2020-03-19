@@ -54,7 +54,7 @@ class KeyboardSizeSelector extends React.Component {
             {!!stage && <>
                 <Message>{stage}</Message>
                 <MidiListener id={`KSS${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
-                <Button onClick={() => this.cancelCustom()}>Cancel</Button>
+                <Button large onClick={() => this.cancelCustom()}>Cancel</Button>
             </>}
         </>
     }

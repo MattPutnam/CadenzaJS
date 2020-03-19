@@ -6,7 +6,7 @@ import Transpose from './patchesTab/Transpose'
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
 
-import { Button, Placeholder } from '../../components/Components'
+import { Placeholder } from '../../components/Components'
 import Colors from '../../components/colors'
 import { Container, Flex } from '../../components/Layout'
 
@@ -96,9 +96,7 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
-        const buttons = [
-            <Button small disabled={this.noSynths} key={0} onClick={() => this.addPatch()}><FaPlus/></Button>
-        ]
+        const buttons = [{ icon: <FaPlus/>, disabled: this.noSynths, onClick: () => this.addPatch() }]
 
         const styles = {
             patch: selected => ({
@@ -141,9 +139,7 @@ class PatchesTab extends React.Component {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            const buttons = [
-                <Button small key={0} onClick={e => this.deleteSelectedPatch()}><FaTrash/></Button>
-            ]
+            const buttons = [{ icon: <FaTrash/>, onClick: () => this.deleteSelectedPatch() }]
 
             return <Container header='Edit' buttons={buttons}>
                 <Flex column style={{height: '100%'}}>
