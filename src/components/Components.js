@@ -4,29 +4,29 @@ import _ from 'lodash'
 import Colors from './colors'
 
 
-export const Button = ({ children, small, onClick, style }) => {
+export const Button = ({ children, small, disabled, onClick, style }) => {
     const bigStyle = {
         marginLeft: '0.5rem',
         padding: '0.5rem 0.75rem',
-        color: 'white',
+        color: disabled ? 'gray' : 'white',
         backgroundColor: Colors.blue,
         fontSize: 'unset',
         border: '1px solid #1A3552',
         borderRadius: 3,
-        cursor: 'pointer'
+        cursor: disabled ? undefined : 'pointer'
     }
 
     const smallStyle = {
         backgroundColor: '#3A3A3A',
-        color: 'white',
+        color: disabled ? 'gray' : 'white',
         border: '1px solid #2E2E2E',
         borderRadius: 3,
-        cursor: 'pointer',
+        cursor: disabled ? undefined : 'pointer',
         margin: '-0.5rem 0 -0.5rem 0.5rem',
         padding: '0.25rem 0.75rem'
     }
 
-    return <button style={_.merge(small ? smallStyle : bigStyle, style)} onClick={onClick}>
+    return <button disabled={disabled} style={_.merge(small ? smallStyle : bigStyle, style)} onClick={onClick}>
         {children}
     </button>
 }

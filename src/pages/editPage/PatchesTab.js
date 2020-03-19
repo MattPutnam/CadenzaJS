@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaTrash } from 'react-icons/fa'
 
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
@@ -22,6 +22,7 @@ class PatchesTab extends React.Component {
         super(props)
 
         const { synthesizers } = props.data.setup
+        this.noSynths = _.isEmpty(synthesizers)
         this.synthTree = []
         this.allPatches = []
         for (let synth of synthesizers) {
@@ -95,7 +96,7 @@ class PatchesTab extends React.Component {
         const { selectedPatchId } = this.state
 
         const buttons = [
-            <Button small key={0} onClick={() => this.addPatch()}><FaPlus/></Button>
+            <Button small disabled={this.noSynths} key={0} onClick={() => this.addPatch()}><FaPlus/></Button>
         ]
 
         const styles = {
@@ -135,30 +136,35 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
-        let content
         if (selectedPatchId !== undefined) {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            content = <Flex column style={{height: '100%'}}>
-                <PatchSelector key={selectedPatchId}
-                               selectedSynth={selectedSynth}
-                               selectedPatch={selectedPatch}
-                               allSynths={synthesizers}
-                               synthTree={this.synthTree}
-                               allPatches={this.allPatches}
-                               setData={setData}/>
-                <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
-            </Flex>
+            const buttons = [
+                <Button small key={0} onClick={e => this.deleteSelectedPatch()}><FaTrash/></Button>
+            ]
+
+            return <Container header='Edit' buttons={buttons}>
+                <Flex column style={{height: '100%'}}>
+                    <PatchSelector key={selectedPatchId}
+                                   selectedSynth={selectedSynth}
+                                   selectedPatch={selectedPatch}
+                                   allSynths={synthesizers}
+                                   synthTree={this.synthTree}
+                                   allPatches={this.allPatches}
+                                   setData={setData}/>
+                    <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
+                </Flex>
+            </Container>
         } else {
-            if (_.isEmpty(patches)) {
-                content = <div>No patches defined. Click the '+' icon to add one</div>
+            if (this.noSynths) {
+                return <div>No synthesizers defined. Go to the Setup tab and define a synthesizer.</div>
+            } else if (_.isEmpty(patches)) {
+                return <div>No patches defined. Click the '+' icon to add one</div>
             } else {
-                content = <div>Select a patch to edit it</div>
+                return <div>Select a patch to edit it</div>
             }
         }
-
-        return <Container header='Edit'>{content}</Container>
     }
 
     addPatch() {
@@ -175,6 +181,14 @@ class PatchesTab extends React.Component {
         })
         setData()
         this.setState({ selectedPatchId: id })
+    }
+
+    deleteSelectedPatch() {
+        const { data, setData } = this.props
+        const { selectedPatchId } = this.state
+        _.remove(data.patches, { id: selectedPatchId })
+        setData()
+        this.setState({ selectedPatchId: undefined })
     }
 }
 

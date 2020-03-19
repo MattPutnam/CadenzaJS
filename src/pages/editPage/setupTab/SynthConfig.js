@@ -10,7 +10,7 @@ import { Button } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
 
-const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveDown }) => {
+const SynthConfig = ({ synth, inUse, midiInterfaces, setData, deleteSelf, moveUp, moveDown }) => {
     const header = <>
         <InterfaceSelector hardware={synth}
                            io='outputs'
@@ -21,7 +21,7 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
     const buttons = [
         moveUp && <Button small key={0} onClick={moveUp}><FaArrowUp/></Button>,
         moveDown && <Button small key={1} onClick={moveDown}><FaArrowDown/></Button>,
-        <Button small key={2} onClick={deleteSelf}><FaTrash/></Button>
+        <Button small disabled={inUse} key={2} onClick={deleteSelf}><FaTrash/></Button>
     ]
 
     const synthStyle = {
@@ -42,10 +42,6 @@ const SynthConfig = ({ synth, midiInterfaces, setData, deleteSelf, moveUp, moveD
                     </tr>
                 </tbody>
             </table>
-            {/* <h5>Synthesizer:</h5>
-            <SynthSelector synth={synth} setData={setData}/>
-            <h5>Expansions:</h5>
-            <ExpansionConfig synth={synth} setData={setData}/> */}
         </Flex>
     </Container>
 }
