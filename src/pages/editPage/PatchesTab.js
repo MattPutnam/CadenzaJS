@@ -179,7 +179,8 @@ class PatchesTab extends React.Component {
         patches.push({
             id,
             synthesizerId,
-            name: ''
+            name: '',
+            volume: 100
         })
         setData()
         this.setState({ selectedPatchId: id })
