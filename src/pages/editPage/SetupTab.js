@@ -35,8 +35,8 @@ class SetupTab extends React.Component {
             setData()
         }
 
-        const keyboardButtons = [{ icon: <FaPlus/>, onClick: () => this.addKeyboard() }]
-        const synthButtons = [{ icon: <FaPlus/>, onClick: () => this.addSynthesizer() }]
+        const keyboardButtons = [{ icon: FaPlus, onClick: () => this.addKeyboard() }]
+        const synthButtons = [{ icon: FaPlus, onClick: () => this.addSynthesizer() }]
 
         return <>
             <Container collapse header='Keyboards' buttons={keyboardButtons}>

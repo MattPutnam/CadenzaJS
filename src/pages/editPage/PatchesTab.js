@@ -97,7 +97,7 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
-        const buttons = [{ icon: <FaPlus/>, disabled: this.noSynths, onClick: () => this.addPatch() }]
+        const buttons = [{ icon: FaPlus, disabled: this.noSynths, onClick: () => this.addPatch() }]
 
         const styles = {
             list: {
@@ -139,7 +139,7 @@ class PatchesTab extends React.Component {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            const buttons = [{ icon: <FaTrash/>, onClick: () => this.deleteSelectedPatch() }]
+            const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch() }]
 
             return <Container header='Edit' buttons={buttons}>
                 <Flex style={{height: '100%'}}>

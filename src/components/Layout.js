@@ -49,7 +49,7 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
                 {buttons.map((button, index) => {
                     if (button) {
                         const { icon, ...props } = button
-                        return <Button key={index} style={styles.button} {...props}>{icon}</Button>
+                        return <Button key={index} style={styles.button} {...props}>{React.createElement(icon)}</Button>
                     }
                     return null
                 })}

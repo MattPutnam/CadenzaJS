@@ -20,9 +20,9 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
     </>
 
     const buttons = [
-        moveUp && { icon: <FaArrowUp/>, onClick: moveUp },
-        moveDown && { icon: <FaArrowDown/>, onClick: moveDown },
-        { icon: <FaTrash/>, onClick: deleteSelf }
+        moveUp && { icon: FaArrowUp, onClick: moveUp },
+        moveDown && { icon: FaArrowDown, onClick: moveDown },
+        { icon: FaTrash, onClick: deleteSelf }
     ]
 
     return <Container alt header={header} buttons={buttons}>

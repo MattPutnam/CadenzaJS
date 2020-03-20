@@ -21,9 +21,9 @@ const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data
     const inUse = _.some(data.patches, { synthesizerId: synth.id })
 
     const buttons = [
-        moveUp && { icon: <FaArrowUp/>, onClick: moveUp },
-        moveDown && { icon: <FaArrowDown/>, onClick: moveDown },
-        { icon: <FaTrash/>, disabled: inUse, onClick: deleteSelf }
+        moveUp && { icon: FaArrowUp, onClick: moveUp },
+        moveDown && { icon: FaArrowDown, onClick: moveDown },
+        { icon: FaTrash, disabled: inUse, onClick: deleteSelf }
     ]
 
     const synthStyle = {
