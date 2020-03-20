@@ -95,6 +95,30 @@
                         ]
                     }
                 ]
+            },
+            {
+                "number": "1A",
+                "name": "The Rules",
+                "cues": [
+                    {
+                        "measure": "1",
+                        "patchUsages": [
+                            {
+                                "patchId": 4,
+                                "lowNote": 51,
+                                "transpose": 12
+                            },
+                            {
+                                "patchId": 2,
+                                "lowNote": 51
+                            },
+                            {
+                                "patchId": 1,
+                                "highNote": 50
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

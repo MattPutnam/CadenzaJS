@@ -24,7 +24,7 @@ const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
     return <Flex pad align='center'>
         <Tab title='Setup' {...{ selectedTab, setSelectedTab }} first/>
         <Tab title='Patches' {...{ selectedTab, setSelectedTab }}/>
-        <Tab title='Cues' {...{ selectedTab, setSelectedTab }} last/>
+        <Tab title='Show' {...{ selectedTab, setSelectedTab }} last/>
         <Button large onClick={perform}>Perform</Button>
         <Spacer/>
         <MidiMonitor/>

@@ -100,19 +100,18 @@ class PatchesTab extends React.Component {
         const buttons = [{ icon: <FaPlus/>, disabled: this.noSynths, onClick: () => this.addPatch() }]
 
         const styles = {
+            list: {
+                alignSelf: 'stretch',
+                overflowY: 'auto'
+            },
             patch: selected => ({
                 padding: '0.5rem',
                 alignSelf: 'stretch',
                 fontWeight: selected ? 'bold' : undefined,
                 backgroundColor: selected ? Colors.blue : undefined,
-                color: selected ? 'white' : undefined,
                 borderBottom: '1px solid black',
                 cursor: 'pointer'
-            }),
-            list: {
-                alignSelf: 'stretch',
-                overflowY: 'auto'
-            }
+            })
         }
 
         return <Container header='Patches' flex='0 0 200px' buttons={buttons}>
@@ -162,7 +161,7 @@ class PatchesTab extends React.Component {
             if (this.noSynths) {
                 return <Placeholder>No synthesizers defined. Go to the Setup tab and define a synthesizer.</Placeholder>
             } else if (_.isEmpty(patches)) {
-                return <Placeholder>No patches defined. Click the '+' icon to add one</Placeholder>
+                return <Placeholder>No patches defined. Click the '+' button to add one.</Placeholder>
             } else {
                 return <Placeholder>Select a patch to edit it</Placeholder>
             }
