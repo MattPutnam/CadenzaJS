@@ -2,6 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa'
 
+import SongEditor from './showTab/SongEditor'
+
 import Colors from '../../components/colors'
 import { Placeholder } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
@@ -111,7 +113,7 @@ class ShowTab extends React.Component {
     }
 
     editPane() {
-        const { data } = this.props
+        const { data, setData } = this.props
         const { selectedSong, selectedCue } = this.state
 
         if (selectedCue) {
@@ -119,9 +121,7 @@ class ShowTab extends React.Component {
                 Edit {selectedCue.measure}
             </Container>
         } else if (selectedSong) {
-            return <Container header='Edit Song'>
-                Edit {selectedSong.name}
-            </Container>
+            return <SongEditor key={selectedSong.number} song={selectedSong} data={data} setData={setData}/>
         } else if (_.isEmpty(data.setup.synthesizers)) {
             return <Placeholder>Warning: no synthesizers defined. Go to the Setup tab.</Placeholder>
         } else {

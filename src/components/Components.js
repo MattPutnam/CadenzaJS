@@ -8,7 +8,7 @@ import { Flex } from './Layout'
 
 export const Button = ({ large, disabled, onClick, style, children }) => {
     const myStyle = {
-        marginLeft: '0.5rem',
+        margin: '-0.5rem 0 -0.5rem 0.5rem',
         padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',
         color: disabled ? 'gray' : 'white',
         backgroundColor: Colors.blue,
@@ -50,15 +50,15 @@ export const Message = ({ children, error }) => {
 }
 
 export const NumberField = ({ value, setValue, min=0, max, label, style }) => {
+    let id
     if (label) {
-        const id = uuid()
-        return <>
-            <Label htmlFor={id}>{label}</Label>
-            <input id={id} type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
-        </>
-    } else {
-        return <input type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
+        id = uuid()
     }
+
+    return <>
+        {label && <Label htmlFor={id}>{label}</Label>}
+        <input id={id} type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
+    </>
 }
 
 export const Placeholder = ({ width='100%', height='100%', children }) => {
@@ -81,6 +81,18 @@ export const Select = ({ options, selected, setSelected, render=(x => x) }) => {
     </select>
 }
 
+export const TextField = ({ value, setValue, size, label, style }) => {
+    let id
+    if (label) {
+        id = uuid()
+    }
+
+    return <>
+        {label && <Label htmlFor={id}>{label}</Label>}
+        <input type='text' value={value} size={size} style={style} onChange={e => setValue(e.target.value)}/>
+    </>
+}
+
 export const Warning = ({ children }) => {
     const style = {
         color: '#F5BE02',
@@ -88,7 +100,7 @@ export const Warning = ({ children }) => {
         border: '1px solid #F5BE02',
         borderRadius: 3,
         padding: '2px 0.5rem',
-        margin: '0.5rem'
+        margin: '-0.5rem 0.5rem'
     }
 
     return <span style={style}>{children}</span>

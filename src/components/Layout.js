@@ -20,11 +20,11 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
         title: {
             fontWeight: 'bold'
         },
-        contentContainer: {
+        contentContainer: hasHeader => ({
             flex: '1 1 auto',
             overflow: 'auto',
-            borderTop: '1px solid black'
-        },
+            borderTop: hasHeader ? '1px solid black' : undefined
+        }),
         caret: {
             alignSelf: 'center',
             cursor: 'pointer',
@@ -37,10 +37,11 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
         }
     }
 
+    const hasHeader = header || buttons
     const resolvedTitle = _.isString(header) ? <span style={styles.title}>{header}</span> : header
 
     return <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
-        {(header || buttons) && <Flex pad>
+        {hasHeader && <Flex pad>
             {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
             {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
             {resolvedTitle}
@@ -55,7 +56,7 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
                 })}
             </>}
         </Flex>}
-        {!collapsed && <div style={styles.contentContainer}>
+        {!collapsed && <div style={styles.contentContainer(hasHeader)}>
             {children}
         </div>}
     </Flex>
