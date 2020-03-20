@@ -13,13 +13,17 @@ export const validateSongOrMeasureNumber = number => {
     return false
 }
 
-export const compare = (a, b) => {
-    const [, number1, letter1] = a
-    const [, number2, letter2] = b
+const compare = (a, b) => {
+    const [, number1, letter1] = a.match(pattern)
+    const [, number2, letter2] = b.match(pattern)
 
     if (number1 !== number2) {
-        return number2 - number1
+        return number1 - number2
     } else {
-        return letter1.localeCompare(letter2)
+        return letter1 < letter2 ? -1 : 1
     }
 }
+
+export const songCompare = (s1, s2) => compare(s1.number, s2.number)
+
+export const cueCompare = (c1, c2) => compare(c1.measure, c2.measure)

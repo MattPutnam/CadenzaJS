@@ -75,9 +75,11 @@ class SongEditor extends React.Component {
         const { song, setData } = this.props
         const { songNumber, songName } = this.state
 
+        const sortSongs = song.number !== songNumber
+
         song.number = songNumber
         song.name = songName
-        setData()
+        setData({ sortSongs })
 
         this.setState({ modified: false })
     }
