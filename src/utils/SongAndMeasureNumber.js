@@ -20,7 +20,7 @@ const compare = (a, b) => {
     if (number1 !== number2) {
         return number1 - number2
     } else {
-        return letter1 < letter2 ? -1 : 1
+        return letter1.toLowerCase() < letter2.toLowerCase() ? -1 : 1
     }
 }
 

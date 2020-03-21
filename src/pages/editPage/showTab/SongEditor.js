@@ -31,17 +31,17 @@ class SongEditor extends React.Component {
             }
         }
 
-        const header = <>
-            Edit Song
-            {modified && ' - Modified'}
+        const postHeader = <>
+            {modified && <span>&nbsp;- Modified</span>}
             {error && <Warning>{error}</Warning>}
             {modified && !error && <Button onClick={() => this.save()}>Save</Button>}
         </>
 
         const setSongNumber = number => {
             const trimmed = number.trim()
+            const trimmedTL = trimmed.toLowerCase()
             let error = validateSongOrMeasureNumber(trimmed)
-            if (!error && trimmed !== song.number && _.some(data.show.songs, { number: trimmed })) {
+            if (!error && trimmedTL !== song.number.toLowerCase() && _.some(data.show.songs, s => s.number.toLowerCase() === trimmedTL)) {
                 error = 'Another song with that number already exists'
             }
             this.setState({ songNumber: trimmed, modified: true, error })
@@ -55,7 +55,7 @@ class SongEditor extends React.Component {
             this.setState({ songName: name, modified: true, error })
         }
 
-        return <Container header={header}>
+        return <Container header='Edit song' postHeader={postHeader}>
             <Container alt>
                 <Flex pad>
                     <TextField label='Number:'

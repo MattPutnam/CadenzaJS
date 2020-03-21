@@ -5,7 +5,7 @@ import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 import { Button } from './Components'
 
 
-export const Container = ({ header, buttons, alt, collapse, flex, style, children, ...props }) => {
+export const Container = ({ header, postHeader, buttons, alt, collapse, flex, style, children, ...props }) => {
     const [collapsed, setCollapsed] = React.useState(false)
 
     const styles = {
@@ -45,6 +45,7 @@ export const Container = ({ header, buttons, alt, collapse, flex, style, childre
             {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
             {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
             {resolvedTitle}
+            {postHeader}
             {buttons && <>
                 <Spacer/>
                 {buttons.map((button, index) => {
