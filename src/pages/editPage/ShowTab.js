@@ -83,7 +83,7 @@ class ShowTab extends React.Component {
         const keyCollapse = number => e => {
             if (e.key === 'ArrowRight') {
                 toggleSongCollapse(number, false)
-            } else if (e.key === 'ArrowDown') {
+            } else if (e.key === 'ArrowLeft') {
                 toggleSongCollapse(number, true)
             }
         }
