@@ -92,7 +92,7 @@ class ShowTab extends React.Component {
 
         const buttons = [
             { icon: FaFolderPlus, onClick: () => this.addSong() },
-            { icon: FaPlus, onClick: () => this.addCue() }
+            { icon: FaPlus, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
         ]
 
         return <Container header='Cues' flex='0 0 200px' buttons={buttons}>
@@ -141,9 +141,16 @@ class ShowTab extends React.Component {
 
         if (selectedCue) {
             const key = `Song#${selectedSong.number}Cue#${selectedCue.measure}`
-            return <CueEditor key={key} song={selectedSong} cue={selectedCue} {...{ data, setData, setParentSong }}/>
+            return <CueEditor key={key}
+                              song={selectedSong}
+                              cue={selectedCue}
+                              deleteSelf={() => this.deleteCue()}
+                              {...{ data, setData, setParentSong }}/>
         } else if (selectedSong) {
-            return <SongEditor key={selectedSong.number} song={selectedSong} {...{ data, setData }}/>
+            return <SongEditor key={selectedSong.number}
+                               song={selectedSong}
+                               deleteSelf={() => this.deleteSong()}
+                               {...{ data, setData }}/>
         } else if (_.isEmpty(data.setup.synthesizers)) {
             return <Placeholder>Warning: no synthesizers defined. Go to the Setup tab.</Placeholder>
         } else {
@@ -158,7 +165,7 @@ class ShowTab extends React.Component {
 
         let newNumber
         if (_.isEmpty(songs)) {
-            newNumber = 1
+            newNumber = "1"
         } else if (selectedSong) {
             newNumber = generateNext(selectedSong.number, songs.map(s => s.number))
         } else {
@@ -176,13 +183,26 @@ class ShowTab extends React.Component {
         this.setState({ selectedSong: newSong, selectedCue: undefined })
     }
 
+    deleteSong() {
+        const { data, setData } = this.props
+        const { songs } = data.show
+        const { selectedSong } = this.state
+
+        _.remove(songs, { number: selectedSong.number })
+        setData()
+        this.setState({ selectedSong: undefined, selectedCue: undefined })
+    }
+
     addCue() {
-        const { setData } = this.props
-        const { selectedSong, selectedCue } = this.state
+        const { data, setData } = this.props
+        let { selectedSong, selectedCue } = this.state
+        if (!selectedSong) {
+            selectedSong = _.last(data.show.songs)
+        }
 
         let newNumber
         if (_.isEmpty(selectedSong.cues)) {
-            newNumber = 1
+            newNumber = "1"
         } else if (selectedCue) {
             newNumber = generateNext(selectedCue.measure, selectedSong.cues.map(c => c.measure))
         } else {
@@ -196,7 +216,16 @@ class ShowTab extends React.Component {
         selectedSong.cues.push(newCue)
         selectedSong.cues.sort(cueCompare)
         setData()
-        this.setState({ selectedCue: newCue })
+        this.setState({ selectedSong, selectedCue: newCue })
+    }
+
+    deleteCue() {
+        const { setData } = this.props
+        const { selectedSong, selectedCue } = this.state
+
+        _.remove(selectedSong.cues, { measure: selectedCue.measure })
+        setData()
+        this.setState({ selectedSong: undefined, selectedCue: undefined })
     }
 }
 

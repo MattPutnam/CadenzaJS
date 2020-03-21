@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { FaTrash } from 'react-icons/fa'
 
 import { Button, Select, TextField, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
@@ -24,7 +25,7 @@ class CueEditor extends React.Component {
     }
 
     render() {
-        const { song, cue, data } = this.props
+        const { song, cue, deleteSelf, data } = this.props
         const { songs } = data.show
         const { selectedSong, cueMeasure, modified, error } = this.state
 
@@ -54,7 +55,11 @@ class CueEditor extends React.Component {
             {modified && !error && !conflict && <Button onClick={() => this.save()}>Save</Button>}
         </>
 
-        return <Container header='Edit Cue' postHeader={postHeader}>
+        const buttons = [
+            { icon: FaTrash, onClick: deleteSelf }
+        ]
+
+        return <Container header='Edit Cue' postHeader={postHeader} buttons={buttons}>
             <Container alt>
                 <Flex pad>
                     <Select ref={this.ref}

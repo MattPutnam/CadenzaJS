@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { FaTrash } from 'react-icons/fa'
 
 import { TextField, Button, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
@@ -24,7 +25,7 @@ class SongEditor extends React.Component {
     }
 
     render() {
-        const { song, data } = this.props
+        const { song, deleteSelf, data } = this.props
         const { songNumber, songName, modified, error } = this.state
 
         const styles = {
@@ -57,7 +58,11 @@ class SongEditor extends React.Component {
             {modified && !error && <Button onClick={() => this.save()}>Save</Button>}
         </>
 
-        return <Container header='Edit song' postHeader={postHeader}>
+        const buttons = [
+            { icon: FaTrash, onClick: deleteSelf }
+        ]
+
+        return <Container header='Edit song' postHeader={postHeader} buttons={buttons}>
             <Container alt>
                 <Flex pad>
                     <TextField ref={this.ref}
