@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import { Button } from '../../../components/Components'
+import { Button, Label } from '../../../components/Components'
 import Colors from '../../../components/colors'
 
 
@@ -41,17 +41,15 @@ const MultiChannelSelector = ({ synth, setData }) => {
     }
 
     return <>
-        <label>Channels:</label>
-        <div>
-            {_.range(0, 16).map(ch => {
-                const selected = synth.channels.includes(ch)
-                return <span key={ch}
-                             style={styles.channelButton(selected)}
-                             onClick={() => toggle(ch, selected)}>
-                    {ch+1}
-                </span>
-            })}
-        </div>
+        <Label>Channels:</Label>
+        {_.range(0, 16).map(ch => {
+            const selected = synth.channels.includes(ch)
+            return <span key={ch}
+                            style={styles.channelButton(selected)}
+                            onClick={() => toggle(ch, selected)}>
+                {ch+1}
+            </span>
+        })}
         <Button small onClick={setAll}>All</Button>
         <Button small onClick={setNone}>None</Button>
     </>

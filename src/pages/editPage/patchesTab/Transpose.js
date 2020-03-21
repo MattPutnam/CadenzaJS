@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Label, Select, NumberField } from '../../../components/Components'
+import { Button, Select, NumberField } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
 
@@ -38,13 +38,10 @@ const Transpose = ({ selectedPatch, setData }) => {
 
     return <Container alt flex='none' header='Transposition'>
         <Flex pad>
-            <Label>Transpose</Label>
             {/* max of 10 just to make the fields the same size */}
-            <NumberField value={octaves} max={10} setValue={setOctaves}/>
-            <Label>octaves plus</Label>
-            <NumberField value={steps} max={11} setValue={setSteps}/>
-            <Label>half steps</Label>
-            <Select options={['Up', 'Down']} selected={down ? 'Down' : 'Up'} setSelected={() => setValue(-amt)}/>
+            <NumberField label='Transpose' value={octaves} max={10} setValue={setOctaves}/>
+            <NumberField label='octaves plus' value={steps} max={11} setValue={setSteps}/>
+            <Select label='half steps' options={['Up', 'Down']} selected={down ? 'Down' : 'Up'} setSelected={() => setValue(-amt)}/>
             <Button onClick={clear}>Clear</Button>
         </Flex>
     </Container>

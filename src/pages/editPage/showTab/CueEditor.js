@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import { Button, Label, Select, TextField, Warning } from '../../../components/Components'
+import { Button, Select, TextField, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
 import { cueCompare, validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
@@ -55,8 +55,10 @@ class CueEditor extends React.Component {
         return <Container header='Edit Cue' postHeader={postHeader}>
             <Container alt>
                 <Flex pad>
-                    <Label>Song:</Label>
-                    <Select options={songs.map(songToString)} selected={songToString(selectedSong)} setSelected={setSong}/>
+                    <Select label='Song:'
+                            options={songs.map(songToString)}
+                            selected={songToString(selectedSong)}
+                            setSelected={setSong}/>
                     <TextField label='Measure:'
                                size={6}
                                value={cueMeasure}

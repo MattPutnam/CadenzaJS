@@ -73,12 +73,20 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     </Flex>
 }
 
-export const Select = ({ options, selected, setSelected, render=(x => x) }) => {
-    return <select value={selected} onChange={e => setSelected(e.target.value)}>
-        {options.map((option, index) => {
-            return <option value={option} key={index}>{render(option)}</option>
-        })}
-    </select>
+export const Select = ({ options, selected, setSelected, render=(x => x), label }) => {
+    let id
+    if (label) {
+        id = uuid()
+    }
+
+    return <>
+        {label && <Label htmlFor={id}>{label}</Label>}
+        <select id={id} value={selected} onChange={e => setSelected(e.target.value)}>
+            {options.map((option, index) => {
+                return <option value={option} key={index}>{render(option)}</option>
+            })}
+        </select>
+    </>
 }
 
 export const TextField = ({ value, setValue, size, label, style }) => {
@@ -89,7 +97,7 @@ export const TextField = ({ value, setValue, size, label, style }) => {
 
     return <>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <input type='text' value={value} size={size} style={style} onChange={e => setValue(e.target.value)}/>
+        <input id={id} type='text' value={value} size={size} style={style} onChange={e => setValue(e.target.value)}/>
     </>
 }
 
