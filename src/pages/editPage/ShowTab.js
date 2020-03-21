@@ -9,7 +9,7 @@ import Colors from '../../components/colors'
 import { Placeholder, ButtonLike } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
 
-import { cueCompare, generateNext } from '../../utils/SongAndMeasureNumber'
+import { cueCompare, songCompare, generateNext } from '../../utils/SongAndMeasureNumber'
 
 
 class ShowTab extends React.Component {
@@ -171,7 +171,8 @@ class ShowTab extends React.Component {
             cues: []
         }
         data.show.songs.push(newSong)
-        setData({ sortSongs: true })
+        data.show.songs.sort(songCompare)
+        setData()
         this.setState({ selectedSong: newSong, selectedCue: undefined })
     }
 

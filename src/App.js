@@ -4,7 +4,6 @@ import EditPage from './pages/EditPage'
 import PerformPage from './pages/PerformPage'
 
 import * as Midi from './utils/Midi'
-import { songCompare } from './utils/SongAndMeasureNumber'
 
 import * as data from './sampleData.json'
 
@@ -25,10 +24,7 @@ class App extends React.Component {
 
   render() {
     const { perform, midiInterfaces, data } = this.state
-    const setData = ({ sortSongs } = {}) => {
-      if (sortSongs) {
-        data.show.songs.sort(songCompare)
-      }
+    const setData = () => {
       this.setState({ data })
     }
 

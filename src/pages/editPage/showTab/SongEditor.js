@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { TextField, Button, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
-import { validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
+import { validateSongOrMeasureNumber, songCompare } from '../../../utils/SongAndMeasureNumber'
 
 
 class SongEditor extends React.Component {
@@ -79,14 +79,17 @@ class SongEditor extends React.Component {
     }
 
     save() {
-        const { song, setData } = this.props
+        const { song, data, setData } = this.props
         const { songNumber, songName } = this.state
 
         const sortSongs = song.number !== songNumber
 
         song.number = songNumber
         song.name = songName
-        setData({ sortSongs })
+        if (sortSongs) {
+            data.show.songs.sort(songCompare)
+        }
+        setData()
 
         this.setState({ modified: false })
     }
