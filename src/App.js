@@ -25,7 +25,7 @@ class App extends React.Component {
 
   render() {
     const { perform, midiInterfaces, data } = this.state
-    const setData = ({ sortSongs }) => {
+    const setData = ({ sortSongs } = {}) => {
       if (sortSongs) {
         data.show.songs.sort(songCompare)
       }

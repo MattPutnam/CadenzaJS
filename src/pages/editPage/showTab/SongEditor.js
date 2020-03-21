@@ -31,12 +31,6 @@ class SongEditor extends React.Component {
             }
         }
 
-        const postHeader = <>
-            {modified && <span>&nbsp;- Modified</span>}
-            {error && <Warning>{error}</Warning>}
-            {modified && !error && <Button onClick={() => this.save()}>Save</Button>}
-        </>
-
         const setSongNumber = number => {
             const trimmed = number.trim()
             const trimmedTL = trimmed.toLowerCase()
@@ -54,6 +48,12 @@ class SongEditor extends React.Component {
             }
             this.setState({ songName: name, modified: true, error })
         }
+
+        const postHeader = <>
+            {modified && <span>&nbsp;- Modified</span>}
+            {error && <Warning>{error}</Warning>}
+            {modified && !error && <Button onClick={() => this.save()}>Save</Button>}
+        </>
 
         return <Container header='Edit song' postHeader={postHeader}>
             <Container alt>

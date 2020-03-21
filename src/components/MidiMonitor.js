@@ -11,7 +11,7 @@ const MidiMonitor = () => {
             width: '120px',
             textAlign: 'center',
             padding: 4,
-            backgroundColor: '#1E2D45',
+            backgroundColor: '#1B1E2D',
             color: '#859BB3',
             borderRadius: 3
         },
