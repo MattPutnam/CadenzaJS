@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaCaretDown, FaCaretRight } from 'react-icons/fa'
+import { FaCaretDown, FaCaretRight, FaFolderPlus, FaPlus } from 'react-icons/fa'
 
 import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
@@ -8,6 +8,8 @@ import SongEditor from './showTab/SongEditor'
 import Colors from '../../components/colors'
 import { Placeholder, ButtonLike } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
+
+import { cueCompare, generateNext } from '../../utils/SongAndMeasureNumber'
 
 
 class ShowTab extends React.Component {
@@ -88,7 +90,12 @@ class ShowTab extends React.Component {
             }
         }
 
-        return <Container header='Cues' flex='0 0 200px'>
+        const buttons = [
+            { icon: FaFolderPlus, onClick: () => this.addSong() },
+            { icon: FaPlus, onClick: () => this.addCue() }
+        ]
+
+        return <Container header='Cues' flex='0 0 200px' buttons={buttons}>
             <div style={styles.list}>
                 {songs.map(song => {
                     const { number, name, cues } = song
@@ -142,6 +149,53 @@ class ShowTab extends React.Component {
         } else {
             return <Placeholder>Select a song or cue to edit it</Placeholder>
         }
+    }
+
+    addSong() {
+        const { data, setData } = this.props
+        const { songs } = data.show
+        const { selectedSong } = this.state
+
+        let newNumber
+        if (_.isEmpty(songs)) {
+            newNumber = 1
+        } else if (selectedSong) {
+            newNumber = generateNext(selectedSong.number, songs.map(s => s.number))
+        } else {
+            newNumber = generateNext(_.last(songs).number)
+        }
+
+        const newSong = {
+            number: newNumber,
+            name: '',
+            cues: []
+        }
+        data.show.songs.push(newSong)
+        setData({ sortSongs: true })
+        this.setState({ selectedSong: newSong, selectedCue: undefined })
+    }
+
+    addCue() {
+        const { setData } = this.props
+        const { selectedSong, selectedCue } = this.state
+
+        let newNumber
+        if (_.isEmpty(selectedSong.cues)) {
+            newNumber = 1
+        } else if (selectedCue) {
+            newNumber = generateNext(selectedCue.measure, selectedSong.cues.map(c => c.measure))
+        } else {
+            newNumber = generateNext(_.last(selectedSong.cues).measure)
+        }
+
+        const newCue = {
+            measure: newNumber,
+            patchUsages: []
+        }
+        selectedSong.cues.push(newCue)
+        selectedSong.cues.sort(cueCompare)
+        setData()
+        this.setState({ selectedCue: newCue })
     }
 }
 

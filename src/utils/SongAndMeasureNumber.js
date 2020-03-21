@@ -27,3 +27,18 @@ const compare = (a, b) => {
 export const songCompare = (s1, s2) => compare(s1.number, s2.number)
 
 export const cueCompare = (c1, c2) => compare(c1.measure, c2.measure)
+
+
+export const generateNext = (number, avoid=[]) => {
+    const [, num] = number.match(pattern)
+    let parsed = parseInt(num) + 1
+
+    let candidate = parsed.toString()
+    const avoidSet = new Set(avoid)
+    while (avoidSet.has(candidate)) {
+        parsed += 1
+        candidate = parsed.toString()
+    }
+
+    return candidate
+}
