@@ -6,7 +6,7 @@ import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
 
 import Colors from '../../components/colors'
-import { Placeholder } from '../../components/Components'
+import { Placeholder, ButtonLike } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
 
 
@@ -46,6 +46,7 @@ class ShowTab extends React.Component {
             },
             song: selected => ({
                 alignSelf: 'stretch',
+                margin: '3px 0',
                 fontWeight: selected ? 'bold' : undefined,
                 backgroundColor: selected ? Colors.blue : Colors.darkGray,
                 cursor: 'pointer'
@@ -62,6 +63,7 @@ class ShowTab extends React.Component {
             },
             cue: selected => ({
                 alignSelf: 'stretch',
+                margin: '3px 0',
                 fontWeight: selected ? 'bold' : undefined,
                 backgroundColor: selected ? Colors.blue : undefined,
                 paddingLeft: '0.5rem',
@@ -78,6 +80,14 @@ class ShowTab extends React.Component {
             this.setState({ collapsedSongs })
         }
 
+        const keyCollapse = number => e => {
+            if (e.key === 'ArrowRight') {
+                toggleSongCollapse(number, false)
+            } else if (e.key === 'ArrowDown') {
+                toggleSongCollapse(number, true)
+            }
+        }
+
         return <Container header='Cues' flex='0 0 200px'>
             <div style={styles.list}>
                 {songs.map(song => {
@@ -90,10 +100,13 @@ class ShowTab extends React.Component {
                     }
 
                     return <React.Fragment key={`Song#${number}`}>
-                        <Flex align='center' style={styles.song(songSelected)}>
+                        <Flex element={ButtonLike}
+                              align='center'
+                              style={styles.song(songSelected)}
+                              onKeyDown={keyCollapse(number)}
+                              onClick={() => this.setState({ selectedSong: song, selectedCue: undefined })}>
                             {collapsed ? <FaCaretRight {...caretProps}/> : <FaCaretDown {...caretProps}/>}
-                            <span style={styles.songTitle}
-                                  onClick={() => this.setState({ selectedSong: song, selectedCue: undefined })}>
+                            <span style={styles.songTitle}>
                                 {number}: {name}
                             </span>
                         </Flex>
@@ -101,11 +114,11 @@ class ShowTab extends React.Component {
                             const { measure } = cue
                             const cueSelected = selectedCue === cue
 
-                            return <div key={`Song#${number}Cue#${measure}`}
-                                        style={styles.cue(cueSelected)}
-                                        onClick={() => this.setState({ selectedSong: song, selectedCue: cue })}>
+                            return <ButtonLike key={`Song#${number}Cue#${measure}`}
+                                               style={styles.cue(cueSelected)}
+                                               onClick={() => this.setState({ selectedSong: song, selectedCue: cue })}>
                                 m. {measure}
-                            </div>
+                            </ButtonLike>
                         })}
                     </React.Fragment>
                 })}

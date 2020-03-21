@@ -19,6 +19,8 @@ class SongEditor extends React.Component {
             songNumber: number,
             songName: name
         }
+
+        this.ref = React.createRef()
     }
 
     render() {
@@ -58,7 +60,8 @@ class SongEditor extends React.Component {
         return <Container header='Edit song' postHeader={postHeader}>
             <Container alt>
                 <Flex pad>
-                    <TextField label='Number:'
+                    <TextField ref={this.ref}
+                               label='Number:'
                                size={6}
                                value={songNumber}
                                setValue={setSongNumber}/>
@@ -69,6 +72,10 @@ class SongEditor extends React.Component {
                 </Flex>
             </Container>
         </Container>
+    }
+
+    componentDidMount() {
+        this.ref.current.focus()
     }
 
     save() {

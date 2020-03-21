@@ -19,6 +19,8 @@ class CueEditor extends React.Component {
             selectedSong: song,
             cueMeasure: cue.measure
         }
+
+        this.ref = React.createRef()
     }
 
     render() {
@@ -55,7 +57,8 @@ class CueEditor extends React.Component {
         return <Container header='Edit Cue' postHeader={postHeader}>
             <Container alt>
                 <Flex pad>
-                    <Select label='Song:'
+                    <Select ref={this.ref}
+                            label='Song:'
                             options={songs.map(songToString)}
                             selected={songToString(selectedSong)}
                             setSelected={setSong}/>
@@ -66,6 +69,10 @@ class CueEditor extends React.Component {
                 </Flex>
             </Container>
         </Container>
+    }
+
+    componentDidMount() {
+        this.ref.current.focus()
     }
 
     save() {

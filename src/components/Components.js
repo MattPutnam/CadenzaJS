@@ -23,6 +23,23 @@ export const Button = ({ large, disabled, onClick, style, children }) => {
     </button>
 }
 
+export const ButtonLike = ({ style, children, ...props }) => {
+    const myStyle = {
+        color: 'inherit',
+        backgroundColor: 'inherit',
+        textAlign: 'inherit',
+        alignItems: 'inherit',
+        margin: 0,
+        padding: 0,
+        border: 'none',
+        font: 'inherit',
+        cursor: 'inherit',
+        width: '100%'
+    }
+
+    return <button style={_.merge(myStyle, style)} {...props}>{children}</button>
+}
+
 export const Checkbox = ({ checked, onChange }) => {
     return <input type='checkbox' checked={checked} onChange={e => onChange(e.target.checked)}/>
 }
@@ -73,7 +90,7 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     </Flex>
 }
 
-export const Select = ({ options, selected, setSelected, render=(x => x), label }) => {
+export const Select = React.forwardRef(({ options, selected, setSelected, render=(x => x), label }, ref) => {
     let id
     if (label) {
         id = uuid()
@@ -81,15 +98,15 @@ export const Select = ({ options, selected, setSelected, render=(x => x), label 
 
     return <>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <select id={id} value={selected} onChange={e => setSelected(e.target.value)}>
+        <select id={id} ref={ref} value={selected} onChange={e => setSelected(e.target.value)}>
             {options.map((option, index) => {
                 return <option value={option} key={index}>{render(option)}</option>
             })}
         </select>
     </>
-}
+})
 
-export const TextField = ({ value, setValue, size, label, style }) => {
+export const TextField = React.forwardRef(({ value, setValue, size, label, style }, ref) => {
     let id
     if (label) {
         id = uuid()
@@ -97,9 +114,9 @@ export const TextField = ({ value, setValue, size, label, style }) => {
 
     return <>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <input id={id} type='text' value={value} size={size} style={style} onChange={e => setValue(e.target.value)}/>
+        <input type='text' onChange={e => setValue(e.target.value)} {...{ id, ref, value, size, style }}/>
     </>
-}
+})
 
 export const Warning = ({ children }) => {
     const style = {
