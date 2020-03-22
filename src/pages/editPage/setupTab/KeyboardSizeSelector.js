@@ -53,7 +53,7 @@ class KeyboardSizeSelector extends React.Component {
             </select>
             {!!stage && <>
                 <Message>{stage}</Message>
-                <MidiListener id={`KSS${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
+                <MidiListener id={`KSS${keyboard.id}`} dispatch={msg => this.handleMidi(msg)} keyboardId={keyboard.id}/>
                 <Button large onClick={() => this.cancelCustom()}>Cancel</Button>
             </>}
         </>
@@ -81,9 +81,9 @@ class KeyboardSizeSelector extends React.Component {
     handleMidi(parsedMessage) {
         const { keyboard, setData } = this.props
         const { stage, leftNote } = this.state
-        const { type, note, channel, midiInterface } = parsedMessage
+        const { type, note } = parsedMessage
 
-        if (type === Midi.NOTE_ON && keyboard.midiInterface === midiInterface && keyboard.channel === channel) {
+        if (type === Midi.NOTE_ON) {
             if (stage === STAGE1) {
                 this.setState({ leftNote: note, stage: STAGE2 })
             } else if (stage === STAGE2) {

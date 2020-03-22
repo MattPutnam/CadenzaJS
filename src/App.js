@@ -57,7 +57,7 @@ class App extends React.Component {
       while (!item.done) {
         const input = item.value
         input.onmidimessage = message => {
-          const parsed = Midi.parseMidiMessage(message)
+          const parsed = Midi.parseMidiMessage(message, this.state.data.setup.keyboards)
           Midi.notifyMidiListeners(parsed)
         }
         inputs.push(input)

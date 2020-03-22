@@ -101,10 +101,7 @@ class SetupTab extends React.Component {
     }
 
     handleMidi(parsedMessage) {
-        const { data: { setup: { keyboards } } } = this.props
-        const { midiInterface, channel } = parsedMessage
-
-        if (!_.find(keyboards, { midiInterface, channel })) {
+        if (parsedMessage.keyboardId === undefined) {
             this.addKeyboard(parsedMessage)
         }
     }

@@ -96,7 +96,7 @@ class Keyboard extends React.Component {
                     onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
                     onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
                     {...props}>
-            <MidiListener id={`KEYBOARD ${keyboard.id}`} dispatch={msg => this.handleMidi(msg)}/>
+            <MidiListener id={`KEYBOARD ${keyboard.id}`} dispatch={msg => this.handleMidi(msg)} keyboardId={keyboard.id}/>
             {_.range(low, high+1).map(k => {
                 const shouldHighlight = k === hoverKey || k === dragStart
                 return <div key={k}
@@ -118,18 +118,14 @@ class Keyboard extends React.Component {
     }
 
     handleMidi(parsedMessage) {
-        const { keyboard } = this.props
-        const { midiInterface, channel } = parsedMessage
-        if (keyboard.channel === channel && keyboard.midiInterface === midiInterface) {
-            const { type, note } = parsedMessage
-            const { pressedNotes } = this.state
-            if (type === Midi.NOTE_ON) {
-                pressedNotes.add(note)
-            } else if (type === Midi.NOTE_OFF) {
-                pressedNotes.delete(note)
-            }
-            this.setState({ pressedNotes })
+        const { type, note } = parsedMessage
+        const { pressedNotes } = this.state
+        if (type === Midi.NOTE_ON) {
+            pressedNotes.add(note)
+        } else if (type === Midi.NOTE_OFF) {
+            pressedNotes.delete(note)
         }
+        this.setState({ pressedNotes })
     }
 
     getBounds(key) {

@@ -3,11 +3,16 @@ import React from 'react'
 import * as Midi from '../utils/Midi'
 
 
-const MidiListener = ({ dispatch, id }) => {
+const MidiListener = ({ dispatch, id, keyboardId }) => {
     React.useEffect(() => {
-        Midi.addMidiListener(dispatch, id)
+        let filter
+        if (keyboardId !== undefined) {
+            filter = msg => msg.keyboardId === keyboardId
+        }
+
+        Midi.addMidiListener(dispatch, id, filter)
         return () => Midi.removeMidiListener(id)
-    }, [dispatch, id])
+    }, [dispatch, id, keyboardId])
     return null
 }
 

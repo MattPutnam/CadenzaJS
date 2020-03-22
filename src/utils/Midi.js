@@ -47,10 +47,15 @@ const parseHelper = (command, byte1, byte2) => {
     }
 }
 
-export const parseMidiMessage = (rawMsg) => {
+const midiInterfaceIdToChannelToKeyboardId = {}
+const midiInterfaceIdToName = {}
+
+export const parseMidiMessage = (rawMsg, keyboardData) => {
     if (!rawMsg) {
         return {}
     }
+
+    const midiInterface = rawMsg.target
 
     const [ commandChannel, byte1, byte2 ] = rawMsg.data
     const command = commandChannel >> 4
@@ -58,7 +63,36 @@ export const parseMidiMessage = (rawMsg) => {
 
     const parsed = parseHelper(command, byte1, byte2)
     parsed.channel = channel
-    parsed.midiInterface = midiInterfaceToName(rawMsg.target)
+
+    let midiInterfaceName = midiInterfaceIdToName[midiInterface.id]
+    if (!midiInterfaceName) {
+        midiInterfaceName = midiInterfaceToName(midiInterface)
+        midiInterfaceIdToName[midiInterface.id] = midiInterfaceName
+    }
+    parsed.midiInterface = midiInterfaceName
+
+    let keyboardId
+    let channelToKeyboardId = midiInterfaceIdToChannelToKeyboardId[midiInterface.id]
+    if (!channelToKeyboardId) {
+        const keyboard = _.find(keyboardData, { midiInterface: midiInterfaceToName(midiInterface), channel })
+        if (!keyboard) {
+            return parsed
+        }
+        keyboardId = keyboard.id
+        channelToKeyboardId = { channel: keyboardId }
+        midiInterfaceIdToChannelToKeyboardId[midiInterface.id] = channelToKeyboardId
+    } else {
+        keyboardId = channelToKeyboardId[channel]
+        if (!keyboardId) {
+            const keyboard = _.find(keyboardData, { midiInterface: midiInterfaceToName(midiInterface), channel })
+            if (!keyboard) {
+                return parsed
+            }
+            keyboardId = keyboard.id
+            channelToKeyboardId[channel] = keyboardId
+        }
+    }
+    parsed.keyboardId = keyboardId
 
     return parsed
 }
@@ -174,12 +208,16 @@ export const toString = (parsedMessage) => {
 
 let listeners = []
 
-export const addMidiListener = (midiListener, id) => listeners.push({ midiListener, id })
+export const addMidiListener = (midiListener, id, filter) => listeners.push({ midiListener, id, filter })
 
 export const removeMidiListener = (id) => _.remove(listeners, { id })
 
 export const notifyMidiListeners = (parsedMessage) => {
-    listeners.forEach(({ midiListener }) => midiListener(parsedMessage))
+    listeners.forEach(({ midiListener, filter }) => {
+        if (!filter || filter(parsedMessage)) {
+            midiListener(parsedMessage)
+        }
+    })
 }
 
 
