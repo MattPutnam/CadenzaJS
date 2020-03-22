@@ -44,9 +44,9 @@ class Keyboard extends React.Component {
 
         this.mouseUpListener = () => this.setState({ dragStart: undefined })
 
-        this.refs = {}
+        this.keyRefs = {}
         const [low, high] = props.keyboard.range
-        _.range(low, high+1).forEach(n => this.refs[n] = React.createRef())
+        _.range(low, high+1).forEach(n => this.keyRefs[n] = React.createRef())
     }
 
     render() {
@@ -100,7 +100,7 @@ class Keyboard extends React.Component {
             {_.range(low, high+1).map(k => {
                 const shouldHighlight = k === hoverKey || k === dragStart
                 return <div key={k}
-                            ref={this.refs[k]}
+                            ref={this.keyRefs[k]}
                             style={styles.key(k, k === low, shouldHighlight)}
                             onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
                             onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
@@ -133,13 +133,13 @@ class Keyboard extends React.Component {
     }
 
     getBounds(key) {
-        const ref = this.refs[key]
+        const ref = this.keyRefs[key]
         if (!ref) {
             console.error(`Key ${key} is out of range for this keyboard`)
         }
 
-        const left = ref.offsetLeft - ref.parentElement.offsetLeft
-        const right = left + ref.offsetWidth
+        const left = ref.current.offsetLeft - ref.current.parentElement.offsetLeft
+        const right = left + ref.current.offsetWidth
         return { left, right }
     }
 }

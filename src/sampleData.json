@@ -58,6 +58,14 @@
             "number": 30,
             "name": "EP+Mod Pad",
             "volume": 100
+        },
+        {
+            "id": 4,
+            "synthesizerId": 0,
+            "bank": "XpA",
+            "number": 199,
+            "name": "Celesta",
+            "volume": 100
         }
     ],
     "show": {
@@ -70,9 +78,11 @@
                         "measure": "1",
                         "patchUsages": [
                             {
+                                "keyboardId": 0,
                                 "patchId": 0
                             },
                             {
+                                "keyboardId": 0,
                                 "patchId": 1,
                                 "highNote": 48
                             }
@@ -82,6 +92,7 @@
                         "measure": "10",
                         "patchUsages": [
                             {
+                                "keyboardId": 0,
                                 "patchId": 2
                             }
                         ]
@@ -90,6 +101,7 @@
                         "measure": "15",
                         "patchUsages": [
                             {
+                                "keyboardId": 0,
                                 "patchId": 3
                             }
                         ]
@@ -104,15 +116,18 @@
                         "measure": "1",
                         "patchUsages": [
                             {
+                                "keyboardId": 0,
                                 "patchId": 4,
                                 "lowNote": 51,
                                 "transpose": 12
                             },
                             {
+                                "keyboardId": 0,
                                 "patchId": 2,
                                 "lowNote": 51
                             },
                             {
+                                "keyboardId": 0,
                                 "patchId": 1,
                                 "highNote": 50
                             }
