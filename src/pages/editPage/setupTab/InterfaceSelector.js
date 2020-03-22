@@ -9,15 +9,15 @@ export const MidiInterfacePlaceholder = 'I\'ll connect later'
 
 const InterfaceSelector = ({ midiInterfaces, io, setData, hardware }) => {
     const id = `${io}SelectorFor${hardware.id}`
-    const selected = hardware.midiInterface
-    const values = midiInterfaces[io].map(midiInterface => `${midiInterface.manufacturer} ${midiInterface.name}`)
+    const selected = hardware.midiInterfaceName
+    const values = midiInterfaces[io].map(Midi.midiInterfaceToName)
     const missing = selected !== MidiInterfacePlaceholder && !values.includes(selected)
 
     return <>
         <label htmlFor={id}>Interface: </label>
         <select id={id}
                 value={selected}
-                onChange={e => { hardware.midiInterface = e.target.value; setData() }}>
+                onChange={e => { hardware.midiInterfaceName = e.target.value; setData() }}>
             <option value={MidiInterfacePlaceholder}>{MidiInterfacePlaceholder}</option>
             {midiInterfaces[io].map(midiInterface => {
                 const label = Midi.midiInterfaceToName(midiInterface)

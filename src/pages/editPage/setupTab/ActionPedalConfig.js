@@ -64,16 +64,16 @@ class ActionPedalConfig extends React.Component {
             }
         }
 
-        let { midiInterface, channel } = keyboard
-        if (midiInterface === MidiInterfacePlaceholder) {
-            midiInterface = 'Unconnected keyboard'
+        let { midiInterfaceName, channel } = keyboard
+        if (midiInterfaceName === MidiInterfacePlaceholder) {
+            midiInterfaceName = 'Unconnected keyboard'
         }
 
         return <table>
             <tbody>
                 {keyboards.length > 1 && <tr>
                     <td style={styles.labelColumn}>Keyboard:</td>
-                    <td>{midiInterface} on channel {channel+1}</td>
+                    <td>{midiInterfaceName} on channel {channel+1}</td>
                 </tr>}
                 <tr>
                     <td style={styles.labelColumn}>Controller:</td>
@@ -105,14 +105,14 @@ class ActionPedalConfig extends React.Component {
 
         clearTimeout(this.timeoutID)
 
-        const reduce = ({ type, controller, midiInterface, channel }) => ({ type, controller, midiInterface, channel })
+        const reduce = ({ type, controller, midiInterfaceName, channel }) => ({ type, controller, midiInterfaceName, channel })
         const uniform = signals => _.size(_.uniqWith(_.map(signals, reduce), _.isEqual)) === 1
 
         if (uniform(_.concat(stage1Signals, stage2Signals))) {
             this.setState({ stage: undefined })
 
-            const { channel, midiInterface, controller } = stage1Signals[0]
-            const keyboard = _.find(keyboards, { channel, midiInterface })
+            const { channel, midiInterfaceName, controller } = stage1Signals[0]
+            const keyboard = _.find(keyboards, { channel, midiInterfaceName })
 
             let type
             let reverse

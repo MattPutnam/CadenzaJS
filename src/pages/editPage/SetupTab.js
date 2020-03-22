@@ -68,12 +68,12 @@ class SetupTab extends React.Component {
         const { data, setData } = this.props
         const { keyboards } = data.setup
 
-        const midiInterface = parsedMessage ? parsedMessage.midiInterface : MidiInterfacePlaceholder
+        const midiInterfaceName = parsedMessage ? parsedMessage.midiInterfaceName : MidiInterfacePlaceholder
         const channel = parsedMessage ? parsedMessage.channel : 0
 
         keyboards.push({
             id: findId(keyboards),
-            midiInterface,
+            midiInterfaceName,
             range: [21, 108],
             channel
         })
@@ -87,7 +87,7 @@ class SetupTab extends React.Component {
         synthesizers.push({
             name: 'Roland JV-1080',
             id: findId(synthesizers),
-            midiInterface: MidiInterfacePlaceholder,
+            midiInterfaceName: MidiInterfacePlaceholder,
             expansionCards: {},
             channels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         })

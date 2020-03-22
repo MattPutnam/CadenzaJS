@@ -69,12 +69,12 @@ export const parseMidiMessage = (rawMsg, keyboardData) => {
         midiInterfaceName = midiInterfaceToName(midiInterface)
         midiInterfaceIdToName[midiInterface.id] = midiInterfaceName
     }
-    parsed.midiInterface = midiInterfaceName
+    parsed.midiInterfaceName = midiInterfaceName
 
     let keyboardId
     let channelToKeyboardId = midiInterfaceIdToChannelToKeyboardId[midiInterface.id]
     if (!channelToKeyboardId) {
-        const keyboard = _.find(keyboardData, { midiInterface: midiInterfaceToName(midiInterface), channel })
+        const keyboard = _.find(keyboardData, { midiInterfaceName: midiInterfaceToName(midiInterface), channel })
         if (!keyboard) {
             return parsed
         }
@@ -84,7 +84,7 @@ export const parseMidiMessage = (rawMsg, keyboardData) => {
     } else {
         keyboardId = channelToKeyboardId[channel]
         if (!keyboardId) {
-            const keyboard = _.find(keyboardData, { midiInterface: midiInterfaceToName(midiInterface), channel })
+            const keyboard = _.find(keyboardData, { midiInterfaceName: midiInterfaceToName(midiInterface), channel })
             if (!keyboard) {
                 return parsed
             }
