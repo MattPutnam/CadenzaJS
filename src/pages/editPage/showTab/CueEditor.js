@@ -107,9 +107,10 @@ class PatchUsageDisplay extends React.Component {
         super(props)
 
         const { data, cue } = props
+        const { keyboards } = data.setup
 
         this.keyboardRefs = {}
-        _.forEach(data.setup.keyboards, k => {
+        _.forEach(keyboards, k => {
             this.keyboardRefs[k.id] = React.createRef()
         })
 
@@ -121,6 +122,7 @@ class PatchUsageDisplay extends React.Component {
 
     render() {
         const { cue, data } = this.props
+        const { keyboards } = data.setup
 
         const styles = {
             patchUsage: {
@@ -141,7 +143,7 @@ class PatchUsageDisplay extends React.Component {
         const patchUsagesByKeyboardId = _.groupBy(cue.patchUsages, 'keyboardId')
     
         return <Container alt header='Drag a range of notes to add a patch'>
-            {data.setup.keyboards.map(keyboard => {
+            {keyboards.map(keyboard => {
                 const patchUsages = patchUsagesByKeyboardId[keyboard.id] || []
                 return <Center pad key={keyboard.id}>
                     <Flex column>
