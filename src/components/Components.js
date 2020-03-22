@@ -23,7 +23,7 @@ export const Button = ({ large, disabled, onClick, style, children }) => {
     </button>
 }
 
-export const ButtonLike = ({ style, children, ...props }) => {
+export const ButtonLike = React.forwardRef(({ style, children, ...props }, ref) => {
     const myStyle = {
         color: 'inherit',
         backgroundColor: 'inherit',
@@ -37,8 +37,8 @@ export const ButtonLike = ({ style, children, ...props }) => {
         width: '100%'
     }
 
-    return <button style={_.merge(myStyle, style)} {...props}>{children}</button>
-}
+    return <button ref={ref} style={_.merge(myStyle, style)} {...props}>{children}</button>
+})
 
 export const Checkbox = ({ checked, onChange }) => {
     return <input type='checkbox' checked={checked} onChange={e => onChange(e.target.checked)}/>
@@ -90,7 +90,7 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     </Flex>
 }
 
-export const Select = React.forwardRef(({ options, selected, setSelected, render=(x => x), label }, ref) => {
+export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=(x => x), render=(x => x), label }, ref) => {
     let id
     if (label) {
         id = uuid()
@@ -100,7 +100,7 @@ export const Select = React.forwardRef(({ options, selected, setSelected, render
         {label && <Label htmlFor={id}>{label}</Label>}
         <select id={id} ref={ref} value={selected} onChange={e => setSelected(e.target.value)}>
             {options.map((option, index) => {
-                return <option value={option} key={index}>{render(option)}</option>
+                return <option value={valueRender(option)} key={index}>{render(option)}</option>
             })}
         </select>
     </>

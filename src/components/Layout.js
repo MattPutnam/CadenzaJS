@@ -21,6 +21,7 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, flex, st
             fontWeight: 'bold'
         },
         contentContainer: hasHeader => ({
+            display: collapsed ? 'none' : undefined,
             flex: '1 1 auto',
             overflow: 'auto',
             borderTop: hasHeader ? '1px solid black' : undefined
@@ -57,9 +58,9 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, flex, st
                 })}
             </>}
         </Flex>}
-        {!collapsed && <div style={styles.contentContainer(hasHeader)}>
+        <div style={styles.contentContainer(hasHeader)}>
             {children}
-        </div>}
+        </div>
     </Flex>
 }
 
