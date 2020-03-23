@@ -85,10 +85,12 @@ class PatchesTab extends React.Component {
             overflow: 'hidden'
         }
 
-        return <Flex align='stretch' style={style}>
-            {this.patchList()}
-            {this.editPane()}
-        </Flex>
+        return (
+            <Flex align='stretch' style={style}>
+                {this.patchList()}
+                {this.editPane()}
+            </Flex>
+        )
     }
 
     patchList() {
@@ -114,19 +116,23 @@ class PatchesTab extends React.Component {
             })
         }
 
-        return <Container header='Patches' flex='0 0 200px' buttons={buttons}>
-            <div style={styles.list}>
-                {patches.map(patch => {
-                    const { name, id } = patch
-                    const selected = selectedPatchId === id
-                    return <div key={id}
-                                style={styles.patch(selected)}
-                                onClick={() => this.setState({ selectedPatchId: id })}>
-                        {name || '<Untitled>'}
-                    </div>
-                })}
-            </div>
-        </Container>
+        return (
+            <Container header='Patches' flex='0 0 200px' buttons={buttons}>
+                <div style={styles.list}>
+                    {patches.map(patch => {
+                        const { name, id } = patch
+                        const selected = selectedPatchId === id
+                        return (
+                            <div key={id}
+                                 style={styles.patch(selected)}
+                                 onClick={() => this.setState({ selectedPatchId: id })}>
+                                {name || '<Untitled>'}
+                            </div>
+                        )
+                    })}
+                </div>
+            </Container>
+        )
     }
 
     editPane() {
@@ -141,22 +147,24 @@ class PatchesTab extends React.Component {
 
             const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch() }]
 
-            return <Container header='Edit' buttons={buttons}>
-                <Flex style={{height: '100%'}}>
-                    <Flex column style={{flex: '1 1 auto'}}>
-                        <PatchSelector key={selectedPatchId}
-                                       selectedSynth={selectedSynth}
-                                       selectedPatch={selectedPatch}
-                                       allSynths={synthesizers}
-                                       synthTree={this.synthTree}
-                                       allPatches={this.allPatches}
-                                       setData={setData}/>
-                        <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
-                        <Transpose selectedPatch={selectedPatch} setData={setData}/>
+            return (
+                <Container header='Edit' buttons={buttons}>
+                    <Flex style={{height: '100%'}}>
+                        <Flex column style={{flex: '1 1 auto'}}>
+                            <PatchSelector key={selectedPatchId}
+                                           selectedSynth={selectedSynth}
+                                           selectedPatch={selectedPatch}
+                                           allSynths={synthesizers}
+                                           synthTree={this.synthTree}
+                                           allPatches={this.allPatches}
+                                           setData={setData}/>
+                            <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
+                            <Transpose selectedPatch={selectedPatch} setData={setData}/>
+                        </Flex>
+                        <Volume selectedPatch={selectedPatch} setData={setData}/>
                     </Flex>
-                    <Volume selectedPatch={selectedPatch} setData={setData}/>
-                </Flex>
-            </Container>
+                </Container>
+            )
         } else {
             if (this.noSynths) {
                 return <Placeholder>No synthesizers defined. Go to the Setup tab and define a synthesizer.</Placeholder>

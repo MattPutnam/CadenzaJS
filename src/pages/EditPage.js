@@ -18,12 +18,14 @@ const EditPage = ({ perform, midiInterfaces, data, setData }) => {
         }
     }
 
-    return <Flex column align='stretch' style={styles.page}>
-        <NavBar {...{ selectedTab, setSelectedTab, perform }}/>
-        {selectedTab === 'Setup' && <SetupTab {...{ midiInterfaces, data, setData }}/>}
-        {selectedTab === 'Patches' && <PatchesTab {...{ data, setData }}/>}
-        {selectedTab === 'Show' && <ShowTab {...{ data, setData }}/>}
-     </Flex>
+    return (
+        <Flex column align='stretch' style={styles.page}>
+            <NavBar {...{ selectedTab, setSelectedTab, perform }}/>
+            {selectedTab === 'Setup' && <SetupTab {...{ midiInterfaces, data, setData }}/>}
+            {selectedTab === 'Patches' && <PatchesTab {...{ data, setData }}/>}
+            {selectedTab === 'Show' && <ShowTab {...{ data, setData }}/>}
+        </Flex>
+    )
 }
 
 export default EditPage

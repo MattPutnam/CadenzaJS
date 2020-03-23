@@ -63,25 +63,27 @@ class CueEditor extends React.Component {
             { icon: FaTrash, onClick: deleteSelf }
         ]
 
-        return <Container header='Edit Cue' postHeader={postHeader} buttons={buttons}>
-            <Container alt>
-                <Flex pad>
-                    <Select ref={this.ref}
-                            label='Song:'
-                            options={songs.map(songToString)}
-                            selected={songToString(selectedSong)}
-                            setSelected={setSong}/>
-                    <TextField label='Measure:'
-                               size={6}
-                               value={cueMeasure}
-                               setValue={setCueMeasure}/>
-                </Flex>
+        return (
+            <Container header='Edit Cue' postHeader={postHeader} buttons={buttons}>
+                <Container alt>
+                    <Flex pad>
+                        <Select ref={this.ref}
+                                label='Song:'
+                                options={songs.map(songToString)}
+                                selected={songToString(selectedSong)}
+                                setSelected={setSong}/>
+                        <TextField label='Measure:'
+                                   size={6}
+                                   value={cueMeasure}
+                                   setValue={setCueMeasure}/>
+                    </Flex>
+                </Container>
+                <PatchUsageDisplay key={JSON.stringify(cue.patchUsages)}
+                                   setSelectedPatchUsage={selected => this.setState({ selectedPatchUsage: selected })}
+                                   {...{ cue, data, selectedPatchUsage }}/>
+                {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage} {...{ data, setData }}/>}
             </Container>
-            <PatchUsageDisplay key={JSON.stringify(cue.patchUsages)}
-                               setSelectedPatchUsage={selected => this.setState({ selectedPatchUsage: selected })}
-                               {...{ cue, data, selectedPatchUsage }}/>
-            {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage} {...{ data, setData }}/>}
-        </Container>
+        )
     }
 
     componentDidMount() {

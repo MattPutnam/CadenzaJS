@@ -44,11 +44,13 @@ const MultiChannelSelector = ({ synth, setData }) => {
         <Label>Channels:</Label>
         {_.range(0, 16).map(ch => {
             const selected = synth.channels.includes(ch)
-            return <span key={ch}
-                            style={styles.channelButton(selected)}
-                            onClick={() => toggle(ch, selected)}>
-                {ch+1}
-            </span>
+            return (
+                <span key={ch}
+                      style={styles.channelButton(selected)}
+                      onClick={() => toggle(ch, selected)}>
+                    {ch+1}
+                </span>
+            )
         })}
         <Button small onClick={setAll}>All</Button>
         <Button small onClick={setNone}>None</Button>

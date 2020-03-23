@@ -62,21 +62,23 @@ class SongEditor extends React.Component {
             { icon: FaTrash, onClick: deleteSelf }
         ]
 
-        return <Container header='Edit song' postHeader={postHeader} buttons={buttons}>
-            <Container alt>
-                <Flex pad>
-                    <TextField ref={this.ref}
-                               label='Number:'
-                               size={6}
-                               value={songNumber}
-                               setValue={setSongNumber}/>
-                    <TextField label='Name:'
-                               style={styles.nameField}
-                               value={songName}
-                               setValue={setSongName}/>
-                </Flex>
+        return (
+            <Container header='Edit song' postHeader={postHeader} buttons={buttons}>
+                <Container alt>
+                    <Flex pad>
+                        <TextField ref={this.ref}
+                                   label='Number:'
+                                   size={6}
+                                   value={songNumber}
+                                   setValue={setSongNumber}/>
+                        <TextField label='Name:'
+                                   style={styles.nameField}
+                                   value={songName}
+                                   setValue={setSongName}/>
+                    </Flex>
+                </Container>
             </Container>
-        </Container>
+        )
     }
 
     componentDidMount() {

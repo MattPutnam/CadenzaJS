@@ -41,27 +41,29 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, flex, st
     const hasHeader = header || buttons
     const resolvedTitle = _.isString(header) ? <span style={styles.title}>{header}</span> : header
 
-    return <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
-        {hasHeader && <Flex pad>
-            {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
-            {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
-            {resolvedTitle}
-            {postHeader}
-            {buttons && <>
-                <Spacer/>
-                {buttons.map((button, index) => {
-                    if (button) {
-                        const { icon, ...props } = button
-                        return <Button key={index} style={styles.button} {...props}>{React.createElement(icon)}</Button>
-                    }
-                    return null
-                })}
-            </>}
-        </Flex>}
-        <div style={styles.contentContainer(hasHeader)}>
-            {children}
-        </div>
-    </Flex>
+    return (
+        <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
+            {hasHeader && <Flex pad>
+                {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
+                {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
+                {resolvedTitle}
+                {postHeader}
+                {buttons && <>
+                    <Spacer/>
+                    {buttons.map((button, index) => {
+                        if (button) {
+                            const { icon, ...props } = button
+                            return <Button key={index} style={styles.button} {...props}>{React.createElement(icon)}</Button>
+                        }
+                        return null
+                    })}
+                </>}
+            </Flex>}
+            <div style={styles.contentContainer(hasHeader)}>
+                {children}
+            </div>
+        </Flex>
+    )
 }
 
 export const Flex = React.forwardRef(({ children, column=false, align, pad, style, element='div', ...props }, ref) => {
@@ -92,9 +94,11 @@ export const Flex = React.forwardRef(({ children, column=false, align, pad, styl
 export const Spacer = () => <div style={{ flex: '1 1 auto' }}/>
 
 export const Center = ({ children, ...props }) => {
-    return <Flex {...props}>
-        <Spacer/>
-        {children}
-        <Spacer/>
-    </Flex>
+    return (
+        <Flex {...props}>
+            <Spacer/>
+            {children}
+            <Spacer/>
+        </Flex>
+    )
 }

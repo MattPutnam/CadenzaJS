@@ -58,11 +58,13 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
         moreBelow && { icon: FaArrowDown, onClick: () => move(keyboardIndex+1)}
     ]
 
-    return <Container header='Set Range' buttons={buttons}>
-        <Center pad>
-            <Keyboard highlight={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
-        </Center>
-    </Container>
+    return (
+        <Container header='Set Range' buttons={buttons}>
+            <Center pad>
+                <Keyboard highlight={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
+            </Center>
+        </Container>
+    )
 }
 
 export default RangeSelector

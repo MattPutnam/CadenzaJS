@@ -30,22 +30,24 @@ const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data
         verticalAlign: 'top'
     }
 
-    return <Container alt header={header} buttons={buttons}>
-        <Flex pad>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Synthesizer</td>
-                        <td>Expansions</td>
-                    </tr>
-                    <tr>
-                        <td style={synthStyle}><SynthSelector synth={synth} setData={setData}/></td>
-                        <td><ExpansionConfig synth={synth} data={data} setData={setData}/></td>
-                    </tr>
-                </tbody>
-            </table>
-        </Flex>
-    </Container>
+    return (
+        <Container alt header={header} buttons={buttons}>
+            <Flex pad>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Synthesizer</td>
+                            <td>Expansions</td>
+                        </tr>
+                        <tr>
+                            <td style={synthStyle}><SynthSelector synth={synth} setData={setData}/></td>
+                            <td><ExpansionConfig synth={synth} data={data} setData={setData}/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Flex>
+        </Container>
+    )
 }
 
 export default SynthConfig

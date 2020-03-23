@@ -9,10 +9,12 @@ class PatchUsageEditor extends React.Component {
     render() {
         const { patchUsage, data, setData } = this.props
 
-        return <Container alt collapse header='Configure Patch'>
-            <PatchSelector {...{ patchUsage, data, setData }}/>
-            <RangeSelector {...{ patchUsage, data, setData }}/>
-        </Container>
+        return (
+            <Container alt collapse header='Configure Patch'>
+                <PatchSelector {...{ patchUsage, data, setData }}/>
+                <RangeSelector {...{ patchUsage, data, setData }}/>
+            </Container>
+        )
     }
 }
 

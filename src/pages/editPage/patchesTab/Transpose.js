@@ -36,15 +36,17 @@ const Transpose = ({ selectedPatch, setData }) => {
         setValue(0)
     }
 
-    return <Container alt flex='none' header='Transposition'>
-        <Flex pad>
-            {/* max of 10 just to make the fields the same size */}
-            <NumberField label='Transpose' value={octaves} max={10} setValue={setOctaves}/>
-            <NumberField label='octaves plus' value={steps} max={11} setValue={setSteps}/>
-            <Select label='half steps' options={['Up', 'Down']} selected={down ? 'Down' : 'Up'} setSelected={() => setValue(-amt)}/>
-            <Button onClick={clear}>Clear</Button>
-        </Flex>
-    </Container>
+    return (
+        <Container alt flex='none' header='Transposition'>
+            <Flex pad>
+                {/* max of 10 just to make the fields the same size */}
+                <NumberField label='Transpose' value={octaves} max={10} setValue={setOctaves}/>
+                <NumberField label='octaves plus' value={steps} max={11} setValue={setSteps}/>
+                <Select label='half steps' options={['Up', 'Down']} selected={down ? 'Down' : 'Up'} setSelected={() => setValue(-amt)}/>
+                <Button onClick={clear}>Clear</Button>
+            </Flex>
+        </Container>
+    )
 }
 
 export default Transpose

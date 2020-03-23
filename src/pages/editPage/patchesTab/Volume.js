@@ -28,12 +28,18 @@ const Volume = ({ selectedPatch, setData }) => {
         }
     }
 
-    return <Container alt header='Volume' flex='none' style={styles.container}>
-        <Flex column pad align='center' style={styles.column}>
-            <NumberField value={selectedPatch.volume} max={127} setValue={setVolume} style={styles.field}/>
-            <input type='range' min={1} max={127} value={selectedPatch.volume} style={styles.slider} onChange={e => setVolume(parseInt(e.target.value))}/>
-        </Flex>
-    </Container>
+    return (
+        <Container alt header='Volume' flex='none' style={styles.container}>
+            <Flex column pad align='center' style={styles.column}>
+                <NumberField value={selectedPatch.volume} max={127} setValue={setVolume} style={styles.field}/>
+                <input type='range'
+                       min={1} max={127}
+                       value={selectedPatch.volume}
+                       style={styles.slider}
+                       onChange={e => setVolume(parseInt(e.target.value))}/>
+            </Flex>
+        </Container>
+    )
 }
 
 export default Volume

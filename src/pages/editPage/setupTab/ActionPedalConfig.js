@@ -28,16 +28,18 @@ class ActionPedalConfig extends React.Component {
     render() {
         const { stage, error } = this.state
 
-        return <Container alt header='Action Pedal'>
-            {stage && <MidiListener id='ActionPedal' dispatch={msg => this.handleMidi(msg)}/>}
-            <Flex pad align='center'>
-                {this.getDisplay()}
-                {stage && <Message>{stage}</Message>}
-                {error && <Message error>{error}</Message>}
-                {!stage && <Button large onClick={() => this.startListening()}>Listen...</Button>}
-                {stage && <Button large onClick={() => this.cancel()}>Cancel</Button>}
-            </Flex>
-        </Container>
+        return (
+            <Container alt header='Action Pedal'>
+                {stage && <MidiListener id='ActionPedal' dispatch={msg => this.handleMidi(msg)}/>}
+                <Flex pad align='center'>
+                    {this.getDisplay()}
+                    {stage && <Message>{stage}</Message>}
+                    {error && <Message error>{error}</Message>}
+                    {!stage && <Button large onClick={() => this.startListening()}>Listen...</Button>}
+                    {stage && <Button large onClick={() => this.cancel()}>Cancel</Button>}
+                </Flex>
+            </Container>
+        )
     }
 
     getDisplay() {
@@ -69,22 +71,24 @@ class ActionPedalConfig extends React.Component {
             midiInterfaceName = 'Unconnected keyboard'
         }
 
-        return <table>
-            <tbody>
-                {keyboards.length > 1 && <tr>
-                    <td style={styles.labelColumn}>Keyboard:</td>
-                    <td>{midiInterfaceName} on channel {channel+1}</td>
-                </tr>}
-                <tr>
-                    <td style={styles.labelColumn}>Controller:</td>
-                    <td>{Midi.longCCName(controller)}</td>
-                </tr>
-                <tr>
-                    <td style={styles.labelColumn}>Type:</td>
-                    <td>{type}{reverse ? ', reversed' : ''}</td>
-                </tr>
-            </tbody>
-        </table>
+        return (
+            <table>
+                <tbody>
+                    {keyboards.length > 1 && <tr>
+                        <td style={styles.labelColumn}>Keyboard:</td>
+                        <td>{midiInterfaceName} on channel {channel+1}</td>
+                    </tr>}
+                    <tr>
+                        <td style={styles.labelColumn}>Controller:</td>
+                        <td>{Midi.longCCName(controller)}</td>
+                    </tr>
+                    <tr>
+                        <td style={styles.labelColumn}>Type:</td>
+                        <td>{type}{reverse ? ', reversed' : ''}</td>
+                    </tr>
+                </tbody>
+            </table>
+        )
     }
 
     startListening() {

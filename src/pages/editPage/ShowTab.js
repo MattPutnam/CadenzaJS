@@ -29,10 +29,12 @@ class ShowTab extends React.Component {
             overflow: 'hidden'
         }
     
-        return <Flex align='stretch' style={style}>
-            {this.cuesList()}
-            {this.editPane()}
-        </Flex>
+        return (
+            <Flex align='stretch' style={style}>
+                {this.cuesList()}
+                {this.editPane()}
+            </Flex>
+        )
     }
 
     cuesList() {
@@ -95,42 +97,48 @@ class ShowTab extends React.Component {
             { icon: FaPlus, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
         ]
 
-        return <Container header='Cues' flex='0 0 200px' buttons={buttons}>
-            <div style={styles.list}>
-                {songs.map(song => {
-                    const { number, name, cues } = song
-                    const collapsed = collapsedSongs.has(number)
-                    const songSelected = song === selectedSong && !selectedCue
-                    const caretProps = {
-                        style: styles.songCaret,
-                        onClick: () => toggleSongCollapse(number, collapsed)
-                    }
+        return (
+            <Container header='Cues' flex='0 0 200px' buttons={buttons}>
+                <div style={styles.list}>
+                    {songs.map(song => {
+                        const { number, name, cues } = song
+                        const collapsed = collapsedSongs.has(number)
+                        const songSelected = song === selectedSong && !selectedCue
+                        const caretProps = {
+                            style: styles.songCaret,
+                            onClick: () => toggleSongCollapse(number, collapsed)
+                        }
 
-                    return <React.Fragment key={`Song#${number}`}>
-                        <Flex element={ButtonLike}
-                              align='center'
-                              style={styles.song(songSelected)}
-                              onKeyDown={keyCollapse(number)}
-                              onClick={() => this.setState({ selectedSong: song, selectedCue: undefined })}>
-                            {collapsed ? <FaCaretRight {...caretProps}/> : <FaCaretDown {...caretProps}/>}
-                            <span style={styles.songTitle}>
-                                {number}: {name}
-                            </span>
-                        </Flex>
-                        {!collapsed && cues.map(cue => {
-                            const { measure } = cue
-                            const cueSelected = selectedCue === cue
+                        return (
+                            <React.Fragment key={`Song#${number}`}>
+                                <Flex element={ButtonLike}
+                                      align='center'
+                                      style={styles.song(songSelected)}
+                                      onKeyDown={keyCollapse(number)}
+                                      onClick={() => this.setState({ selectedSong: song, selectedCue: undefined })}>
+                                    {collapsed ? <FaCaretRight {...caretProps}/> : <FaCaretDown {...caretProps}/>}
+                                    <span style={styles.songTitle}>
+                                        {number}: {name}
+                                    </span>
+                                </Flex>
+                                {!collapsed && cues.map(cue => {
+                                    const { measure } = cue
+                                    const cueSelected = selectedCue === cue
 
-                            return <ButtonLike key={`Song#${number}Cue#${measure}`}
-                                               style={styles.cue(cueSelected)}
-                                               onClick={() => this.setState({ selectedSong: song, selectedCue: cue })}>
-                                m. {measure}
-                            </ButtonLike>
-                        })}
-                    </React.Fragment>
-                })}
-            </div>
-        </Container>
+                                    return (
+                                        <ButtonLike key={`Song#${number}Cue#${measure}`}
+                                                    style={styles.cue(cueSelected)}
+                                                    onClick={() => this.setState({ selectedSong: song, selectedCue: cue })}>
+                                            m. {measure}
+                                        </ButtonLike>
+                                    )
+                                })}
+                            </React.Fragment>
+                        )
+                    })}
+                </div>
+            </Container>
+        )
     }
 
     editPane() {

@@ -18,9 +18,11 @@ export const Button = ({ large, disabled, onClick, style, children }) => {
         cursor: disabled ? undefined : 'pointer'
     }
 
-    return <button disabled={disabled} style={_.merge(myStyle, style)} onClick={onClick}>
-        {children}
-    </button>
+    return (
+        <button disabled={disabled} style={_.merge(myStyle, style)} onClick={onClick}>
+            {children}
+        </button>
+    )
 }
 
 export const ButtonLike = React.forwardRef(({ style, children, ...props }, ref) => {
@@ -61,9 +63,7 @@ export const Message = ({ children, error }) => {
         borderRadius: 3
     }
 
-    return <div style={style}>
-        {children}
-    </div>
+    return <div style={style}>{children}</div>
 }
 
 export const NumberField = ({ value, setValue, min=0, max, label, style }) => {
@@ -85,9 +85,7 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
         width: width
     }
 
-    return <Flex align='center' style={style}>
-        {children}
-    </Flex>
+    return <Flex align='center' style={style}>{children}</Flex>
 }
 
 export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=(x => x), render=(x => x), label }, ref) => {

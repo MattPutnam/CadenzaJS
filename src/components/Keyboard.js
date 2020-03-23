@@ -65,22 +65,24 @@ const Keyboard = ({ keyboard, onKeyClick, onRangeDrag, style, highlight=true, li
     const highlightHover = !!(onKeyClick || onRangeDrag)
 
     const [low, high] = keyboard.range
-    return <div style={_.merge(styles.container, style)}
-                onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
-                onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
-                {...props}>
-        {highlight && <MidiListener id={listenerId || `KEYBOARD ${keyboard.id}`}
-                                    dispatch={handleMidi}
-                                    keyboardId={keyboard.id}/>}
-        {_.range(low, high+1).map(k => {
-            const shouldHighlight = k === hoverKey || k === dragStart
-            return <div key={k}
-                        style={styles.key(k, k === low, shouldHighlight)}
-                        onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
-                        onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
-                        onClick={onKeyClick ? () => handleClick(k) : undefined}/>
-        })}
-    </div>
+    return (
+        <div style={_.merge(styles.container, style)}
+             onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
+             onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
+             {...props}>
+            {highlight && <MidiListener id={listenerId || `KEYBOARD ${keyboard.id}`}
+                                        dispatch={handleMidi}
+                                        keyboardId={keyboard.id}/>}
+            {_.range(low, high+1).map(k => {
+                const shouldHighlight = k === hoverKey || k === dragStart
+                return <div key={k}
+                            style={styles.key(k, k === low, shouldHighlight)}
+                            onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
+                            onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
+                            onClick={onKeyClick ? () => handleClick(k) : undefined}/>
+            })}
+        </div>
+    )
 }
 
 export default Keyboard

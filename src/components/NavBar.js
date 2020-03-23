@@ -15,20 +15,20 @@ const Tab = ({ title, selectedTab, setSelectedTab, first, last }) => {
         borderRight: last ? undefined : '1px solid #666666'
     }
 
-    return <span style={style} onClick={() => setSelectedTab(title)}>
-        {title}
-    </span>
+    return <span style={style} onClick={() => setSelectedTab(title)}>{title}</span>
 }
 
 const NavBar = ({ selectedTab, setSelectedTab, perform }) => {
-    return <Flex pad align='center'>
-        <Tab title='Setup' {...{ selectedTab, setSelectedTab }} first/>
-        <Tab title='Patches' {...{ selectedTab, setSelectedTab }}/>
-        <Tab title='Show' {...{ selectedTab, setSelectedTab }} last/>
-        <Button large onClick={perform}>Perform</Button>
-        <Spacer/>
-        <MidiMonitor/>
-    </Flex>
+    return (
+        <Flex pad align='center'>
+            <Tab title='Setup' {...{ selectedTab, setSelectedTab }} first/>
+            <Tab title='Patches' {...{ selectedTab, setSelectedTab }}/>
+            <Tab title='Show' {...{ selectedTab, setSelectedTab }} last/>
+            <Button large onClick={perform}>Perform</Button>
+            <Spacer/>
+            <MidiMonitor/>
+        </Flex>
+    )
 }
 
 export default NavBar

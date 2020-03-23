@@ -42,26 +42,28 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
         height: '100%'
     }
 
-    return <Container alt header='Assignment'>
-        <Flex align='stretch' style={style}>
-            <Selection options={synthTree}
-                       selected={selectedSynthName}
-                       onChange={newName => setSelection([newName, undefined, undefined])}/>
-            <Selection key={selectedSynthName}
-                       options={banks}
-                       selected={selectedBankName}
-                       onChange={newBank => setSelection([selectedSynthName, newBank, undefined])}/>
-            <Selection key={bank.name}
-                       options={bank.patches}
-                       terminal
-                       selected={selectedNumber}
-                       selectionTransform={x => x.number}
-                       render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
-                       onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
-            <SearchSection allPatches={allPatches}
-                           setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
-        </Flex>
-    </Container>
+    return (
+        <Container alt header='Assignment'>
+            <Flex align='stretch' style={style}>
+                <Selection options={synthTree}
+                        selected={selectedSynthName}
+                        onChange={newName => setSelection([newName, undefined, undefined])}/>
+                <Selection key={selectedSynthName}
+                        options={banks}
+                        selected={selectedBankName}
+                        onChange={newBank => setSelection([selectedSynthName, newBank, undefined])}/>
+                <Selection key={bank.name}
+                        options={bank.patches}
+                        terminal
+                        selected={selectedNumber}
+                        selectionTransform={x => x.number}
+                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
+                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
+                <SearchSection allPatches={allPatches}
+                            setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
+            </Flex>
+        </Container>
+    )
 }
 
 export default PatchSelector
@@ -89,22 +91,26 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
         }
     })
 
-    return <div style={styles.container}>
-        {options && options.map(option => {
-            const isSelected = _.isEqual(selected, selectionTransform(option))
-            return <Flex key={selectionTransform(option)}
-                         align='center'
-                         ref={isSelected ? scrollRef : undefined}
-                         style={styles.option(isSelected)}
-                         onClick={isSelected ? undefined : () => onChange(selectionTransform(option))}>
-                {render(option)}
-                {!terminal && <>
-                    <Spacer/>
-                    <FaCaretRight align='center'/>
-                </>}
-            </Flex>
-        })}
-    </div>
+    return (
+        <div style={styles.container}>
+            {options && options.map(option => {
+                const isSelected = _.isEqual(selected, selectionTransform(option))
+                return (
+                    <Flex key={selectionTransform(option)}
+                          align='center'
+                          ref={isSelected ? scrollRef : undefined}
+                          style={styles.option(isSelected)}
+                          onClick={isSelected ? undefined : () => onChange(selectionTransform(option))}>
+                        {render(option)}
+                        {!terminal && <>
+                            <Spacer/>
+                            <FaCaretRight align='center'/>
+                        </>}
+                    </Flex>
+                )
+            })}
+        </div>
+    )
 }
 
 const SearchSection = ({ allPatches, setSelectedPatch }) => {
@@ -145,22 +151,26 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
     const txt = searchText.trim().toLowerCase()
     const results = displayResults && allPatches.filter(patch => patch.name.toLowerCase().indexOf(txt) !== -1)
 
-    return <Container header={searchField}>
-        {displayResults && <div key={searchText} style={styles.list}>
-            <table style={styles.table}>
-                <tbody>{results.map(patch => {
-                    const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
-                    return <tr key={key} style={styles.tr} onClick={() => setSelectedPatch(patch)}>
-                        <td style={styles.nameColumn}>{patch.name}</td>
-                        <td style={styles.otherColumn}>{patch.synthesizer}</td>
-                        {arrowColumn}
-                        <td style={styles.otherColumn}>{patch.bank}</td>
-                        {arrowColumn}
-                        <td style={styles.otherColumn}>{patch.number}</td>
-                    </tr>
-                })}
-                </tbody>
-            </table>
-        </div>}
-    </Container>
+    return (
+        <Container header={searchField}>
+            {displayResults && <div key={searchText} style={styles.list}>
+                <table style={styles.table}>
+                    <tbody>{results.map(patch => {
+                        const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
+                        return (
+                            <tr key={key} style={styles.tr} onClick={() => setSelectedPatch(patch)}>
+                                <td style={styles.nameColumn}>{patch.name}</td>
+                                <td style={styles.otherColumn}>{patch.synthesizer}</td>
+                                {arrowColumn}
+                                <td style={styles.otherColumn}>{patch.bank}</td>
+                                {arrowColumn}
+                                <td style={styles.otherColumn}>{patch.number}</td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
+            </div>}
+        </Container>
+    )
 }

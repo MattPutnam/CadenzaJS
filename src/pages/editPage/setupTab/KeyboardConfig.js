@@ -25,14 +25,16 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
         { icon: FaTrash, onClick: deleteSelf }
     ]
 
-    return <Container alt header={header} buttons={buttons}>
-        <Center pad>
-            <Keyboard keyboard={keyboard}/>
-        </Center>
-        <Center pad>
-            <KeyboardSizeSelector keyboard={keyboard} setData={setData}/>
-        </Center>
-    </Container>
+    return (
+        <Container alt header={header} buttons={buttons}>
+            <Center pad>
+                <Keyboard keyboard={keyboard}/>
+            </Center>
+            <Center pad>
+                <KeyboardSizeSelector keyboard={keyboard} setData={setData}/>
+            </Center>
+        </Container>
+    )
 }
 
 export default KeyboardConfig

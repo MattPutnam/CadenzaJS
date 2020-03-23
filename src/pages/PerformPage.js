@@ -20,8 +20,7 @@ const PerformPage = ({ exit }) => {
         }
     }
 
-    return <div style={styles.page}>
-    </div>
+    return <div style={styles.page}></div>
 }
 
 export default PerformPage

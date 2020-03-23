@@ -10,9 +10,11 @@ const SynthSelector = ({ synth, setData }) => {
         setData()
     }
 
-    return <select value={synth.name} onChange={e => onChange(e.target.value)}>
-        {Synthesizers.synthNames.map(synthName => <option key={synthName} value={synthName}>{synthName}</option>)}
-    </select>
+    return (
+        <select value={synth.name} onChange={e => onChange(e.target.value)}>
+            {Synthesizers.synthNames.map(synthName => <option key={synthName} value={synthName}>{synthName}</option>)}
+        </select>
+    )
 }
 
 export default SynthSelector
