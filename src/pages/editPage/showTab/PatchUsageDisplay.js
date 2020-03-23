@@ -9,10 +9,26 @@ import { Center, Container, Flex } from '../../../components/Layout'
 import * as KeyboardUtils from '../../../utils/KeyboardUtils'
 
 
-const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, data }) => {
+const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, data, setData }) => {
     const { keyboards } = data.setup
 
     const patchUsagesByKeyboardId = _.groupBy(cue.patchUsages, 'keyboardId')
+
+    const onRangeDrag = (keyboard, low, high) => {
+        const [keyboardLow, keyboardHigh] = keyboard.range
+        const lowNote = low <= keyboardLow ? undefined : low
+        const highNote = high >= keyboardHigh ? undefined : high
+
+        const newPatchUsage = {
+            keyboardId: keyboard.id,
+            lowNote, highNote,
+            patchId: -1
+        }
+
+        cue.patchUsages.push(newPatchUsage)
+        setData()
+        setSelectedPatchUsage(newPatchUsage)
+    }
 
     return (
         <Container alt collapse header='Drag a range of notes to add a patch'>
@@ -22,7 +38,9 @@ const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, dat
                 return (
                     <Center pad key={keyboard.id}>
                         <Flex column align='stretch'>
-                            <Keyboard keyboard={keyboard}/>
+                            <Keyboard keyboard={keyboard}
+                                      onKeyClick={key => onRangeDrag(keyboard, key, key)}
+                                      onRangeDrag={([low, high]) => onRangeDrag(keyboard, low, high)}/>
                             {patchUsageRows.map((patchUsageRow, index) => {
                                 return <PatchUsageRow key={index} {...{ patchUsageRow, keyboard, data, selectedPatchUsage, setSelectedPatchUsage }}/>
                             })}
@@ -83,7 +101,7 @@ const PatchUsageRow = ({ patchUsageRow, keyboard, data, selectedPatchUsage, setS
             <ButtonLike key={index++}
                         style={styles.patchUsage(adjustedWidth, selected)}
                         onClick={() => setSelectedPatchUsage(patchUsage)}>
-                {patch.name}
+                {patch ? patch.name : 'No Patch Selected'}
             </ButtonLike>
         )
         accum = left + width

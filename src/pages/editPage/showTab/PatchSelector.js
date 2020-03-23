@@ -8,10 +8,12 @@ class PatchSelector extends React.Component {
     render() {
         const { patchUsage, data } = this.props
 
+        const options = [{ id: -1, name: 'Select...' }, ...data.patches]
+
         return (
             <Container header='Patch'>
                 <Flex pad>
-                    <Select options={data.patches}
+                    <Select options={options}
                             selected={patchUsage.patchId}
                             setSelected={newId => this.setPatch(newId)}
                             valueRender={p => p.id}

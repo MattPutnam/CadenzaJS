@@ -52,6 +52,12 @@ class CueEditor extends React.Component {
         const sameSongAndMeasureAsUnedited = selectedSong === song && cueMeasure === cue.measure
         const conflict = !sameSongAndMeasureAsUnedited && _.some(selectedSong.cues, c => c.measure.toLowerCase() === cueMeasure)
 
+        const deleteSelectedPatchUsage = () => {
+            _.remove(cue.patchUsages, selectedPatchUsage)
+            setData()
+            this.setState({ selectedPatchUsage: undefined })
+        }
+
         const postHeader = <>
             {modified && <span>&nbsp;- Modified</span>}
             {error && <Warning>{error}</Warning>}
@@ -59,9 +65,7 @@ class CueEditor extends React.Component {
             {modified && !error && !conflict && <Button onClick={() => this.save()}>Save</Button>}
         </>
 
-        const buttons = [
-            { icon: FaTrash, onClick: deleteSelf }
-        ]
+        const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
 
         return (
             <Container header='Edit Cue' postHeader={postHeader} buttons={buttons}>
@@ -80,8 +84,10 @@ class CueEditor extends React.Component {
                 </Container>
                 <PatchUsageDisplay key={JSON.stringify(cue.patchUsages)}
                                    setSelectedPatchUsage={selected => this.setState({ selectedPatchUsage: selected })}
-                                   {...{ cue, data, selectedPatchUsage }}/>
-                {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage} {...{ data, setData }}/>}
+                                   {...{ cue, data, setData, selectedPatchUsage }}/>
+                {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}
+                                                         deleteSelf={deleteSelectedPatchUsage}
+                                                         {...{ data, setData }}/>}
             </Container>
         )
     }
