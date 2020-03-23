@@ -65,14 +65,19 @@ const PatchUsageRow = ({ patchUsageRow, keyboard, data, selectedPatchUsage, setS
     let accum = 0
     const elements = []
     tagged.forEach(({ patchUsage, left, width }) => {
+        let adjustedWidth = width
         if (left > accum) {
             const diff = left - accum
             elements.push(<div key={index++} style={styles.spacer(diff)}></div>)
+        } else if (left < accum) {
+            adjustedWidth -= accum-left
         }
         const { patchId } = patchUsage
         const patch = _.find(data.patches, { id: patchId })
         const selected = selectedPatchUsage === patchUsage
-        elements.push(<ButtonLike key={index++} style={styles.patchUsage(width, selected)} onClick={() => setSelectedPatchUsage(patchUsage)}>
+        elements.push(<ButtonLike key={index++}
+                                  style={styles.patchUsage(adjustedWidth, selected)}
+                                  onClick={() => setSelectedPatchUsage(patchUsage)}>
             {patch.name}
         </ButtonLike>)
         accum = left + width
