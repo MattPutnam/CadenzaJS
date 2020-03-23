@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaPlus, FaTrash } from 'react-icons/fa'
+import { FaPlus, FaSortAlphaDown, FaTrash } from 'react-icons/fa'
 
 import Transpose from './patchesTab/Transpose'
 import PatchNamer from './patchesTab/PatchNamer'
@@ -99,7 +99,10 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
-        const buttons = [{ icon: FaPlus, disabled: this.noSynths, onClick: () => this.addPatch() }]
+        const buttons = [
+            { icon: FaSortAlphaDown, disabled: _.isEmpty(patches), onClick: () => this.sortPatches() },
+            { icon: FaPlus, disabled: this.noSynths, onClick: () => this.addPatch() }
+        ]
 
         const styles = {
             list: {
@@ -191,6 +194,14 @@ class PatchesTab extends React.Component {
         })
         setData()
         this.setState({ selectedPatchId: id })
+    }
+
+    sortPatches() {
+        const { data, setData } = this.props
+        const { patches } = data
+
+        data.patches = _.sortBy(patches, 'name')
+        setData()
     }
 
     deleteSelectedPatch() {
