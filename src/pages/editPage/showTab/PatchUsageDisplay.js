@@ -14,13 +14,14 @@ const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, dat
 
     const styles = {
         patchUsage: ({ selected, keyboard, patchUsage }) => {
-            const { left, right } = KeyboardUtils.getOffsets(keyboard.range, patchUsage)
+            const { left, width } = KeyboardUtils.getDimensions(keyboard.range, patchUsage)
+            console.log(left, width)
             return ({
                 display: 'block',
                 position: 'relative',
                 left: left,
-                width: `calc(100% - ${left + right}px)`,
-                padding: '0.25rem 0.5rem',
+                width: width,
+                padding: '0.25rem 1px',
                 border: '1px solid black',
                 textAlign: 'center',
                 backgroundColor: selected ? Colors.blue : 'white',

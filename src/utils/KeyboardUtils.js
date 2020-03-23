@@ -31,17 +31,16 @@ const BLACK_NOTES_MOD = new Set([1, 3, 6, 8, 10])
 export const isWhite = note => !isBlack(note)
 export const isBlack = note => BLACK_NOTES_MOD.has(note % 12)
 
-
-export const getOffsets = ([keyboardLow, keyboardHigh], { lowNote, highNote }) => {
+export const getDimensions = ([keyboardLow, keyboardHigh], { lowNote, highNote }) => {
     let left = 0
     if (lowNote && lowNote > keyboardLow) {
         left = _.range(keyboardLow, lowNote).filter(isWhite).length * WHITE_WIDTH - (isBlack(lowNote) ? leftMargin(lowNote) : 0)
     }
 
-    let right = 0
-    if (highNote && highNote < keyboardHigh) {
-        right = _.range(highNote+1, keyboardHigh+1).filter(isWhite).length * WHITE_WIDTH - (isBlack(highNote) ? leftMargin(highNote+1) : 0)
-    }
+    const realLow = lowNote ? Math.max(keyboardLow, lowNote) : keyboardLow
+    const realHigh = highNote ? Math.min(keyboardHigh, highNote) : keyboardHigh
+    const width = _.range(realLow, realHigh+1).filter(isWhite).length * WHITE_WIDTH +
+        (isBlack(realLow) ? leftMargin(realLow) : 0) + (isBlack(realHigh) ? leftMargin(realHigh+1) : 0) + 1
 
-    return { left, right }
+        return { left, width }
 }
