@@ -42,5 +42,53 @@ export const getDimensions = ([keyboardLow, keyboardHigh], { lowNote, highNote }
     const width = _.range(realLow, realHigh+1).filter(isWhite).length * WHITE_WIDTH +
         (isBlack(realLow) ? leftMargin(realLow) : 0) + (isBlack(realHigh) ? leftMargin(realHigh+1) : 0) + 1
 
-        return { left, width }
+    return { left, width }
+}
+
+
+export const groupIntoRows = patchUsages => {
+    const [fulls, partials] = _.partition(patchUsages, patchUsage => !patchUsage.lowNote && !patchUsage.highNote)
+    const rows = fulls.map(full => [full])
+
+    partials.forEach(patchUsage => {
+        if (!patchUsage.highNote) {
+            patchUsage.highNote = Infinity
+        }
+        if (!patchUsage.lowNote) {
+            patchUsage.lowNote = -Infinity
+        }
+    })
+    const sorted = _.sortBy(partials, 'highNote')
+
+    const filter = head => candidate => candidate.lowNote > head.highNote
+
+    while (!_.isEmpty(sorted)) {
+        const accumulation = []
+        let candidates = _.clone(sorted)
+        let head = sorted.shift()
+        accumulation.push(head)
+        candidates = _.filter(candidates, filter(head))
+
+        while (!_.isEmpty(candidates)) {
+            head = candidates.shift()
+            _.remove(sorted, head)
+            accumulation.push(head)
+            candidates = _.filter(candidates, filter(head))
+        }
+
+        rows.push(accumulation)
+    }
+
+    rows.forEach(row => {
+        row.forEach(patchUsage => {
+            if (patchUsage.highNote === Infinity) {
+                delete patchUsage.highNote
+            }
+            if (patchUsage.lowNote === -Infinity) {
+                delete patchUsage.lowNote
+            }
+        })
+    })
+
+    return rows
 }
