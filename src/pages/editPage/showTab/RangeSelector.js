@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
@@ -7,8 +8,12 @@ import { Center, Container } from '../../../components/Layout'
 
 const RangeSelector = ({ patchUsage, data, setData }) => {
     const { keyboards } = data.setup
-    const keyboard = _.find(keyboards, { id: patchUsage.keyboardId })
+    const keyboardIndex = _.findIndex(keyboards, { id: patchUsage.keyboardId })
+    const keyboard = keyboards[keyboardIndex]
     const [keyboardLow, keyboardHigh] = keyboard.range
+
+    const moreAbove = keyboardIndex > 0
+    const moreBelow = keyboardIndex < keyboards.length - 1
 
     const onKeyClick = key => {
         onRangeDrag([key, key])
@@ -26,9 +31,36 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
         setData()
     }
 
-    return <Container header='Set Range'>
+    const move = newIndex => {
+        const newKeyboard = keyboards[newIndex]
+        patchUsage.keyboardId = newKeyboard.id
+        const { lowNote, highNote } = patchUsage
+        const [newKeyboardLow, newKeyboardHigh] = newKeyboard.range
+        if (lowNote !== undefined) {
+            if (lowNote > newKeyboardHigh) {
+                patchUsage.lowNote = newKeyboardHigh
+            } else if (lowNote < newKeyboardLow) {
+                delete patchUsage.lowNote
+            }
+        }
+        if (highNote !== undefined) {
+            if (highNote < newKeyboardLow) {
+                patchUsage.highNote = newKeyboardLow
+            } else if (highNote > newKeyboardHigh) {
+                delete patchUsage.highNote
+            }
+        }
+        setData()
+    }
+
+    const buttons = [
+        moreAbove && { icon: FaArrowUp, onClick: () => move(keyboardIndex-1) },
+        moreBelow && { icon: FaArrowDown, onClick: () => move(keyboardIndex+1)}
+    ]
+
+    return <Container header='Set Range' buttons={buttons}>
         <Center pad>
-            <Keyboard listenerId='RANGE_SELECT' {...{ keyboard, onKeyClick, onRangeDrag }}/>
+            <Keyboard highlight={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
         </Center>
     </Container>
 }
