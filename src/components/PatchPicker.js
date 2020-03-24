@@ -6,11 +6,12 @@ import Colors from './colors'
 import { Container, Flex, Spacer } from './Layout'
 
 
-const PatchPicker = ({ synthTree, allPatches, initialSelection=[], onPatchSelected }) => {
+const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchSelected, style }) => {
     const [selection, setSelection] = React.useState(initialSelection)
 
     const [selectedSynthName, selectedBankName, selectedNumber] = selection
-    const banks = _.find(synthTree, { name: selectedSynthName }).banks
+    const resolvedSynth = _.find(synthTree, { name: selectedSynthName })
+    const banks = resolvedSynth ? resolvedSynth.banks : undefined
 
     const bank = banks && selectedBankName ? _.find(banks, { name: selectedBankName }) : {
         name: 'placeholder',
@@ -22,13 +23,14 @@ const PatchPicker = ({ synthTree, allPatches, initialSelection=[], onPatchSelect
         onPatchSelected([synth, bank, number])
     }
     
-    const style = {
+    const myStyle = {
         overflowY: 'hidden',
-        height: '100%'
+        height: '100%',
+        ...style
     }
 
     return (
-        <Flex align='stretch' style={style}>
+        <Flex align='stretch' style={myStyle}>
             <Selection options={synthTree}
                        selected={selectedSynthName}
                        onChange={newName => setSelection([newName, undefined, undefined])}/>
@@ -43,7 +45,8 @@ const PatchPicker = ({ synthTree, allPatches, initialSelection=[], onPatchSelect
                        selectionTransform={x => x.number}
                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
-            <SearchSection allPatches={allPatches}
+            <SearchSection alt={alt}
+                           allPatches={allPatches}
                            setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
         </Flex>
     )
@@ -96,7 +99,7 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
     )
 }
 
-const SearchSection = ({ allPatches, setSelectedPatch }) => {
+const SearchSection = ({ allPatches, setSelectedPatch, alt }) => {
     const [searchText, setSearchText] = React.useState('')
 
     const styles = {
@@ -135,7 +138,7 @@ const SearchSection = ({ allPatches, setSelectedPatch }) => {
     const results = displayResults && allPatches.filter(patch => patch.name.toLowerCase().indexOf(txt) !== -1)
 
     return (
-        <Container header={searchField}>
+        <Container alt={alt} header={searchField}>
             {displayResults && <div key={searchText} style={styles.list}>
                 <table style={styles.table}>
                     <tbody>{results.map(patch => {
