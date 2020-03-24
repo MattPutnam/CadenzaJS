@@ -47,6 +47,7 @@ const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchS
                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
             <SearchSection alt={alt}
                            allPatches={allPatches}
+                           selectedPatch={selection}
                            setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
         </Flex>
     )
@@ -99,7 +100,7 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
     )
 }
 
-const SearchSection = ({ allPatches, setSelectedPatch, alt }) => {
+const SearchSection = ({ allPatches, selectedPatch, setSelectedPatch, alt }) => {
     const [searchText, setSearchText] = React.useState('')
 
     const styles = {
@@ -114,9 +115,10 @@ const SearchSection = ({ allPatches, setSelectedPatch, alt }) => {
         table: {
             borderCollapse: 'collapse'
         },
-        tr: {
-            cursor: 'pointer'
-        },
+        tr: selected => ({
+            cursor: 'pointer',
+            backgroundColor: selected ? Colors.blue : undefined
+        }),
         nameColumn: {
             width: '99%'
         },
@@ -142,9 +144,11 @@ const SearchSection = ({ allPatches, setSelectedPatch, alt }) => {
             {displayResults && <div key={searchText} style={styles.list}>
                 <table style={styles.table}>
                     <tbody>{results.map(patch => {
-                        const key = `${patch.name}#${patch.synthsizer}#${patch.bank}`
+                        const key = `${patch.name}#${patch.synthesizer}#${patch.bank}`
+                        const selected = _.isEqual(selectedPatch, [patch.synthesizer, patch.bank, patch.number])
+
                         return (
-                            <tr key={key} style={styles.tr} onClick={() => setSelectedPatch(patch)}>
+                            <tr key={key} style={styles.tr(selected)} onClick={() => setSelectedPatch(patch)}>
                                 <td style={styles.nameColumn}>{patch.name}</td>
                                 <td style={styles.otherColumn}>{patch.synthesizer}</td>
                                 {arrowColumn}
