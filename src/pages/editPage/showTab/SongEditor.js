@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa'
 
 import { TextField, Button, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
+import Transpose from '../../../components/Transpose'
 
 import { validateSongOrMeasureNumber, songCompare } from '../../../utils/SongAndMeasureNumber'
 
@@ -25,7 +26,7 @@ class SongEditor extends React.Component {
     }
 
     render() {
-        const { song, deleteSelf, data } = this.props
+        const { song, deleteSelf, data, setData } = this.props
         const { songNumber, songName, modified, error } = this.state
 
         const styles = {
@@ -77,6 +78,7 @@ class SongEditor extends React.Component {
                                    setValue={setSongName}/>
                     </Flex>
                 </Container>
+                <Transpose alt object={song} setData={setData}/>
             </Container>
         )
     }

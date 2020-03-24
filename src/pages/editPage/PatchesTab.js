@@ -2,14 +2,14 @@ import React from 'react'
 import _ from 'lodash'
 import { FaPlus, FaSortAlphaDown, FaTrash } from 'react-icons/fa'
 
-import Transpose from './patchesTab/Transpose'
 import PatchNamer from './patchesTab/PatchNamer'
 import PatchSelector from './patchesTab/PatchSelector'
 import Volume from './patchesTab/Volume'
 
-import { Placeholder } from '../../components/Components'
 import Colors from '../../components/colors'
+import { Placeholder } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
+import Transpose from '../../components/Transpose'
 
 import { findId } from '../../utils/IdFinder'
 
@@ -170,7 +170,7 @@ class PatchesTab extends React.Component {
                                            allPatches={this.allPatches}
                                            setData={setData}/>
                             <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
-                            <Transpose selectedPatch={selectedPatch} setData={setData}/>
+                            <Transpose alt object={selectedPatch} setData={setData}/>
                         </Flex>
                         <Volume selectedPatch={selectedPatch} setData={setData}/>
                     </Flex>
