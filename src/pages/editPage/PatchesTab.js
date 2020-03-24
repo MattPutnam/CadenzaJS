@@ -148,7 +148,15 @@ class PatchesTab extends React.Component {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
-            const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch() }]
+            const disabled = _.some(data.show.songs, song => {
+                return _.some(song.cues, cue => {
+                    return _.some(cue.patchUsages, patchUsage => {
+                        return patchUsage.patchId === selectedPatchId
+                    })
+                })
+            })
+
+            const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch(), disabled }]
 
             return (
                 <Container header='Edit' buttons={buttons}>
