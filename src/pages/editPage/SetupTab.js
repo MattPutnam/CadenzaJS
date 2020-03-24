@@ -46,7 +46,7 @@ class SetupTab extends React.Component {
                                     deleteSelf={() => this.deleteItem('keyboards', index)}
                                     moveUp={index > 0 ? moveUp('keyboards', index) : undefined}
                                     moveDown={index < keyboards.length-1 ? moveDown('keyboards', index) : undefined}
-                                    {...{ keyboard, midiInterfaces, setData }}/>
+                                    {...{ keyboard, midiInterfaces, data, setData }}/>
                 )}
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>

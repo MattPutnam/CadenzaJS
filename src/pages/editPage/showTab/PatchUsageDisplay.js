@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import Colors from '../../../components/colors'
-import { ButtonLike } from '../../../components/Components'
+import { ButtonLike, Placeholder } from '../../../components/Components'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container, Flex } from '../../../components/Layout'
 
@@ -32,6 +32,7 @@ const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, dat
 
     return (
         <Container alt collapse header='Drag a range of notes to add a patch'>
+            {_.isEmpty(keyboards) && <Placeholder height='50px'>No keyboards defined</Placeholder>}
             {keyboards.map(keyboard => {
                 const patchUsages = patchUsagesByKeyboardId[keyboard.id] || []
                 const patchUsageRows = KeyboardUtils.groupIntoRows(patchUsages)

@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
 
 import ChannelSelector from './ChannelSelector'
@@ -9,7 +10,7 @@ import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
 
 
-const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, setData }) => {
+const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown, data, setData }) => {
     const header = <>
         <InterfaceSelector hardware={keyboard}
                            midiInterfaces={midiInterfaces}
@@ -19,10 +20,18 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
                          setData={setData}/>
     </>
 
+    const deleteDisabled = _.some(data.show.songs, song => {
+        return _.some(song.cues, cue => {
+            return _.some(cue.patchUsages, patchUsage => {
+                return patchUsage.keyboardId === keyboard.id
+            })
+        })
+    })
+
     const buttons = [
         moveUp && { icon: FaArrowUp, onClick: moveUp },
         moveDown && { icon: FaArrowDown, onClick: moveDown },
-        { icon: FaTrash, onClick: deleteSelf }
+        { icon: FaTrash, disabled: deleteDisabled, onClick: deleteSelf }
     ]
 
     return (

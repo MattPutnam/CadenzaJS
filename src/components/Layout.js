@@ -48,7 +48,7 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, flex, st
                 {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
                 {resolvedTitle}
                 {postHeader}
-                {buttons && <>
+                {buttons && !collapsed && <>
                     <Spacer/>
                     {buttons.map((button, index) => {
                         if (button) {
