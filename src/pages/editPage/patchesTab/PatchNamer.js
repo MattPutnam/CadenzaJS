@@ -21,7 +21,7 @@ const PatchNamer = ({ selectedPatch, allPatches, setData }) => {
         <Container alt flex='none' header='Name'>
             <Flex pad>
                 <input type='text' value={selectedPatch.name} onChange={e => changeName(e.target.value)}/>
-                <Button onClick={useDefaultName}>Use default</Button>
+                <Button disabled={selectedPatch.number === undefined} onClick={useDefaultName}>Use default</Button>
             </Flex>
         </Container>
     )

@@ -2,16 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 import { FaCaretRight } from 'react-icons/fa'
 
-import Colors from '../../../components/colors'
-import { Container, Flex, Spacer } from '../../../components/Layout'
+import Colors from './colors'
+import { Container, Flex, Spacer } from './Layout'
 
 
-const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, allPatches, setData }) => {
-    const [selection, setSelection] = React.useState([
-        selectedSynth ? selectedSynth.name : allSynths[0].name,
-        selectedPatch ? selectedPatch.bank : undefined,
-        selectedPatch ? selectedPatch.number : undefined
-    ])
+const PatchPicker = ({ synthTree, allPatches, initialSelection=[], onPatchSelected }) => {
+    const [selection, setSelection] = React.useState(initialSelection)
 
     const [selectedSynthName, selectedBankName, selectedNumber] = selection
     const banks = _.find(synthTree, { name: selectedSynthName }).banks
@@ -23,18 +19,7 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
 
     const updateSelection = ([synth, bank, number]) => {
         setSelection([synth, bank, number])
-
-        selectedPatch.synthesizerId = _.find(allSynths, { name: synth }).id
-        selectedPatch.bank = bank
-        selectedPatch.number = number
-
-        if (_.isEmpty(selectedPatch.name)) {
-            const query = _.pick(selectedPatch, ['synthesizerId', 'bank', 'number'])
-            const patch = _.find(allPatches, query)
-            selectedPatch.name = patch.name
-        }
-
-        setData()
+        onPatchSelected([synth, bank, number])
     }
     
     const style = {
@@ -43,30 +28,28 @@ const PatchSelector = ({ selectedSynth, selectedPatch, allSynths, synthTree, all
     }
 
     return (
-        <Container alt header='Assignment'>
-            <Flex align='stretch' style={style}>
-                <Selection options={synthTree}
-                        selected={selectedSynthName}
-                        onChange={newName => setSelection([newName, undefined, undefined])}/>
-                <Selection key={selectedSynthName}
-                        options={banks}
-                        selected={selectedBankName}
-                        onChange={newBank => setSelection([selectedSynthName, newBank, undefined])}/>
-                <Selection key={bank.name}
-                        options={bank.patches}
-                        terminal
-                        selected={selectedNumber}
-                        selectionTransform={x => x.number}
-                        render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
-                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
-                <SearchSection allPatches={allPatches}
-                            setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
-            </Flex>
-        </Container>
+        <Flex align='stretch' style={style}>
+            <Selection options={synthTree}
+                       selected={selectedSynthName}
+                       onChange={newName => setSelection([newName, undefined, undefined])}/>
+            <Selection key={selectedSynthName}
+                       options={banks}
+                       selected={selectedBankName}
+                       onChange={newBank => setSelection([selectedSynthName, newBank, undefined])}/>
+            <Selection key={bank.name}
+                       options={bank.patches}
+                       terminal
+                       selected={selectedNumber}
+                       selectionTransform={x => x.number}
+                       render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
+                       onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
+            <SearchSection allPatches={allPatches}
+                           setSelectedPatch={selection => updateSelection([selection.synthesizer, selection.bank, selection.number])}/>
+        </Flex>
     )
 }
 
-export default PatchSelector
+export default PatchPicker
 
 
 const Selection = ({ options, selected, onChange, selectionTransform=(x => x.name), render=(x => x.name), terminal }) => {

@@ -11,9 +11,9 @@ export const Button = ({ large, disabled, onClick, style, children }) => {
         margin: '-0.5rem 0 -0.5rem 0.5rem',
         padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',
         color: disabled ? 'gray' : 'white',
-        backgroundColor: Colors.blue,
+        backgroundColor: disabled ? '#484848' : Colors.blue,
         fontSize: 'unset',
-        border: '1px solid #1A3552',
+        border: `1px solid ${disabled ? '#484848' : '#1A3552'}`,
         borderRadius: 3,
         cursor: disabled ? undefined : 'pointer'
     }

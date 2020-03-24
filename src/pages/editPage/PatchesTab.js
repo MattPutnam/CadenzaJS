@@ -3,76 +3,21 @@ import _ from 'lodash'
 import { FaPlus, FaSortAlphaDown, FaTrash } from 'react-icons/fa'
 
 import PatchNamer from './patchesTab/PatchNamer'
-import PatchSelector from './patchesTab/PatchSelector'
 import Volume from './patchesTab/Volume'
 
 import Colors from '../../components/colors'
 import { Placeholder } from '../../components/Components'
 import { Container, Flex } from '../../components/Layout'
+import PatchPicker from '../../components/PatchPicker'
 import Transpose from '../../components/Transpose'
 
 import { findId } from '../../utils/IdFinder'
+import { resolveSynthesizersAndPatches } from '../../utils/SynthUtils'
 
-import * as Expansions from '../../synthesizers/expansions'
-import * as Synthesizers from '../../synthesizers/synthesizers'
-
-
-const transformPatches = patches => patches.map((name, number) => ({ name, number }))
 
 class PatchesTab extends React.Component {
     constructor(props) {
         super(props)
-
-        const { synthesizers } = props.data.setup
-        this.noSynths = _.isEmpty(synthesizers)
-        this.synthTree = []
-        this.allPatches = []
-        for (let synth of synthesizers) {
-            const synthDefinition = Synthesizers.getSynthByName(synth.name)
-
-            const synthItem = {
-                name: synth.name,
-                banks: []
-            }
-            
-            for (let bank of synthDefinition.banks) {
-                if (bank.special) {
-                    // TODO: GM
-                } else {
-                    synthItem.banks.push({
-                        name: bank.name,
-                        patches: transformPatches(bank.patches)
-                    })
-                    this.allPatches = this.allPatches.concat(...bank.patches.map((patch, index) => ({
-                        synthesizer: synth.name,
-                        synthesizerId: synth.id,
-                        bank: bank.name,
-                        number: index,
-                        name: patch
-                    })))
-                }
-            }
-
-            for (let expansion of _.toPairs(synth.expansionCards)) {
-                const [slotName, expansionName] = expansion
-                const expansionType = _.find(synthDefinition.expansions, { name: slotName }).type
-                const expansionDefinition = Expansions.getExpansionByTypeAndName(expansionType, expansionName)
-                
-                synthItem.banks.push({
-                    name: slotName,
-                    patches: transformPatches(expansionDefinition.patches)
-                })
-                this.allPatches = this.allPatches.concat(...expansionDefinition.patches.map((patch, index) => ({
-                    synthesizer: synth.name,
-                    synthesizerId: synth.id,
-                    bank: slotName,
-                    number: index,
-                    name: patch
-                })))
-            }
-
-            this.synthTree.push(synthItem)
-        }
 
         this.state = {
             selectedPatchId: undefined
@@ -95,13 +40,13 @@ class PatchesTab extends React.Component {
 
     patchList() {
         const { data } = this.props
-        const { patches } = data
+        const { patches, setup: { synthesizers } } = data
 
         const { selectedPatchId } = this.state
 
         const buttons = [
             { icon: FaSortAlphaDown, disabled: _.isEmpty(patches), onClick: () => this.sortPatches() },
-            { icon: FaPlus, disabled: this.noSynths, onClick: () => this.addPatch() }
+            { icon: FaPlus, disabled: _.isEmpty(synthesizers), onClick: () => this.addPatch() }
         ]
 
         const styles = {
@@ -144,9 +89,17 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
+        const { synthTree, allPatches } = resolveSynthesizersAndPatches(synthesizers)
+
         if (selectedPatchId !== undefined) {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
+
+            const initialSelection = [
+                selectedSynth ? selectedSynth.name : synthesizers[0].name,
+                selectedPatch ? selectedPatch.bank : undefined,
+                selectedPatch ? selectedPatch.number : undefined
+            ]
 
             const disabled = _.some(data.show.songs, song => {
                 return _.some(song.cues, cue => {
@@ -156,20 +109,23 @@ class PatchesTab extends React.Component {
                 })
             })
 
+            const onPatchSelected = ([selectedSynthName, selectedBankName, selectedNumber]) => {
+                selectedPatch.synthesizerId = _.find(synthesizers, { name: selectedSynthName }).id
+                selectedPatch.bank = selectedBankName
+                selectedPatch.number = selectedNumber
+                setData()
+            }
+
             const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch(), disabled }]
 
             return (
-                <Container header='Edit' buttons={buttons}>
+                <Container key={selectedPatchId} header='Edit' buttons={buttons}>
                     <Flex style={{height: '100%'}}>
                         <Flex column style={{flex: '1 1 auto'}}>
-                            <PatchSelector key={selectedPatchId}
-                                           selectedSynth={selectedSynth}
-                                           selectedPatch={selectedPatch}
-                                           allSynths={synthesizers}
-                                           synthTree={this.synthTree}
-                                           allPatches={this.allPatches}
-                                           setData={setData}/>
-                            <PatchNamer selectedPatch={selectedPatch} setData={setData} allPatches={this.allPatches}/>
+                            <Container alt header='Assignment'>
+                                <PatchPicker {...{ synthesizers, initialSelection, synthTree, allPatches, onPatchSelected }}/>
+                            </Container>
+                            <PatchNamer {...{ selectedPatch, allPatches, setData }}/>
                             <Transpose alt object={selectedPatch} setData={setData}/>
                         </Flex>
                         <Volume selectedPatch={selectedPatch} setData={setData}/>
@@ -177,7 +133,7 @@ class PatchesTab extends React.Component {
                 </Container>
             )
         } else {
-            if (this.noSynths) {
+            if (_.isEmpty(synthesizers)) {
                 return <Placeholder>No synthesizers defined. Go to the Setup tab and define a synthesizer.</Placeholder>
             } else if (_.isEmpty(patches)) {
                 return <Placeholder>No patches defined. Click the '+' button to add one.</Placeholder>
