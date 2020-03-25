@@ -26,7 +26,7 @@ const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
             <PatchUsageDisplay {...{ cue, data, setData, selectedPatchUsage, setSelectedPatchUsage }}/>
             {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}
                                                      deleteSelf={deleteSelectedPatchUsage}
-                                                     {...{ data, setData }}/>}
+                                                     {...{ cue, data, setData }}/>}
         </Container>
     )
 }

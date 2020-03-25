@@ -61,7 +61,7 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
     return (
         <Container header='Set Range' buttons={buttons}>
             <Center pad>
-                <Keyboard highlight={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
+                <Keyboard highlightMidi={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
             </Center>
         </Container>
     )

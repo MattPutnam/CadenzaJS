@@ -79,12 +79,18 @@
                         "patchUsages": [
                             {
                                 "keyboardId": 0,
-                                "patchId": 0
+                                "patchId": 0,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             },
                             {
                                 "keyboardId": 0,
                                 "patchId": 1,
-                                "highNote": 48
+                                "highNote": 48,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             }
                         ]
                     },
@@ -93,7 +99,10 @@
                         "patchUsages": [
                             {
                                 "keyboardId": 0,
-                                "patchId": 2
+                                "patchId": 2,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             }
                         ]
                     },
@@ -102,7 +111,10 @@
                         "patchUsages": [
                             {
                                 "keyboardId": 0,
-                                "patchId": 3
+                                "patchId": 3,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             }
                         ]
                     }
@@ -119,17 +131,26 @@
                                 "keyboardId": 0,
                                 "patchId": 4,
                                 "lowNote": 51,
-                                "transpose": 12
+                                "attributes": {
+                                    "type": "normal",
+                                    "transpose": 12
+                                }
                             },
                             {
                                 "keyboardId": 0,
                                 "patchId": 2,
-                                "lowNote": 51
+                                "lowNote": 51,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             },
                             {
                                 "keyboardId": 0,
                                 "patchId": 1,
-                                "highNote": 50
+                                "highNote": 50,
+                                "attributes": {
+                                    "type": "normal"
+                                }
                             }
                         ]
                     }

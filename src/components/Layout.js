@@ -91,7 +91,7 @@ export const Flex = React.forwardRef(({ children, column=false, align, pad, styl
     )
 })
 
-export const Spacer = () => <div style={{ flex: '1 1 auto' }}/>
+export const Spacer = ({ width }) => <div style={{ flex: (width === undefined ? '1 1 auto' : `0 0 ${width}px`) }}/>
 
 export const Center = ({ children, ...props }) => {
     return (

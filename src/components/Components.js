@@ -42,16 +42,29 @@ export const ButtonLike = React.forwardRef(({ style, children, ...props }, ref) 
     return <button ref={ref} style={_.merge(myStyle, style)} {...props}>{children}</button>
 })
 
-export const Checkbox = ({ checked, onChange }) => {
-    return <input type='checkbox' checked={checked} onChange={e => onChange(e.target.checked)}/>
-}
-
-export const Label = ({ htmlFor, children }) => {
-    const style = {
-        marginRight: '0.5rem'
+export const Checkbox = ({ label, checked, onChange }) => {
+    let id
+    if (label) {
+        id = uuid()
     }
 
-    return <label htmlFor={htmlFor} style={style}>{children}</label>
+    const style = {
+        cursor: 'pointer'
+    }
+
+    return <div>
+        <input id={id} type='checkbox' style={style} checked={checked} onChange={e => onChange(e.target.checked)}/>
+        {label && <Label htmlFor={id} style={style}>{label}</Label>}
+    </div>
+}
+
+export const Label = ({ htmlFor, style, children }) => {
+    const myStyle = {
+        marginRight: '0.5rem',
+        ...style
+    }
+
+    return <label htmlFor={htmlFor} style={myStyle}>{children}</label>
 }
 
 export const Message = ({ children, error }) => {

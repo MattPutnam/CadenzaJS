@@ -22,7 +22,10 @@ const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, dat
         const newPatchUsage = {
             keyboardId: keyboard.id,
             lowNote, highNote,
-            patchId: -1
+            patchId: -1,
+            attributes: {
+                type: 'normal'
+            }
         }
 
         cue.patchUsages.push(newPatchUsage)

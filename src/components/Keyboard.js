@@ -8,7 +8,12 @@ import * as KeyboardUtils from '../utils/KeyboardUtils'
 import * as Midi from '../utils/Midi'
 
 
-const Keyboard = ({ keyboard, onKeyClick, onRangeDrag, style, highlight=true, listenerId, ...props }) => {
+const Keyboard = ({
+    keyboard, onKeyClick, onRangeDrag, style,
+    highlightMidi=true, listenerId,
+    highlightOnHover=true, highlightKeys=[], lightHighlightKeys=[],
+    ...props
+}) => {        
     const [hoverKey, setHoverKey] = React.useState(undefined)
     const [dragStart, setDragStart] = React.useState(undefined)
     const [[pressedNotes], setPressedNotes] = React.useState([new Set()])
@@ -46,14 +51,24 @@ const Keyboard = ({ keyboard, onKeyClick, onRangeDrag, style, highlight=true, li
         container: {
             display: 'inline-flex',
             alignItems: 'flex-start',
-            border: '1px solid black'
+            border: '1px solid black',
+            backgroundColor: 'white'
         },
-        key: (note, first, highlight) => {
+        key: (note, first, highlightColor) => {
             const isWhite = KeyboardUtils.isWhite(note)
+            let color
+            if (highlightColor) {
+                color = highlightColor
+            } else if (pressedNotes.has(note)) {
+                color = Colors.lightBlue
+            } else {
+                color = isWhite ? 'white' : 'black'
+            }
+
             return {
                 display: 'inline-block',
                 border: '1px solid black',
-                backgroundColor: pressedNotes.has(note) ? Colors.lightBlue : highlight ? Colors.blue : isWhite ? 'white' : 'black',
+                backgroundColor: color,
                 width: isWhite ? KeyboardUtils.WHITE_WIDTH : KeyboardUtils.BLACK_WIDTH,
                 height: isWhite ? KeyboardUtils.WHITE_HEIGHT : KeyboardUtils.BLACK_HEIGHT,
                 marginLeft: first ? 0 : -KeyboardUtils.leftMargin(note),
@@ -62,7 +77,7 @@ const Keyboard = ({ keyboard, onKeyClick, onRangeDrag, style, highlight=true, li
         }
     }
 
-    const highlightHover = !!(onKeyClick || onRangeDrag)
+    const highlightHover = highlightOnHover && !!(onKeyClick || onRangeDrag)
 
     const [low, high] = keyboard.range
     return (
@@ -70,13 +85,19 @@ const Keyboard = ({ keyboard, onKeyClick, onRangeDrag, style, highlight=true, li
              onMouseLeave={highlightHover ? () => setHoverKey(undefined) : undefined}
              onMouseUp={onRangeDrag ? handleRangeDrag : undefined}
              {...props}>
-            {highlight && <MidiListener id={listenerId || `KEYBOARD ${keyboard.id}`}
-                                        dispatch={handleMidi}
-                                        keyboardId={keyboard.id}/>}
+            {highlightMidi && <MidiListener id={listenerId || `KEYBOARD ${keyboard.id}`}
+                                            dispatch={handleMidi}
+                                            keyboardId={keyboard.id}/>}
             {_.range(low, high+1).map(k => {
-                const shouldHighlight = k === hoverKey || k === dragStart
+                let highlightColor
+                if (k === hoverKey || k === dragStart || highlightKeys.includes(k)) {
+                    highlightColor = Colors.blue
+                } else if (lightHighlightKeys.includes(k)) {
+                    highlightColor = Colors.lightBlue
+                }
+
                 return <div key={k}
-                            style={styles.key(k, k === low, shouldHighlight)}
+                            style={styles.key(k, k === low, highlightColor)}
                             onMouseEnter={highlightHover ? () => setHoverKey(k) : undefined}
                             onMouseDown={onRangeDrag ? () => setDragStart(k) : undefined}
                             onClick={onKeyClick ? () => handleClick(k) : undefined}/>

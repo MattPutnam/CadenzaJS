@@ -4,7 +4,7 @@ import { Button, Select, NumberField } from './Components'
 import { Container, Flex } from './Layout'
 
 
-const Transpose = ({ object, setData, alt }) => {
+const Transpose = ({ object={}, setData, alt }) => {
     const { transpose } = object
 
     let amt = transpose || 0

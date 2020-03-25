@@ -92,3 +92,21 @@ export const groupIntoRows = patchUsages => {
 
     return rows
 }
+
+
+export const createSubKeyboard = (keyboard, range) => {
+    const { lowNote, highNote } = range
+    const [keyboardLow, keyboardHigh] = keyboard.range
+
+    const newLow = lowNote || keyboardLow
+    const newHigh = highNote || keyboardHigh
+
+    const dimensions = lowNote > keyboardLow ? getDimensions(keyboard.range, { highNote: lowNote-1 }) : { width: 0 }
+
+    return {
+        keyboard: {
+            range: [newLow, newHigh]
+        },
+        offsetLeft: dimensions.width - (isBlack(newLow) ? leftMargin(newLow) : 0)
+    }
+}
