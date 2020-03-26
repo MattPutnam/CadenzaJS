@@ -93,7 +93,7 @@ class ShowTab extends React.Component {
         }
 
         const buttons = [
-            { icon: FaFolderPlus, onClick: () => this.addSong() },
+            { icon: FaFolderPlus, disabled: _.isEmpty(data.setup.synthesizers), onClick: () => this.addSong() },
             { icon: FaPlus, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
         ]
 
@@ -160,7 +160,7 @@ class ShowTab extends React.Component {
                                deleteSelf={() => this.deleteSong()}
                                {...{ data, setData }}/>
         } else if (_.isEmpty(data.setup.synthesizers)) {
-            return <Placeholder>Warning: no synthesizers defined. Go to the Setup tab.</Placeholder>
+            return <Placeholder>No synthesizers defined. Go to the Setup tab.</Placeholder>
         } else {
             return <Placeholder>Select a song or cue to edit it</Placeholder>
         }
