@@ -1,68 +1,28 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Cadenza (JS version)
 
-## Available Scripts
+This project is a v2 of [the original](https://github.com/MattPutnam/Cadenza), completely redone in Electron+React.
 
-In the project directory, you can run:
+Cadenza is a live MIDI performance manager, designed specifically to handle the large number of patches (and quick patch changes) that most modern musicals call for. It is designed to minimize cost--the software is free to use, and it's designed to require as few outside purchases as possible. If you already have a laptop made this century and a keyboard with MIDI I/O, you're already almost there. If the keyboard has USB MIDI, you just need a USB cable, otherwise you need a MIDI interface (for example the Roland UM-ONE at around $40). If you have a keyboard with built-in sounds that can be selected via MIDI, Cadenza can use that. For more sounds, I recommend picking up a Roland JV-1080, which can be found on eBay for around $200. No MacBook Pro, no expensive VST libraries, no need for fancy keyboards or other equipment. This should handle most shows out there, if they don't have triggered samples or something else that has to be done in software.
 
-### `yarn start`
+Basically, this is a clone of Apple MainStage, aimed at controlling hardware and with the features that are commonly used in musicals.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Current status**: Pre-release. Mostly done with entering/editing the data. Zero output yet. Minimal hardware support.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Development
 
-### `yarn test`
+This project uses Yarn. Just run `yarn` to install all packages. Run `yarn electron-dev` to start it.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Easy ways you can contribute
 
-### `yarn build`
+* Plug in your USB-MIDI keyboard, and tell me what it shows up in the app as. I want to have a feature to auto-detect keyboards based on their MIDI ports.
+* Write synth config files for your hardware. Find the manual, look up the MIDI specification, and crib off one of the existing ones in `src/synthesizers`. Let me know if there's something that Cadenza doesn't support. Or just tell me what you'd like to use.
+* Contribute a better color scheme. I'm not much of a designer, so my colors are largely cribbed off of MainStage and other apps where I liked their colors. If you want to do this, yell at me to consolidate the colors into one file first.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### More advanced ways you can contribute
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+* Get webpack working with this project. I can't find the right incantation.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Features I'm not adding
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Software synthesis. If you need that, use MainStage. Maaaaaybe I'll do triggering individual sound effects.
+* Hardcore accessibility. I'm assuming that everyone using this plays keys for musicals, and thus they have good eyesight and dexterity. I *am* doing a little bit of accessibility, but that's only in service of a top-secret feature I'm working on...
