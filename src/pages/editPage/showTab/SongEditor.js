@@ -5,6 +5,7 @@ import { TextField, Button, Warning } from '../../../components/Components'
 import Icons from '../../../components/Icons'
 import { Container, Flex } from '../../../components/Layout'
 import Transpose from '../../../components/Transpose'
+import TriggerEditor from '../../../components/TriggerEditor'
 
 import { validateSongOrMeasureNumber, songCompare } from '../../../utils/SongAndMeasureNumber'
 
@@ -77,6 +78,7 @@ class SongEditor extends React.Component {
                     </Flex>
                 </Container>
                 <Transpose alt object={song} setData={setData}/>
+                <TriggerEditor object={song} data={data} setData={setData}/>
             </Container>
         )
     }

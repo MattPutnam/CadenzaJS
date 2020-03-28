@@ -34,6 +34,10 @@ const TriggerEditor = ({ object, data, setData }) => {
             actions: [{ type: ontology.actions.types[0] }]
         }
 
+        if (!object.triggers) {
+            object.triggers = []
+        }
+
         object.triggers.push(newTrigger)
         setData()
         setSelected(newTrigger)
