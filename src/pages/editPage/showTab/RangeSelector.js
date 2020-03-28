@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 
+import Icons from '../../../components/Icons'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
 
@@ -54,8 +54,8 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
     }
 
     const buttons = [
-        moreAbove && { icon: FaArrowUp, onClick: () => move(keyboardIndex-1) },
-        moreBelow && { icon: FaArrowDown, onClick: () => move(keyboardIndex+1)}
+        moreAbove && { icon: Icons.arrowUp, onClick: () => move(keyboardIndex-1) },
+        moreBelow && { icon: Icons.arrowDown, onClick: () => move(keyboardIndex+1)}
     ]
 
     return (

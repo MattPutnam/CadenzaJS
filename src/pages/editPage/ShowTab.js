@@ -1,12 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaCaretDown, FaCaretRight, FaFolderPlus, FaPlus } from 'react-icons/fa'
 
 import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
 
 import Colors from '../../components/colors'
 import { Placeholder, ButtonLike } from '../../components/Components'
+import Icons, { icon } from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
 
 import { cueCompare, songCompare, generateNext } from '../../utils/SongAndMeasureNumber'
@@ -93,8 +93,8 @@ class ShowTab extends React.Component {
         }
 
         const buttons = [
-            { icon: FaFolderPlus, disabled: _.isEmpty(data.setup.synthesizers), onClick: () => this.addSong() },
-            { icon: FaPlus, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
+            { icon: Icons.addSong, disabled: _.isEmpty(data.setup.synthesizers), onClick: () => this.addSong() },
+            { icon: Icons.add, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
         ]
 
         return (
@@ -116,7 +116,7 @@ class ShowTab extends React.Component {
                                       style={styles.song(songSelected)}
                                       onKeyDown={keyCollapse(number)}
                                       onClick={() => this.setState({ selectedSong: song, selectedCue: undefined })}>
-                                    {collapsed ? <FaCaretRight {...caretProps}/> : <FaCaretDown {...caretProps}/>}
+                                    {collapsed ? icon(Icons.collapsed, caretProps) : icon(Icons.expanded, caretProps)}
                                     <span style={styles.songTitle}>
                                         {number}: {name}
                                     </span>

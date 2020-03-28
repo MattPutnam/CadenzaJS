@@ -1,12 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
 
 import ExpansionConfig from './ExpansionConfig'
 import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
+import Icons from '../../../components/Icons'
 import { Container, Flex } from '../../../components/Layout'
 
 
@@ -21,9 +21,9 @@ const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data
     const inUse = _.some(data.patches, { synthesizerId: synth.id })
 
     const buttons = [
-        moveUp && { icon: FaArrowUp, onClick: moveUp },
-        moveDown && { icon: FaArrowDown, onClick: moveDown },
-        { icon: FaTrash, disabled: inUse, onClick: deleteSelf }
+        moveUp && { icon: Icons.arrowUp, onClick: moveUp },
+        moveDown && { icon: Icons.arrowDown, onClick: moveDown },
+        { icon: Icons.delete, disabled: inUse, onClick: deleteSelf }
     ]
 
     const synthStyle = {

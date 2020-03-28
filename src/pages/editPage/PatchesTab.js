@@ -1,12 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaPlus, FaSortAlphaDown, FaTrash } from 'react-icons/fa'
 
 import PatchNamer from './patchesTab/PatchNamer'
 import Volume from './patchesTab/Volume'
 
 import Colors from '../../components/colors'
 import { Placeholder } from '../../components/Components'
+import Icons from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
 import PatchPicker from '../../components/PatchPicker'
 import Transpose from '../../components/Transpose'
@@ -45,8 +45,8 @@ class PatchesTab extends React.Component {
         const { selectedPatchId } = this.state
 
         const buttons = [
-            { icon: FaSortAlphaDown, disabled: _.isEmpty(patches), onClick: () => this.sortPatches() },
-            { icon: FaPlus, disabled: _.isEmpty(synthesizers), onClick: () => this.addPatch() }
+            { icon: Icons.sortDown, disabled: _.isEmpty(patches), onClick: () => this.sortPatches() },
+            { icon: Icons.add, disabled: _.isEmpty(synthesizers), onClick: () => this.addPatch() }
         ]
 
         const styles = {
@@ -116,7 +116,7 @@ class PatchesTab extends React.Component {
                 setData()
             }
 
-            const buttons = [{ icon: FaTrash, onClick: () => this.deleteSelectedPatch(), disabled }]
+            const buttons = [{ icon: Icons.delete, onClick: () => this.deleteSelectedPatch(), disabled }]
 
             return (
                 <Container key={selectedPatchId} header='Edit' buttons={buttons}>

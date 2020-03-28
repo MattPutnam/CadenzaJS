@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaTrash } from 'react-icons/fa'
 
 import { TextField, Button, Warning } from '../../../components/Components'
+import Icons from '../../../components/Icons'
 import { Container, Flex } from '../../../components/Layout'
 import Transpose from '../../../components/Transpose'
 
@@ -59,9 +59,7 @@ class SongEditor extends React.Component {
             {modified && !error && <Button onClick={() => this.save()}>Save</Button>}
         </>
 
-        const buttons = [
-            { icon: FaTrash, onClick: deleteSelf }
-        ]
+        const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
         return (
             <Container header='Edit song' postHeader={postHeader} buttons={buttons}>

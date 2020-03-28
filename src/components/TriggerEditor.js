@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaPlus, FaTrash } from 'react-icons/fa'
 
 import { Placeholder, Select } from './Components'
+import Icons from './Icons'
 import { Center, Container, Flex } from './Layout'
 import List from './List'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
@@ -44,7 +44,7 @@ const TriggerEditor = ({ object, data, setData }) => {
         setData()
     }
 
-    const buttons = [{ icon: FaPlus, onClick: addTrigger }]
+    const buttons = [{ icon: Icons.add, onClick: addTrigger }]
 
     return <Container alt collapse startCollapsed={noTriggers} header='Triggers' buttons={buttons}>
         {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
@@ -92,7 +92,7 @@ const Editor = ({ trigger, deleteSelf, data, setData }) => {
         }
     }
 
-    const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
+    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
     return (
         <div style={styles.container}>
@@ -143,7 +143,7 @@ const Inputs = ({ trigger, data, setData }) => {
         setData()
     }
 
-    const buttons = [{ icon: FaPlus, onClick: addInput }]
+    const buttons = [{ icon: Icons.add, onClick: addInput }]
 
     return (
         <Container alt header='Inputs' buttons={buttons}>
@@ -161,7 +161,7 @@ const Input = ({ input, deleteSelf, data, setData }) => {
         setData()
     }
 
-    const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
+    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
     const styles = {
         container: {
@@ -232,7 +232,7 @@ const Actions = ({ trigger, setData }) => {
         setData()
     }
 
-    const buttons = [{ icon: FaPlus, onClick: addAction }]
+    const buttons = [{ icon: Icons.add, onClick: addAction }]
 
     return (
         <Container alt header='Actions' buttons={buttons}>
@@ -250,7 +250,7 @@ const Action = ({ action, deleteSelf, setData }) => {
         setData()
     }
 
-    const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
+    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
     const styles = {
         container: {

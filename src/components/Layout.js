@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 
-import { Button } from './Components'
+import { Button, ButtonLike } from './Components'
+import Icons, { icon } from './Icons'
 
 
 export const Container = ({ header, postHeader, buttons, alt, collapse, startCollapsed, flex, style, children, ...props }) => {
@@ -27,6 +27,7 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, startCol
             borderTop: hasHeader ? '1px solid black' : undefined
         }),
         caret: {
+            width: 'unset',
             alignSelf: 'center',
             cursor: 'pointer',
             marginRight: '0.5rem'
@@ -44,8 +45,8 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, startCol
     return (
         <Flex element='section' column align='stretch' style={_.merge(styles.container, style)} {...props}>
             {hasHeader && <Flex pad>
-                {collapse && collapsed && <FaCaretRight style={styles.caret} onClick={() => setCollapsed(false)}/>}
-                {collapse && !collapsed && <FaCaretDown style={styles.caret} onClick={() => setCollapsed(true)}/>}
+                {collapse && collapsed && <ButtonLike style={styles.caret} onClick={() => setCollapsed(false)}>{icon(Icons.collapsed)}</ButtonLike>}
+                {collapse && !collapsed && <ButtonLike style={styles.caret} onClick={() => setCollapsed(true)}>{icon(Icons.expanded)}</ButtonLike>}
                 {resolvedTitle}
                 {postHeader}
                 {buttons && !collapsed && <>

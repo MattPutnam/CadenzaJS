@@ -1,11 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaTrash } from 'react-icons/fa'
 
 import CueLocationEditor from './CueLocationEditor'
 import PatchUsageDisplay from './PatchUsageDisplay'
 import PatchUsageEditor from './PatchUsageEditor'
 
+import Icons from '../../../components/Icons'
 import { Container } from '../../../components/Layout'
 import TriggerEditor from '../../../components/TriggerEditor'
 
@@ -19,7 +19,7 @@ const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
         setSelectedPatchUsage(undefined)
     }
 
-    const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
+    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
     return (
         <Container header='Edit Cue' buttons={buttons}>

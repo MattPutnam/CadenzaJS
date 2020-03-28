@@ -1,12 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaTrash } from 'react-icons/fa'
 
 import GhostNotesEditor from './GhostNotesEditor'
 import NormalEditor from './NormalEditor'
 import PatchSelector from './PatchSelector'
 import RangeSelector from './RangeSelector'
 
+import Icons from '../../../components/Icons'
 import { Container } from '../../../components/Layout'
 import { Tab, TabList, TabPanel, Tabs } from '../../../components/Tabs'
 
@@ -25,7 +25,7 @@ class PatchUsageEditor extends React.Component {
     render() {
         const { patchUsage, data, setData, deleteSelf, cue } = this.props
 
-        const buttons = [{ icon: FaTrash, onClick: deleteSelf }]
+        const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
         const initial = typeToIndex[patchUsage.attributes.type]
         const onTabSelected = index => {

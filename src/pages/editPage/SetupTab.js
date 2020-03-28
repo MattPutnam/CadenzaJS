@@ -1,6 +1,5 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaPlus } from 'react-icons/fa'
 
 import ActionPedalConfig from './setupTab/ActionPedalConfig'
 import { MidiInterfacePlaceholder } from './setupTab/InterfaceSelector'
@@ -8,6 +7,7 @@ import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import { Placeholder } from '../../components/Components'
+import Icons from '../../components/Icons'
 import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
@@ -35,8 +35,8 @@ class SetupTab extends React.Component {
             setData()
         }
 
-        const keyboardButtons = [{ icon: FaPlus, onClick: () => this.addKeyboard() }]
-        const synthButtons = [{ icon: FaPlus, onClick: () => this.addSynthesizer() }]
+        const keyboardButtons = [{ icon: Icons.add, onClick: () => this.addKeyboard() }]
+        const synthButtons = [{ icon: Icons.add, onClick: () => this.addSynthesizer() }]
 
         return <>
             <Container collapse header='Keyboards' buttons={keyboardButtons}>

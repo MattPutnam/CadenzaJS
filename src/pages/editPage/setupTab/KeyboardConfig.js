@@ -1,11 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaArrowUp, FaArrowDown, FaTrash } from 'react-icons/fa'
 
 import ChannelSelector from './ChannelSelector'
 import InterfaceSelector from './InterfaceSelector'
 import KeyboardSizeSelector from './KeyboardSizeSelector'
 
+import Icons from '../../../components/Icons'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container } from '../../../components/Layout'
 
@@ -29,9 +29,9 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
     })
 
     const buttons = [
-        moveUp && { icon: FaArrowUp, onClick: moveUp },
-        moveDown && { icon: FaArrowDown, onClick: moveDown },
-        { icon: FaTrash, disabled: deleteDisabled, onClick: deleteSelf }
+        moveUp && { icon: Icons.arrowUp, onClick: moveUp },
+        moveDown && { icon: Icons.arrowDown, onClick: moveDown },
+        { icon: Icons.delete, disabled: deleteDisabled, onClick: deleteSelf }
     ]
 
     return (

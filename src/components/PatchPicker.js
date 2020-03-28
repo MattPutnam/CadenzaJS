@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { FaCaretRight } from 'react-icons/fa'
 
 import Colors from './colors'
+import Icons, { icon } from './Icons'
 import { Container, Flex, Spacer } from './Layout'
 
 
@@ -91,7 +91,7 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
                         {render(option)}
                         {!terminal && <>
                             <Spacer/>
-                            <FaCaretRight align='center'/>
+                            {icon(Icons.treeSeparator, { align: 'center' })}
                         </>}
                     </Flex>
                 )
@@ -127,7 +127,7 @@ const SearchSection = ({ allPatches, selectedPatch, setSelectedPatch, alt }) => 
         }
     }
 
-    const arrowColumn = <td><FaCaretRight/></td>
+    const arrowColumn = <td>{icon(Icons.treeSeparator)}</td>
 
     const searchField = <input type='search'
                                style={styles.searchField}
