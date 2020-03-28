@@ -4,10 +4,10 @@ import _ from 'lodash'
 import PatchNamer from './patchesTab/PatchNamer'
 import Volume from './patchesTab/Volume'
 
-import Colors from '../../components/colors'
 import { Placeholder } from '../../components/Components'
 import Icons from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
+import List from '../../components/List'
 import PatchPicker from '../../components/PatchPicker'
 import Transpose from '../../components/Transpose'
 
@@ -49,36 +49,13 @@ class PatchesTab extends React.Component {
             { icon: Icons.add, disabled: _.isEmpty(synthesizers), onClick: () => this.addPatch() }
         ]
 
-        const styles = {
-            list: {
-                alignSelf: 'stretch',
-                overflowY: 'auto'
-            },
-            patch: selected => ({
-                padding: '0.5rem',
-                alignSelf: 'stretch',
-                fontWeight: selected ? 'bold' : undefined,
-                backgroundColor: selected ? Colors.blue : undefined,
-                borderBottom: '1px solid black',
-                cursor: 'pointer'
-            })
-        }
-
         return (
             <Container header='Patches' flex='0 0 200px' buttons={buttons}>
-                <div style={styles.list}>
-                    {patches.map(patch => {
-                        const { name, id } = patch
-                        const selected = selectedPatchId === id
-                        return (
-                            <div key={id}
-                                 style={styles.patch(selected)}
-                                 onClick={() => this.setState({ selectedPatchId: id })}>
-                                {name || '<Untitled>'}
-                            </div>
-                        )
-                    })}
-                </div>
+                <List items={patches}
+                      render={p => p.name || '<Untitled>'}
+                      selectionRender={p => p.id}
+                      selected={selectedPatchId}
+                      setSelected={id => this.setState({ selectedPatchId: id })}/>
             </Container>
         )
     }
@@ -113,6 +90,12 @@ class PatchesTab extends React.Component {
                 selectedPatch.synthesizerId = _.find(synthesizers, { name: selectedSynthName }).id
                 selectedPatch.bank = selectedBankName
                 selectedPatch.number = selectedNumber
+
+                if (_.isEmpty(selectedPatch.name)) {
+                    const patch = _.find(allPatches, _.pick(selectedPatch, ['synthesizerId', 'bank', 'number']))
+                    selectedPatch.name = patch.name
+                }
+
                 setData()
             }
 
