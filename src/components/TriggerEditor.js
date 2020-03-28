@@ -17,7 +17,7 @@ const ontology = {
         types: ['keyPress']
     },
     actions: {
-        types: ['cueAdvance']
+        types: ['cueAdvance', 'cueReverse']
     }
 }
 
@@ -79,6 +79,7 @@ const summarizeAction = action => {
 
     switch(type) {
         case 'cueAdvance': return 'Advance'
+        case 'cueReverse': return 'Reverse'
         default: throw new Error(`Unknown trigger action type: ${type}`)
     }
 }
@@ -265,9 +266,13 @@ const Action = ({ action, deleteSelf, setData }) => {
                 <Tabs initial={initial} onTabSelected={onTabSelected}>
                     <TabList>
                         <Tab>Cue Advance</Tab>
+                        <Tab>Cue Reverse</Tab>
                     </TabList>
                     <TabPanel>
                         <Placeholder>Advance to the next cue</Placeholder>
+                    </TabPanel>
+                    <TabPanel>
+                        <Placeholder>Go back to the previous cue</Placeholder>
                     </TabPanel>
                 </Tabs>
             </Container>

@@ -59,6 +59,12 @@ class KeyboardSizeSelector extends React.Component {
         </>
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.keyboard.range !== this.props.keyboard.range) {
+            this.setState({ selectedValue: this.props.keyboard.range, stage: undefined, leftNote: undefined })
+        }
+    }
+
     handleChange(selection) {
         const { keyboard, setData } = this.props
 
