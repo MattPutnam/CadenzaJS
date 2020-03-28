@@ -5,8 +5,8 @@ import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 import { Button } from './Components'
 
 
-export const Container = ({ header, postHeader, buttons, alt, collapse, flex, style, children, ...props }) => {
-    const [collapsed, setCollapsed] = React.useState(false)
+export const Container = ({ header, postHeader, buttons, alt, collapse, startCollapsed, flex, style, children, ...props }) => {
+    const [collapsed, setCollapsed] = React.useState(!!startCollapsed)
 
     const styles = {
         container: {

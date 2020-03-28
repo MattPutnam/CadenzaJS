@@ -100,7 +100,7 @@ export const parseMidiMessage = (rawMsg, keyboardData) => {
 
 const noteList = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
-const midiNoteNumberToName = (midiNumber) => {
+export const midiNoteNumberToName = (midiNumber) => {
     const octave = Math.floor(midiNumber / 12) - 1
     const noteIndex = midiNumber % 12
     return noteList[noteIndex] + octave

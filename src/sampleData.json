@@ -104,6 +104,23 @@
                                     "type": "normal"
                                 }
                             }
+                        ],
+                        "triggers": [
+                            {
+                                "inputs": [
+                                    {
+                                        "type": "keyPress",
+                                        "key": 60,
+                                        "keyboardId": 0
+                                    }
+                                ],
+                                "type": "any of",
+                                "actions": [
+                                    {
+                                        "type": "cueAdvance"
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {

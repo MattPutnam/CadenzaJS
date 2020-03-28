@@ -95,7 +95,8 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     const style = {
         justifyContent: 'center',
         height: height,
-        width: width
+        width: width,
+        padding: '1rem'
     }
 
     return <Flex align='center' style={style}>{children}</Flex>

@@ -7,6 +7,7 @@ import PatchUsageDisplay from './PatchUsageDisplay'
 import PatchUsageEditor from './PatchUsageEditor'
 
 import { Container } from '../../../components/Layout'
+import TriggerEditor from '../../../components/TriggerEditor'
 
 
 const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
@@ -27,6 +28,7 @@ const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
             {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}
                                                      deleteSelf={deleteSelectedPatchUsage}
                                                      {...{ cue, data, setData }}/>}
+            <TriggerEditor object={cue} {...{ data, setData }}/>
         </Container>
     )
 }

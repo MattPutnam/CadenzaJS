@@ -25,13 +25,13 @@ const Keyboard = ({
     }, [])
 
     const handleClick = (k) => {
-        onKeyClick(k)
+        onKeyClick(k, keyboard.id)
         setDragStart(undefined)
     }
 
     const handleRangeDrag = () => {
         if (dragStart && dragStart !== hoverKey) {
-            onRangeDrag([dragStart, hoverKey].sort((a, b) => a - b))
+            onRangeDrag([dragStart, hoverKey].sort((a, b) => a - b), keyboard.id)
             setDragStart(undefined)
         }
     }
