@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Colors from '../../../components/colors'
+import Colors from '../../../components/Colors'
 import { ButtonLike, Placeholder } from '../../../components/Components'
 import Keyboard from '../../../components/Keyboard'
 import { Center, Container, Flex } from '../../../components/Layout'
@@ -77,7 +77,7 @@ const PatchUsageRow = ({ patchUsageRow, keyboard, data, selectedPatchUsage, setS
                 padding: '0.25rem 1px',
                 border: '1px solid black',
                 textAlign: 'center',
-                backgroundColor: selected ? Colors.blue : 'white',
+                backgroundColor: selected ? Colors.blue[2] : 'white',
                 color: selected ? 'white' : 'black',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',

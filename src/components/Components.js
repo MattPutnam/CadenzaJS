@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 
-import Colors from './colors'
+import Colors from './Colors'
 import { Flex } from './Layout'
 
 
@@ -10,16 +10,17 @@ export const Button = ({ large, disabled, onClick, style, children }) => {
     const myStyle = {
         margin: '-0.5rem 0 -0.5rem 0.5rem',
         padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',
-        color: disabled ? 'gray' : 'white',
-        backgroundColor: disabled ? '#484848' : Colors.blue,
+        color: disabled ? Colors.gray[4] : 'white',
+        backgroundColor: disabled ? Colors.gray[2] : Colors.blue[2],
         fontSize: 'unset',
-        border: `1px solid ${disabled ? '#484848' : '#1A3552'}`,
+        border: `1px solid ${disabled ? Colors.gray[2] : Colors.blue[1]}`,
         borderRadius: 3,
-        cursor: disabled ? undefined : 'pointer'
+        cursor: disabled ? undefined : 'pointer',
+        ...style
     }
 
     return (
-        <button disabled={disabled} style={_.merge(myStyle, style)} onClick={onClick}>
+        <button disabled={disabled} style={myStyle} onClick={onClick}>
             {children}
         </button>
     )
@@ -71,7 +72,7 @@ export const Message = ({ children, error }) => {
     const style = {
         margin: '0 0.5rem',
         padding: '0.5rem 0.75rem',
-        backgroundColor: error ? '#D93025' : '#8F8F8F',
+        backgroundColor: error ? Colors.red[0] : Colors.gray[4],
         border: '1px solid black',
         borderRadius: 3
     }
@@ -132,9 +133,9 @@ export const TextField = React.forwardRef(({ value, setValue, size, label, style
 
 export const Warning = ({ children }) => {
     const style = {
-        color: '#F5BE02',
-        backgroundColor: '#FFFCE5',
-        border: '1px solid #F5BE02',
+        color: Colors.yellow[0],
+        backgroundColor: Colors.yellow[1],
+        border: `1px solid ${Colors.yellow[0]}`,
         borderRadius: 3,
         padding: '2px 0.5rem',
         margin: '-0.5rem 0.5rem'

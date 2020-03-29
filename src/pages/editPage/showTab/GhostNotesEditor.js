@@ -70,7 +70,7 @@ const GhostNotesEditor = ({ patchUsage, data, setData }) => {
                           highlightMidi={false}
                           highlightKeys={highlightKeys}
                           onKeyClick={updateMapping}/>
-                <Checkbox label='Pass through non-mapped notes' checked={passthrough} onChange={setPassthrough}/>
+                <Checkbox label='Pass through non-mapped notes' checked={!!passthrough} onChange={setPassthrough}/>
             </Flex>
         </Center>
     )

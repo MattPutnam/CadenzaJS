@@ -4,7 +4,7 @@ import _ from 'lodash'
 import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
 
-import Colors from '../../components/colors'
+import Colors from '../../components/Colors'
 import { Placeholder, ButtonLike } from '../../components/Components'
 import Icons, { icon } from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
@@ -52,7 +52,7 @@ class ShowTab extends React.Component {
                 alignSelf: 'stretch',
                 margin: '3px 0',
                 fontWeight: selected ? 'bold' : undefined,
-                backgroundColor: selected ? Colors.blue : Colors.darkGray,
+                backgroundColor: selected ? Colors.blue[2] : Colors.gray[1],
                 cursor: 'pointer'
             }),
             songCaret: {
@@ -69,7 +69,7 @@ class ShowTab extends React.Component {
                 alignSelf: 'stretch',
                 margin: '3px 0',
                 fontWeight: selected ? 'bold' : undefined,
-                backgroundColor: selected ? Colors.blue : undefined,
+                backgroundColor: selected ? Colors.blue[2] : undefined,
                 paddingLeft: '0.5rem',
                 cursor: 'pointer'
             })

@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Colors from './colors'
+import Colors from './Colors'
 import { ButtonLike } from './Components'
 
 
@@ -14,7 +14,7 @@ const List = ({ items=[], render, selectionRender=_.identity, selected, setSelec
         item: selected => ({
             alignSelf: 'stretch',
             margin: '3px 0',
-            backgroundColor: selected ? Colors.blue : undefined,
+            backgroundColor: selected ? Colors.blue[2] : undefined,
             paddingLeft: '0.5rem',
             cursor: 'pointer'
         })

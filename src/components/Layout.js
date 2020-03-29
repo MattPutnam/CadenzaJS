@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
+import Colors from './Colors'
 import { Button, ButtonLike } from './Components'
 import Icons, { icon } from './Icons'
 
@@ -12,7 +13,7 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, startCol
         container: {
             flex: collapsed ? 'none' : flex ? flex : '1 1 auto',
             alignSelf: 'stretch',
-            backgroundColor: alt ? '#616161' : '#484848',
+            backgroundColor: alt ? Colors.gray[3] : Colors.gray[2],
             border: '1px solid black',
             borderRadius: 3,
             overflow: 'hidden'
@@ -33,8 +34,8 @@ export const Container = ({ header, postHeader, buttons, alt, collapse, startCol
             marginRight: '0.5rem'
         },
         button: {
-            backgroundColor: '#3a3a3a',
-            border: '1px solid #2e2e2e',
+            backgroundColor: Colors.gray[1],
+            border: `1px solid ${Colors.gray[0]}`,
             margin: '-0.5rem 0 -0.5rem 0.5rem'
         }
     }

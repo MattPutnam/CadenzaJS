@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Colors from './colors'
+import Colors from './Colors'
 import Icons, { icon } from './Icons'
 import { Container, Flex, Spacer } from './Layout'
 
@@ -67,7 +67,7 @@ const Selection = ({ options, selected, onChange, selectionTransform=(x => x.nam
             cursor: 'pointer',
             fontWeight: 500,
             padding: '0 0.5rem',
-            backgroundColor: isSelected ? Colors.blue : undefined
+            backgroundColor: isSelected ? Colors.blue[2] : undefined
         })
     }
 
@@ -117,7 +117,7 @@ const SearchSection = ({ allPatches, selectedPatch, setSelectedPatch, alt }) => 
         },
         tr: selected => ({
             cursor: 'pointer',
-            backgroundColor: selected ? Colors.blue : undefined
+            backgroundColor: selected ? Colors.blue[2] : undefined
         }),
         nameColumn: {
             width: '99%'

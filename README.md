@@ -16,7 +16,7 @@ This project uses Yarn. Just run `yarn` to install all packages. Run `yarn elect
 
 * Plug in your USB-MIDI keyboard, and tell me what it shows up in the app as. I want to have a feature to auto-detect keyboards based on their MIDI ports.
 * Write synth config files for your hardware. Find the manual, look up the MIDI specification, and crib off one of the existing ones in `src/synthesizers`. Let me know if there's something that Cadenza doesn't support. Or just tell me what you'd like to use.
-* Contribute a better color scheme. I'm not much of a designer, so my colors are largely cribbed off of MainStage and other apps where I liked their colors. If you want to do this, yell at me to consolidate the colors into one file first.
+* Contribute a better color scheme. I'm not much of a designer, so my colors are largely cribbed off of MainStage and other apps where I liked their colors.
 
 ### More advanced ways you can contribute
 

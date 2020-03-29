@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Colors from './Colors'
 import MidiListener from './MidiListener'
 
 import * as Midi from '../utils/Midi'
@@ -11,8 +12,8 @@ const MidiMonitor = () => {
             width: '120px',
             textAlign: 'center',
             padding: 4,
-            backgroundColor: '#1B1E2D',
-            color: '#859BB3',
+            backgroundColor: Colors.blue[0],
+            color: Colors.blue[3],
             borderRadius: 3
         },
         label: {
@@ -39,7 +40,7 @@ const MidiMonitor = () => {
             <div style={styles.label}>MIDI In</div>
             <div style={styles.midiInterface}>{message ? message.midiInterfaceName : '--'}</div>
             <div style={styles.message}>{message ? Midi.toString(message) : '--'}</div>
-            <MidiListener id='###MONITOR###' dispatch={setMessage}/>
+            <MidiListener id='MONITOR' dispatch={setMessage}/>
         </div>
     )
 }

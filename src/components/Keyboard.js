@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Colors from './colors'
+import Colors from './Colors'
 import MidiListener from './MidiListener'
 
 import * as KeyboardUtils from '../utils/KeyboardUtils'
@@ -91,9 +91,9 @@ const Keyboard = ({
             {_.range(low, high+1).map(k => {
                 let highlightColor
                 if (k === hoverKey || k === dragStart || highlightKeys.includes(k)) {
-                    highlightColor = Colors.blue
-                } else if (lightHighlightKeys.includes(k)) {
-                    highlightColor = Colors.lightBlue
+                    highlightColor = Colors.blue[2]
+                } else if (pressedNotes.has(k) || lightHighlightKeys.includes(k)) {
+                    highlightColor = Colors.blue[3]
                 }
 
                 return <div key={k}

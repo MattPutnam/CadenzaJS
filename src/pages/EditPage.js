@@ -4,6 +4,7 @@ import PatchesTab from './editPage/PatchesTab'
 import SetupTab from './editPage/SetupTab'
 import ShowTab from './editPage/ShowTab'
 
+import Colors from '../components/Colors'
 import { Flex } from '../components/Layout'
 import NavBar from '../components/NavBar'
 
@@ -13,7 +14,7 @@ const EditPage = ({ perform, midiInterfaces, data, setData }) => {
 
     const styles = {
         page: {
-            backgroundColor: '#8F8F8F',
+            backgroundColor: Colors.gray[4],
             height: '100vh'
         }
     }

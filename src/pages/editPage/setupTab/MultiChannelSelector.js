@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Button, Label } from '../../../components/Components'
-import Colors from '../../../components/colors'
+import Colors from '../../../components/Colors'
 
 
 const MultiChannelSelector = ({ synth, setData }) => {
@@ -11,7 +11,7 @@ const MultiChannelSelector = ({ synth, setData }) => {
             display: 'inline-block',
             padding: '0.25rem',
             border: '1px solid black',
-            backgroundColor: selected ? Colors.blue : undefined,
+            backgroundColor: selected ? Colors.blue[2] : undefined,
             color: selected ? 'white' : undefined,
             cursor: 'pointer',
             width: 28,

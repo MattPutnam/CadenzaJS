@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import Colors from './colors'
+import Colors from './Colors'
 import { ButtonLike } from './Components'
 import { Flex } from './Layout'
 
@@ -50,7 +50,7 @@ export const Tab = ({ selected, onSelect, children }) => {
     const style = selected => ({
         flex: '0 0 150px',
         padding: '0.5rem 0.75rem',
-        backgroundColor: selected ? Colors.blue : undefined,
+        backgroundColor: selected ? Colors.blue[2] : undefined,
         cursor: 'pointer',
         borderRight: '1px solid black'
     })
