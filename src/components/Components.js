@@ -102,7 +102,7 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     return <Flex align='center' style={style}>{children}</Flex>
 }
 
-export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=(x => x), render=(x => x), label }, ref) => {
+export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=_.identity, render=_.identity, label }, ref) => {
     let id
     if (label) {
         id = uuid()
