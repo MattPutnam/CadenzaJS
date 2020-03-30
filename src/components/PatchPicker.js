@@ -8,6 +8,9 @@ import { Container, Flex, Spacer } from './Layout'
 
 const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchSelected, style }) => {
     const [selection, setSelection] = React.useState(initialSelection)
+    React.useEffect(() => {
+        setSelection(initialSelection)
+    }, [initialSelection])
 
     const [selectedSynthName, selectedBankName, selectedNumber] = selection
     const resolvedSynth = _.find(synthTree, { name: selectedSynthName })
