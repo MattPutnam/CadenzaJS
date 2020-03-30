@@ -57,7 +57,7 @@ class PatchSelector extends React.Component {
     setPatch(newId) {
         const { patchUsage, setData } = this.props
         patchUsage.patchId = newId
-        setData()
+        setData('change patch assignment patch')
     }
 
     createNew() {

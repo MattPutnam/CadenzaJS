@@ -4,19 +4,21 @@ import _ from 'lodash'
 import { Button, Select, TextField, Warning } from '../../../components/Components'
 import { Container, Flex } from '../../../components/Layout'
 
-import { cueCompare, validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
+import { validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
 
 
 class CueLocationEditor extends React.Component {
     constructor(props) {
         super(props)
 
-        const { song, cue } = this.props
+        const { cueId, data } = props
+        const { cues } = data.show
+        const cue = _.find(cues, { id: cueId })
 
         this.state = {
             modified: false,
             error: undefined,
-            selectedSong: song,
+            selectedSongId: cue.songId,
             cueMeasure: cue.measure,
         }
 
@@ -24,22 +26,14 @@ class CueLocationEditor extends React.Component {
     }
 
     render() {
-        const { song, cue, data } = this.props
-        const { songs } = data.show
-        const { selectedSong, cueMeasure, modified, error } = this.state
+        const { cueId, data } = this.props
+        const { songs, cues } = data.show
+        const { selectedSongId, cueMeasure, modified, error } = this.state
 
-        const sameSongAndMeasureAsUnedited = selectedSong === song && cueMeasure === cue.measure
-        const conflict = !sameSongAndMeasureAsUnedited && _.some(selectedSong.cues, c => c.measure.toLowerCase() === cueMeasure)
+        const cue = _.find(cues, { id: cueId })
 
-        const songToString = song => `${song.number}. ${song.name}`
-        const songFromString = str => {
-            const number = str.substring(0, str.indexOf('.'))
-            return _.find(songs, { number })
-        }
-
-        const setSong = newSong => {
-            this.setState({ selectedSong: songFromString(newSong), modified: true })
-        }
+        const sameSongAndMeasureAsUnedited = selectedSongId === cue.songId && cueMeasure === cue.measure
+        const conflict = !sameSongAndMeasureAsUnedited && _.some(cues, c => c.songId === selectedSongId && c.measure === cueMeasure)
 
         const setCueMeasure = newMeasure => {
             const trimmed = newMeasure.trim()
@@ -52,9 +46,11 @@ class CueLocationEditor extends React.Component {
                 <Flex pad>
                     <Select ref={this.ref}
                             label='Song:'
-                            options={songs.map(songToString)}
-                            selected={songToString(selectedSong)}
-                            setSelected={setSong}/>
+                            options={songs}
+                            render={song => `${song.number}. ${song.name}`}
+                            valueRender={song => song.id}
+                            selected={selectedSongId}
+                            setSelected={id => this.setState({ selectedSongId: parseInt(id), modified: true })}/>
                     <TextField label='Measure:'
                                size={6}
                                value={cueMeasure}
@@ -73,19 +69,14 @@ class CueLocationEditor extends React.Component {
     }
 
     save() {
-        const { song, cue, setData, setParentSong } = this.props
-        const { selectedSong, cueMeasure } = this.state
+        const { cueId, data, setData } = this.props
+        const { cues } = data.show
+        const { selectedSongId, cueMeasure } = this.state
 
+        const cue = _.find(cues, { id: cueId })
+        cue.songId = selectedSongId
         cue.measure = cueMeasure
-        if (selectedSong !== song) {
-            _.remove(song.cues, { measure: cue.measure })
-            selectedSong.cues.push(cue)
-            selectedSong.cues.sort(cueCompare)
-            setParentSong(selectedSong)
-        } else {
-            song.cues.sort(cueCompare)
-        }
-        setData()
+        setData('change cue location')
 
         this.setState({ modified: false })
     }

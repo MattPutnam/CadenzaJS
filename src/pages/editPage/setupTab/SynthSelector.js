@@ -7,7 +7,7 @@ const SynthSelector = ({ synth, setData }) => {
     const onChange = selection => {
         synth.name = selection
         synth.expansionCards = {}
-        setData()
+        setData('change synthesizer')
     }
 
     return (

@@ -21,7 +21,7 @@ const Transpose = ({ object={}, setData, alt }) => {
         } else {
             object.transpose = value
         }
-        setData()
+        setData('transpose', object)
     }
 
     const setOctaves = newOctaves => {
@@ -37,13 +37,17 @@ const Transpose = ({ object={}, setData, alt }) => {
     }
 
     return (
-        <Container alt={alt} flex='none' header='Transposition'>
+        <Container key={transpose} alt={alt} flex='none' header='Transposition'>
             <Flex pad>
                 {/* max of 10 just to make the fields the same size */}
                 <NumberField label='Transpose' value={octaves} max={10} setValue={setOctaves}/>
                 <NumberField label='octaves plus' value={steps} max={11} setValue={setSteps}/>
-                <Select label='half steps' options={['Up', 'Down']} selected={down ? 'Down' : 'Up'} setSelected={() => setValue(-amt)}/>
-                <Button onClick={clear}>Clear</Button>
+                <Select label='half steps'
+                        disabled={!transpose}
+                        options={['Up', 'Down']}
+                        selected={down ? 'Down' : 'Up'}
+                        setSelected={() => setValue(-amt)}/>
+                <Button disabled={!transpose} onClick={clear}>Clear</Button>
             </Flex>
         </Container>
     )

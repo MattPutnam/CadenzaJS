@@ -24,7 +24,7 @@ class SetupTab extends React.Component {
             const prev = obj[index-1]
             obj[index-1] = elem
             obj[index] = prev
-            setData()
+            setData(`move ${key === 'keyboards' ? 'keyboard' : 'synthesizer'} up`)
         }
         const moveDown = (key, index) => () => {
             const obj = data.setup[key]
@@ -32,7 +32,7 @@ class SetupTab extends React.Component {
             const next = obj[index+1]
             obj[index+1] = elem
             obj[index] = next
-            setData()
+            setData(`move ${key === 'keyboards' ? 'keyboard' : 'synthesizer'} down`)
         }
 
         const keyboardButtons = [{ icon: Icons.add, onClick: () => this.addKeyboard() }]
@@ -77,7 +77,7 @@ class SetupTab extends React.Component {
             range: [21, 108],
             channel
         })
-        setData()
+        setData('add keyboard')
     }
 
     addSynthesizer() {
@@ -91,13 +91,13 @@ class SetupTab extends React.Component {
             expansionCards: {},
             channels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         })
-        setData()
+        setData('add synthesizer')
     }
 
     deleteItem(key, index) {
         const { data, setData } = this.props
         data.setup[key].splice(index, 1)
-        setData()
+        setData(`delete ${key === 'keyboards' ? 'keyboard' : 'synthesizer'}`)
     }
 
     handleMidi(parsedMessage) {

@@ -32,7 +32,7 @@ const ExpansionSelector = ({ synth, expansionSlot, data, setData }) => {
     const value = synth.expansionCards[expansionSlot.name]
     const onChange = selection => {
         synth.expansionCards[expansionSlot.name] = selection
-        setData()
+        setData('configure synthesizer expansions')
     }
 
     const inUse = _.some(data.patches, { synthesizerId: synth.id, bank: expansionSlot.name })

@@ -30,7 +30,7 @@ class PatchUsageEditor extends React.Component {
         const initial = typeToIndex[patchUsage.attributes.type]
         const onTabSelected = index => {
             patchUsage.attributes.type = indexToType[index]
-            setData()
+            setData('set patch assignment type')
         }
 
         const index = _.findIndex(cue.patchUsages, patchUsage)

@@ -36,13 +36,13 @@ const GhostNotesEditor = ({ patchUsage, data, setData }) => {
                 mappingForSelectedKey.push(key)
             }
     
-            setData()
+            setData('change ghost note mapping')
         }
     }
 
     const setPassthrough = passthrough => {
         patchUsage.attributes.passthrough = passthrough
-        setData()
+        setData('set ghost note passthrough')
     }
 
     const keyboard = _.find(data.setup.keyboards, { id: patchUsage.keyboardId })

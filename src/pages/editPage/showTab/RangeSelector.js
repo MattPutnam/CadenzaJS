@@ -28,7 +28,7 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
         if (high !== keyboardHigh) {
             patchUsage.highNote = high
         }
-        setData()
+        setData('set patch assignment range')
     }
 
     const move = newIndex => {
@@ -50,7 +50,7 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
                 delete patchUsage.highNote
             }
         }
-        setData()
+        setData('move patch assignment')
     }
 
     const buttons = [

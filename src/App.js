@@ -97,29 +97,39 @@ class App extends React.Component {
             },
             data: data.default,
             undoStack: [],
-            redoStack: []
+            redoStack: [],
+            coalescionKey: undefined
         }
 
-        this.prevState = _.cloneDeep(this.state.data)
+        this.storedState = _.cloneDeep(this.state.data)
     }
     
     render() {
-        const { perform, midiInterfaces, data, undoStack, redoStack } = this.state
-        const setData = () => {
+        const { perform, midiInterfaces, data, undoStack, redoStack, coalescionKey } = this.state
+        const setData = (message, key) => {
             const { undoStack } = this.state
-            undoStack.push(this.prevState)
+
+            let targetState = this.storedState
+            if (key !== undefined && _.isEqual(key, coalescionKey)) {
+                targetState = undoStack.pop().state
+            }
+
+            undoStack.push({ state: _.cloneDeep(targetState), message })
             if (undoStack.length > MAX_UNDO_DEPTH) {
                 undoStack.shift()
             }
-            this.prevState = _.cloneDeep(data)
 
-            this.setState({ data, undoStack, redoStack: [] })
+            this.setState({ data, undoStack, redoStack: [], coalescionKey: key })
+            this.storedState = _.cloneDeep(data)
         }
         
         const { Menu } = window.electron
 
-        const undo = _.last(undoStack) ? { label: 'Undo', click: () => this.undo() } : undefined
-        const redo = _.last(redoStack) ? { label: 'Redo', click: () => this.redo() } : undefined
+        const undoTop = _.last(undoStack)
+        const redoTop = _.last(redoStack)
+
+        const undo = undoTop ? { label: `Undo ${undoTop.message || ''}`, click: () => this.undo() } : undefined
+        const redo = redoTop ? { label: `Redo ${redoTop.message || ''}`, click: () => this.redo() } : undefined
 
         Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate({ undo, redo })))
 
@@ -130,18 +140,22 @@ class App extends React.Component {
 
     undo() {
         const { undoStack, redoStack, data } = this.state
-        const currentState = _.cloneDeep(data)
+        const currentState = data
         const prevState = undoStack.pop()
-        redoStack.push(currentState)
-        this.setState({ data: prevState, undoStack, redoStack })
+        redoStack.push({ state: currentState, message: prevState.message })
+
+        this.setState({ data: prevState.state, undoStack, redoStack, coalescionKey: undefined })
+        this.storedState = _.cloneDeep(prevState.state)
     }
 
     redo() {
         const { undoStack, redoStack, data } = this.state
-        const currentState = _.cloneDeep(data)
+        const currentState = data
         const nextState = redoStack.pop()
-        undoStack.push(currentState)
-        this.setState({ data: nextState, undoStack, redoStack })
+        undoStack.push({ state: currentState, message: nextState.message })
+
+        this.setState({ data: nextState.state, undoStack, redoStack, coalescionKey: undefined })
+        this.storedState = _.cloneDeep(nextState.state)
     }
     
     componentDidMount() {

@@ -17,7 +17,7 @@ const InterfaceSelector = ({ midiInterfaces, io, setData, hardware }) => {
         <label htmlFor={id}>Interface: </label>
         <select id={id}
                 value={selected}
-                onChange={e => { hardware.midiInterfaceName = e.target.value; setData() }}>
+                onChange={e => { hardware.midiInterfaceName = e.target.value; setData('change MIDI interface') }}>
             <option value={MidiInterfacePlaceholder}>{MidiInterfacePlaceholder}</option>
             {midiInterfaces[io].map(midiInterface => {
                 const label = Midi.midiInterfaceToName(midiInterface)

@@ -103,7 +103,7 @@ export const Placeholder = ({ width='100%', height='100%', children }) => {
     return <Flex align='center' style={style}>{children}</Flex>
 }
 
-export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=_.identity, render=_.identity, label }, ref) => {
+export const Select = React.forwardRef(({ options, selected, setSelected, valueRender=_.identity, render=_.identity, label, ...props }, ref) => {
     let id
     if (label) {
         id = uuid()
@@ -111,7 +111,7 @@ export const Select = React.forwardRef(({ options, selected, setSelected, valueR
 
     return <>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <select id={id} ref={ref} value={selected} onChange={e => setSelected(e.target.value)}>
+        <select id={id} ref={ref} value={selected} onChange={e => setSelected(e.target.value)} {...props}>
             {options.map((option, index) => {
                 return <option value={valueRender(option)} key={index}>{render(option)}</option>
             })}

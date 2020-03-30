@@ -10,8 +10,8 @@
         ],
         "synthesizers": [
             {
-                "name": "Roland XV-5080",
                 "id": 0,
+                "name": "Roland XV-5080",
                 "expansionCards": {
                     "XpA": "SR-JV80-02 Orchestral",
                     "XpB": "SR-JV80-05 World"
@@ -71,105 +71,113 @@
     "show": {
         "songs": [
             {
+                "id": 0,
                 "number": "1",
-                "name": "The 25th Annual Putnam County Spelling Bee",
-                "cues": [
+                "name": "The 25th Annual Putnam County Spelling Bee"
+            },
+            {
+                "id": 1,
+                "number": "1A",
+                "name": "The Rules"
+            }
+        ],
+        "cues": [
+            {
+                "id": 0,
+                "songId": 0,
+                "measure": "1",
+                "patchUsages": [
                     {
-                        "measure": "1",
-                        "patchUsages": [
-                            {
-                                "keyboardId": 0,
-                                "patchId": 0,
-                                "attributes": {
-                                    "type": "normal"
-                                }
-                            },
-                            {
-                                "keyboardId": 0,
-                                "patchId": 1,
-                                "highNote": 48,
-                                "attributes": {
-                                    "type": "normal"
-                                }
-                            }
-                        ]
+                        "keyboardId": 0,
+                        "patchId": 0,
+                        "attributes": {
+                            "type": "normal"
+                        }
                     },
                     {
-                        "measure": "10",
-                        "patchUsages": [
+                        "keyboardId": 0,
+                        "patchId": 1,
+                        "highNote": 48,
+                        "attributes": {
+                            "type": "normal"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "songId": 0,
+                "measure": "10",
+                "patchUsages": [
+                    {
+                        "keyboardId": 0,
+                        "patchId": 2,
+                        "attributes": {
+                            "type": "normal"
+                        }
+                    }
+                ],
+                "triggers": [
+                    {
+                        "inputs": [
                             {
-                                "keyboardId": 0,
-                                "patchId": 2,
-                                "attributes": {
-                                    "type": "normal"
-                                }
+                                "type": "keyPress",
+                                "key": 60,
+                                "keyboardId": 0
                             }
                         ],
-                        "triggers": [
+                        "type": "any of",
+                        "actions": [
                             {
-                                "inputs": [
-                                    {
-                                        "type": "keyPress",
-                                        "key": 60,
-                                        "keyboardId": 0
-                                    }
-                                ],
-                                "type": "any of",
-                                "actions": [
-                                    {
-                                        "type": "cueAdvance"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "measure": "15",
-                        "patchUsages": [
-                            {
-                                "keyboardId": 0,
-                                "patchId": 3,
-                                "attributes": {
-                                    "type": "normal"
-                                }
+                                "type": "cueAdvance"
                             }
                         ]
                     }
                 ]
             },
             {
-                "number": "1A",
-                "name": "The Rules",
-                "cues": [
+                "id": 2,
+                "songId": 0,
+                "measure": "15",
+                "patchUsages": [
                     {
-                        "measure": "1",
-                        "patchUsages": [
-                            {
-                                "keyboardId": 0,
-                                "patchId": 4,
-                                "lowNote": 51,
-                                "attributes": {
-                                    "type": "normal",
-                                    "transpose": 12
-                                }
-                            },
-                            {
-                                "keyboardId": 0,
-                                "patchId": 2,
-                                "lowNote": 51,
-                                "attributes": {
-                                    "type": "normal"
-                                }
-                            },
-                            {
-                                "keyboardId": 0,
-                                "patchId": 1,
-                                "highNote": 50,
-                                "attributes": {
-                                    "type": "normal"
-                                }
-                            }
-                        ]
+                        "keyboardId": 0,
+                        "patchId": 3,
+                        "attributes": {
+                            "type": "normal"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "songId": 1,
+                "measure": "1",
+                "patchUsages": [
+                    {
+                        "keyboardId": 0,
+                        "patchId": 4,
+                        "lowNote": 51,
+                        "attributes": {
+                            "type": "normal",
+                            "transpose": 12
+                        }
+                    },
+                    {
+                        "keyboardId": 0,
+                        "patchId": 2,
+                        "lowNote": 51,
+                        "attributes": {
+                            "type": "normal"
+                        }
+                    },
+                    {
+                        "keyboardId": 0,
+                        "patchId": 1,
+                        "highNote": 50,
+                        "attributes": {
+                            "type": "normal"
+                        }
                     }
                 ]
             }

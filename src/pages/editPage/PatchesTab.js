@@ -96,7 +96,7 @@ class PatchesTab extends React.Component {
                     selectedPatch.name = patch.name
                 }
 
-                setData()
+                setData('set patch definition')
             }
 
             const buttons = [{ icon: Icons.delete, onClick: () => this.deleteSelectedPatch(), disabled }]
@@ -139,7 +139,7 @@ class PatchesTab extends React.Component {
             name: '',
             volume: 100
         })
-        setData()
+        setData('add patch')
         this.setState({ selectedPatchId: id })
     }
 
@@ -148,14 +148,14 @@ class PatchesTab extends React.Component {
         const { patches } = data
 
         data.patches = _.sortBy(patches, 'name')
-        setData()
+        setData('sort patches')
     }
 
     deleteSelectedPatch() {
         const { data, setData } = this.props
         const { selectedPatchId } = this.state
         _.remove(data.patches, { id: selectedPatchId })
-        setData()
+        setData('delete patch')
         this.setState({ selectedPatchId: undefined })
     }
 }

@@ -145,7 +145,7 @@ class ActionPedalConfig extends React.Component {
                 type,
                 reverse
             }
-            setData()
+            setData('set action pedal')
         } else {
             this.setState({ error: 'Unable to determine, received signals from multiple sources.', stage: undefined })
         }

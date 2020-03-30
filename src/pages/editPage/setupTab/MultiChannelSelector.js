@@ -22,22 +22,22 @@ const MultiChannelSelector = ({ synth, setData }) => {
     const toggle = (ch, selected) => {
         if (selected) {
             _.remove(synth.channels, x => ch === x)
-            setData()
+            setData('adjust channels', synth.id)
         } else {
             synth.channels.push(ch)
             synth.channels.sort((a, b) => a - b)
-            setData()
+            setData('adjust channels', synth.id)
         }
     }
 
     const setAll = () => {
         synth.channels = _.range(0, 16)
-        setData()
+        setData('adjust channels', synth.id)
     }
 
     const setNone = () => {
         synth.channels = []
-        setData()
+        setData('adjust channels', synth.id)
     }
 
     return <>

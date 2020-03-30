@@ -29,7 +29,7 @@ const PatchUsageDisplay = ({ cue, selectedPatchUsage, setSelectedPatchUsage, dat
         }
 
         cue.patchUsages.push(newPatchUsage)
-        setData()
+        setData('add patch assignment')
         setSelectedPatchUsage(newPatchUsage)
     }
 

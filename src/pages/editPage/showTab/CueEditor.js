@@ -10,12 +10,14 @@ import { Container } from '../../../components/Layout'
 import TriggerEditor from '../../../components/TriggerEditor'
 
 
-const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
+const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
     const [selectedPatchUsage, setSelectedPatchUsage] = React.useState(undefined)
+
+    const cue = _.find(data.show.cues, { id: cueId })
 
     const deleteSelectedPatchUsage = () => {
         _.remove(cue.patchUsages, selectedPatchUsage)
-        setData()
+        setData('delete patch assignment')
         setSelectedPatchUsage(undefined)
     }
 
@@ -23,7 +25,7 @@ const CueEditor = ({ song, cue, deleteSelf, data, setData, setParentSong }) => {
 
     return (
         <Container header='Edit Cue' buttons={buttons}>
-            <CueLocationEditor {...{ song, cue, data, setData, setParentSong }}/>
+            <CueLocationEditor {...{ cueId, data, setData }}/>
             <PatchUsageDisplay {...{ cue, data, setData, selectedPatchUsage, setSelectedPatchUsage }}/>
             {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}
                                                      deleteSelf={deleteSelectedPatchUsage}

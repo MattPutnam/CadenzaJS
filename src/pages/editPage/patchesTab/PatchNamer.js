@@ -8,13 +8,13 @@ import { Container, Flex } from '../../../components/Layout'
 const PatchNamer = ({ selectedPatch, allPatches, setData }) => {
     const changeName = newName => {
         selectedPatch.name = newName
-        setData()
+        setData('rename patch', `renamePatch${selectedPatch.id}`)
     }
     const useDefaultName = () => {
         const query = _.pick(selectedPatch, ['synthesizerId', 'bank', 'number'])
         const patch = _.find(allPatches, query)
         selectedPatch.name = patch.name
-        setData()
+        setData('set patch name')
     }
 
     return (

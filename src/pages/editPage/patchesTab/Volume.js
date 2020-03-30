@@ -7,7 +7,7 @@ import { NumberField } from '../../../components/Components'
 const Volume = ({ selectedPatch, setData }) => {
     const setVolume = newVolume => {
         selectedPatch.volume = newVolume
-        setData()
+        setData('change patch volume', `patchVolume${selectedPatch.id}`)
     }
 
     const styles = {

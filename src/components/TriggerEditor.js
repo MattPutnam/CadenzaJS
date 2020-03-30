@@ -39,13 +39,13 @@ const TriggerEditor = ({ object, data, setData }) => {
         }
 
         object.triggers.push(newTrigger)
-        setData()
+        setData('add trigger')
         setSelected(newTrigger)
     }
     const deleteSelf = () => {
         _.remove(triggers, selected)
         setSelected(undefined)
-        setData()
+        setData('delete trigger')
     }
 
     const buttons = [{ icon: Icons.add, onClick: addTrigger }]
@@ -116,7 +116,7 @@ const TriggerType = ({ trigger, setData }) => {
 
     const setSelected = newType => {
         trigger.type = newType
-        setData()
+        setData('set trigger type')
     }
 
     return (
@@ -139,13 +139,13 @@ const Inputs = ({ trigger, data, setData }) => {
         }
 
         trigger.inputs.push(newInput)
-        setData()
+        setData('add trigger input')
         setSelected(newInput)
     }
     const deleteSelf = () => {
         _.remove(trigger.inputs, selected)
         setSelected(undefined)
-        setData()
+        setData(' delete trigger input')
     }
 
     const buttons = [{ icon: Icons.add, onClick: addInput }]
@@ -163,7 +163,7 @@ const Input = ({ input, deleteSelf, data, setData }) => {
     const initial = ontology.inputs.types.indexOf(type)
     const onTabSelected = index => {
         input.type = ontology.inputs.types[index]
-        setData()
+        setData('set trigger iput type')
     }
 
     const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
@@ -198,7 +198,7 @@ const KeyPressEditor = ({ input, data, setData }) => {
     const onKeyClick = (k, kbdId) => {
         input.key = k
         input.keyboardId = kbdId
-        setData()
+        setData('set trigger key')
     }
 
     return <>
@@ -228,13 +228,13 @@ const Actions = ({ trigger, setData }) => {
         }
 
         trigger.actions.push(newAction)
-        setData()
+        setData('add trigger action')
         setSelected(newAction)
     }
     const deleteSelf = () => {
         _.remove(trigger.actions, selected)
         setSelected(undefined)
-        setData()
+        setData('delete trigger action')
     }
 
     const buttons = [{ icon: Icons.add, onClick: addAction }]
@@ -252,7 +252,7 @@ const Action = ({ action, deleteSelf, setData }) => {
     const initial = ontology.actions.types.indexOf(type)
     const onTabSelected = index => {
         action.type = ontology.actions.types[index]
-        setData()
+        setData('set trigger action type')
     }
 
     const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]

@@ -7,14 +7,15 @@ import { Container, Flex } from '../../../components/Layout'
 import Transpose from '../../../components/Transpose'
 import TriggerEditor from '../../../components/TriggerEditor'
 
-import { validateSongOrMeasureNumber, songCompare } from '../../../utils/SongAndMeasureNumber'
+import { validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
 
 
 class SongEditor extends React.Component {
     constructor(props) {
         super(props)
 
-        const { number, name } = props.song
+        const song = _.find(props.data.show.songs, { id: props.songId })
+        const { number, name } = song
 
         this.state = {
             modified: false,
@@ -27,8 +28,10 @@ class SongEditor extends React.Component {
     }
 
     render() {
-        const { song, deleteSelf, data, setData } = this.props
+        const { songId, deleteSelf, data, setData } = this.props
         const { songNumber, songName, modified, error } = this.state
+
+        const song = _.find(data.show.songs, { id: songId })
 
         const styles = {
             nameField: {
@@ -88,17 +91,14 @@ class SongEditor extends React.Component {
     }
 
     save() {
-        const { song, data, setData } = this.props
+        const { songId, data, setData } = this.props
         const { songNumber, songName } = this.state
-
-        const sortSongs = song.number !== songNumber
+        
+        const song = _.find(data.show.songs, { id: songId })
 
         song.number = songNumber
         song.name = songName
-        if (sortSongs) {
-            data.show.songs.sort(songCompare)
-        }
-        setData()
+        setData('set song name and number')
 
         this.setState({ modified: false })
     }
