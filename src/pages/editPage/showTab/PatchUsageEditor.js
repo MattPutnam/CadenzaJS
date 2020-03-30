@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import GhostNotesEditor from './GhostNotesEditor'
+import HarpPedalsEditor from './HarpPedalsEditor'
 import NormalEditor from './NormalEditor'
 import PatchSelector from './PatchSelector'
 import RangeSelector from './RangeSelector'
@@ -13,12 +14,14 @@ import { Tab, TabList, TabPanel, Tabs } from '../../../components/Tabs'
 
 const typeToIndex = {
     'normal': 0,
-    'ghostNotes': 1
+    'ghostNotes': 1,
+    'harpPedals': 2
 }
 
 const indexToType = [
     'normal',
-    'ghostNotes'
+    'ghostNotes',
+    'harpPedals'
 ]
 
 const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
@@ -41,12 +44,16 @@ const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
                     <TabList>
                         <Tab>Normal</Tab>
                         <Tab>Ghost Notes</Tab>
+                        <Tab>Harp Pedals</Tab>
                     </TabList>
                     <TabPanel>
                         <NormalEditor {...{ patchUsage, setData }}/>
                     </TabPanel>
                     <TabPanel>
                         <GhostNotesEditor {...{ patchUsage, data, setData }}/>
+                    </TabPanel>
+                    <TabPanel>
+                        <HarpPedalsEditor {...{ patchUsage, setData }}/>
                     </TabPanel>
                 </Tabs>
             </Container>
