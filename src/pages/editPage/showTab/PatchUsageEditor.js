@@ -21,41 +21,37 @@ const indexToType = [
     'ghostNotes'
 ]
 
-class PatchUsageEditor extends React.Component {
-    render() {
-        const { patchUsage, data, setData, deleteSelf, cue } = this.props
+const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
+    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
-        const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
-
-        const selectedTab = typeToIndex[patchUsage.attributes.type]
-        const onTabSelected = index => {
-            patchUsage.attributes.type = indexToType[index]
-            setData('set patch assignment type')
-        }
-
-        const index = _.findIndex(cue.patchUsages, patchUsage)
-
-        return (
-            <Container alt collapse header='Configure Patch' buttons={buttons}>
-                <PatchSelector {...{ patchUsage, data, setData }}/>
-                <RangeSelector {...{ patchUsage, data, setData }}/>
-                <Container collapse header='Type'>
-                    <Tabs key={index} selectedTab={selectedTab} onTabSelected={onTabSelected}>
-                        <TabList>
-                            <Tab>Normal</Tab>
-                            <Tab>Ghost Notes</Tab>
-                        </TabList>
-                        <TabPanel>
-                            <NormalEditor {...{ patchUsage, setData }}/>
-                        </TabPanel>
-                        <TabPanel>
-                            <GhostNotesEditor {...{ patchUsage, data, setData }}/>
-                        </TabPanel>
-                    </Tabs>
-                </Container>
-            </Container>
-        )
+    const selectedTab = typeToIndex[patchUsage.attributes.type]
+    const onTabSelected = index => {
+        patchUsage.attributes.type = indexToType[index]
+        setData('set patch assignment type')
     }
+
+    const index = _.findIndex(cue.patchUsages, patchUsage)
+
+    return (
+        <Container alt collapse header='Configure Patch' buttons={buttons}>
+            <PatchSelector {...{ patchUsage, data, setData }}/>
+            <RangeSelector {...{ patchUsage, data, setData }}/>
+            <Container collapse header='Type'>
+                <Tabs key={index} selectedTab={selectedTab} onTabSelected={onTabSelected}>
+                    <TabList>
+                        <Tab>Normal</Tab>
+                        <Tab>Ghost Notes</Tab>
+                    </TabList>
+                    <TabPanel>
+                        <NormalEditor {...{ patchUsage, setData }}/>
+                    </TabPanel>
+                    <TabPanel>
+                        <GhostNotesEditor {...{ patchUsage, data, setData }}/>
+                    </TabPanel>
+                </Tabs>
+            </Container>
+        </Container>
+    )
 }
 
 export default PatchUsageEditor
