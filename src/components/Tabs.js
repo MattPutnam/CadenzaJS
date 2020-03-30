@@ -6,18 +6,9 @@ import { ButtonLike } from './Components'
 import { Flex } from './Layout'
 
 
-export const Tabs = ({ initial=0, onTabSelected, children }) => {
-    const [selectedTab, setSelectedTab] = React.useState(initial)
-
+export const Tabs = ({ selectedTab, onTabSelected, children }) => {
     const tabList = _.find(children, child => child.type.name === 'TabList')
     const tabPanels = _.filter(children, child => child.type.name !== 'TabList')
-
-    const setTab = index => {
-        if (onTabSelected) {
-            onTabSelected(index)
-        }
-        setSelectedTab(index)
-    }
 
     return (
         <div>
@@ -25,7 +16,7 @@ export const Tabs = ({ initial=0, onTabSelected, children }) => {
                 {React.Children.map(tabList.props.children, (tab, index) => {
                     return React.cloneElement(tab, {
                         selected: index === selectedTab,
-                        onSelect: () => setTab(index)
+                        onSelect: () => onTabSelected(index)
                     })
                 })}
             </TabList>

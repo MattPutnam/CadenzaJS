@@ -23,10 +23,12 @@ const ontology = {
 
 
 const TriggerEditor = ({ object, data, setData }) => {
-    const [selected, setSelected] = React.useState(undefined)
+    const [selectedIndex, setSelectedIndex] = React.useState(undefined)
 
     const { triggers } = object
+    const trigger = selectedIndex === undefined ? undefined : triggers[selectedIndex]
     const noTriggers = _.isEmpty(triggers)
+
     const addTrigger = () => {
         const newTrigger = {
             type: ontology.types[0],
@@ -39,12 +41,12 @@ const TriggerEditor = ({ object, data, setData }) => {
         }
 
         object.triggers.push(newTrigger)
+        setSelectedIndex(object.triggers.length - 1)
         setData('add trigger')
-        setSelected(newTrigger)
     }
     const deleteSelf = () => {
-        _.remove(triggers, selected)
-        setSelected(undefined)
+        object.triggers.splice(selectedIndex)
+        setSelectedIndex(undefined)
         setData('delete trigger')
     }
 
@@ -52,8 +54,8 @@ const TriggerEditor = ({ object, data, setData }) => {
 
     return <Container alt collapse startCollapsed={noTriggers} header='Triggers' buttons={buttons}>
         {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
-        <List items={triggers} render={summarize} {...{ selected, setSelected }}/>
-        {selected && <Editor trigger={selected} {...{ deleteSelf, data, setData }}/>}
+        <List items={triggers} render={summarize} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+        {trigger && <Editor {...{ trigger, deleteSelf, data, setData }}/>}
     </Container>
 }
 
@@ -130,8 +132,10 @@ const TriggerType = ({ trigger, setData }) => {
 // INPUTS
 
 const Inputs = ({ trigger, data, setData }) => {
-    const [selected, setSelected] = React.useState(undefined)
+    const [selectedIndex, setSelectedIndex] = React.useState(undefined)
     const { inputs } = trigger
+
+    const input = selectedIndex === undefined ? undefined : inputs[selectedIndex]
 
     const addInput = () => {
         const newInput = {
@@ -139,12 +143,12 @@ const Inputs = ({ trigger, data, setData }) => {
         }
 
         trigger.inputs.push(newInput)
+        setSelectedIndex(trigger.inputs.length - 1)
         setData('add trigger input')
-        setSelected(newInput)
     }
     const deleteSelf = () => {
-        _.remove(trigger.inputs, selected)
-        setSelected(undefined)
+        trigger.inputs.splice(selectedIndex)
+        setSelectedIndex(undefined)
         setData(' delete trigger input')
     }
 
@@ -152,15 +156,15 @@ const Inputs = ({ trigger, data, setData }) => {
 
     return (
         <Container alt header='Inputs' buttons={buttons}>
-            <List items={inputs} render={summarizeInput} {...{ selected, setSelected }}/>
-            {selected && <Input input={selected} {...{ deleteSelf, data, setData }}/>}
+            <List items={inputs} render={summarizeInput} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+            {input && <Input {...{ input, deleteSelf, data, setData }}/>}
         </Container>
     )
 }
 
 const Input = ({ input, deleteSelf, data, setData }) => {
     const { type } = input
-    const initial = ontology.inputs.types.indexOf(type)
+    const selectedTab = ontology.inputs.types.indexOf(type)
     const onTabSelected = index => {
         input.type = ontology.inputs.types[index]
         setData('set trigger iput type')
@@ -178,7 +182,7 @@ const Input = ({ input, deleteSelf, data, setData }) => {
     return (
         <div style={styles.container}>
             <Container header='Edit Input' buttons={buttons}>
-                <Tabs initial={initial} onTabSelected={onTabSelected}>
+                <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
                         <Tab>Key Press</Tab>
                     </TabList>
@@ -219,8 +223,10 @@ const KeyPressEditor = ({ input, data, setData }) => {
 // ACTIONS
 
 const Actions = ({ trigger, setData }) => {
-    const [selected, setSelected] = React.useState(undefined)
+    const [selectedIndex, setSelectedIndex] = React.useState(undefined)
     const { actions } = trigger
+
+    const action = selectedIndex === undefined ? undefined: actions[selectedIndex]
 
     const addAction = () => {
         const newAction = {
@@ -228,28 +234,28 @@ const Actions = ({ trigger, setData }) => {
         }
 
         trigger.actions.push(newAction)
+        setSelectedIndex(trigger.actions.length - 1)
         setData('add trigger action')
-        setSelected(newAction)
     }
     const deleteSelf = () => {
-        _.remove(trigger.actions, selected)
-        setSelected(undefined)
+        trigger.actions.splice(selectedIndex)
         setData('delete trigger action')
+        setSelectedIndex(undefined)
     }
 
     const buttons = [{ icon: Icons.add, onClick: addAction }]
 
     return (
         <Container alt header='Actions' buttons={buttons}>
-            <List items={actions} render={summarizeAction} {...{ selected, setSelected }}/>
-            {selected && <Action action={selected} {...{ deleteSelf, setData }}/>}
+            <List items={actions} render={summarizeAction} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+            {action && <Action {...{ action, deleteSelf, setData }}/>}
         </Container>
     )
 }
 
 const Action = ({ action, deleteSelf, setData }) => {
     const { type } = action
-    const initial = ontology.actions.types.indexOf(type)
+    const selectedTab = ontology.actions.types.indexOf(type)
     const onTabSelected = index => {
         action.type = ontology.actions.types[index]
         setData('set trigger action type')
@@ -267,7 +273,7 @@ const Action = ({ action, deleteSelf, setData }) => {
     return (
         <div style={styles.container}>
             <Container header='Edit Action' buttons={buttons}>
-                <Tabs initial={initial} onTabSelected={onTabSelected}>
+                <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
                         <Tab>Cue Advance</Tab>
                         <Tab>Cue Reverse</Tab>

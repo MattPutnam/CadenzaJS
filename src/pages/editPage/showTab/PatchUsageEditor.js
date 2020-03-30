@@ -27,7 +27,7 @@ class PatchUsageEditor extends React.Component {
 
         const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
 
-        const initial = typeToIndex[patchUsage.attributes.type]
+        const selectedTab = typeToIndex[patchUsage.attributes.type]
         const onTabSelected = index => {
             patchUsage.attributes.type = indexToType[index]
             setData('set patch assignment type')
@@ -40,7 +40,7 @@ class PatchUsageEditor extends React.Component {
                 <PatchSelector {...{ patchUsage, data, setData }}/>
                 <RangeSelector {...{ patchUsage, data, setData }}/>
                 <Container collapse header='Type'>
-                    <Tabs key={index} initial={initial} onTabSelected={onTabSelected}>
+                    <Tabs key={index} selectedTab={selectedTab} onTabSelected={onTabSelected}>
                         <TabList>
                             <Tab>Normal</Tab>
                             <Tab>Ghost Notes</Tab>

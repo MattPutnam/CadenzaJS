@@ -5,7 +5,7 @@ import Colors from './Colors'
 import { ButtonLike } from './Components'
 
 
-const List = ({ items=[], render, selectionRender=_.identity, selected, setSelected }) => {
+const List = ({ items=[], render, selectByIndex, selectionRender=_.identity, selected, setSelected }) => {
     const styles = {
         list: {
             alignSelf: 'stretch',
@@ -23,7 +23,7 @@ const List = ({ items=[], render, selectionRender=_.identity, selected, setSelec
     return (
         <div style={styles.list}>
             {items.map((item, index) => {
-                const forSelection = selectionRender(item)
+                const forSelection = selectByIndex ? index : selectionRender(item)
                 const itemSelected = forSelection === selected
                 return (
                     <ButtonLike key={index}

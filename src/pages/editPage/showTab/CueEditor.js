@@ -11,14 +11,16 @@ import TriggerEditor from '../../../components/TriggerEditor'
 
 
 const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
-    const [selectedPatchUsage, setSelectedPatchUsage] = React.useState(undefined)
+    const [selectedPatchUsageIndex, setSelectedPatchUsageIndex] = React.useState(undefined)
 
     const cue = _.find(data.show.cues, { id: cueId })
+    const selectedPatchUsage = cue.patchUsages[selectedPatchUsageIndex]
+    const setSelectedPatchUsage = pu => setSelectedPatchUsageIndex(_.indexOf(cue.patchUsages, pu))
 
     const deleteSelectedPatchUsage = () => {
-        _.remove(cue.patchUsages, selectedPatchUsage)
+        cue.patchUsages.splice(selectedPatchUsageIndex)
         setData('delete patch assignment')
-        setSelectedPatchUsage(undefined)
+        setSelectedPatchUsageIndex(undefined)
     }
 
     const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
