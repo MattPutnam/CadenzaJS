@@ -65,10 +65,11 @@ class PatchesTab extends React.Component {
         const { patches, setup: { synthesizers } } = data
 
         const { selectedPatchId } = this.state
+        const exists = _.some(patches, { id: selectedPatchId })
 
         const { synthTree, allPatches } = resolveSynthesizersAndPatches(synthesizers)
 
-        if (selectedPatchId !== undefined) {
+        if (exists) {
             const selectedPatch = _.find(patches, { id: selectedPatchId })
             const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
 
