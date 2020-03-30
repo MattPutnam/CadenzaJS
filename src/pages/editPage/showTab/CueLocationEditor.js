@@ -55,7 +55,7 @@ class CueLocationEditor extends React.Component {
                                size={6}
                                value={cueMeasure}
                                setValue={setCueMeasure}/>
-                    {modified && <span>&nbsp;- Modified</span>}
+                    {modified && <span>- Modified</span>}
                     {error && <Warning>{error}</Warning>}
                     {conflict && <Warning>Another cue with this song/measure already exists</Warning>}
                     {modified && !error && !conflict && <Button onClick={() => this.save()}>Save</Button>}

@@ -27,7 +27,7 @@ const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
 
     return (
         <Container header='Edit Cue' buttons={buttons}>
-            <CueLocationEditor {...{ cueId, data, setData }}/>
+            <CueLocationEditor key={`${cue.songId}#${cue.measure}`} {...{ cueId, data, setData }}/>
             <PatchUsageDisplay {...{ cue, data, setData, selectedPatchUsage, setSelectedPatchUsage }}/>
             {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}
                                                      deleteSelf={deleteSelectedPatchUsage}
