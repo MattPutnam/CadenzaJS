@@ -7,7 +7,7 @@ import Volume from './patchesTab/Volume'
 import { Placeholder } from '../../components/Components'
 import Icons from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
-import List from '../../components/List'
+import { List, ListItem } from '../../components/List'
 import PatchPicker from '../../components/PatchPicker'
 import Transpose from '../../components/Transpose'
 
@@ -51,11 +51,11 @@ class PatchesTab extends React.Component {
 
         return (
             <Container header='Patches' flex='0 0 200px' buttons={buttons}>
-                <List items={patches}
-                      render={p => p.name || '<Untitled>'}
-                      selectionRender={p => p.id}
-                      selected={selectedPatchId}
-                      setSelected={id => this.setState({ selectedPatchId: id })}/>
+                <List selectedItem={selectedPatchId} setSelectedItem={id => this.setState({ selectedPatchId: id })}>
+                    {patches.map(patch => {
+                        return <ListItem key={patch.id} value={patch.id}>{patch.name || '<Untitled>'}</ListItem>
+                    })}
+                </List>
             </Container>
         )
     }

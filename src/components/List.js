@@ -1,40 +1,38 @@
 import React from 'react'
-import _ from 'lodash'
 
 import Colors from './Colors'
 import { ButtonLike } from './Components'
 
 
-const List = ({ items=[], render, selectByIndex, selectionRender=_.identity, selected, setSelected }) => {
-    const styles = {
-        list: {
-            alignSelf: 'stretch',
-            overflowY: 'auto'
-        },
-        item: selected => ({
-            alignSelf: 'stretch',
-            margin: '3px 0',
-            backgroundColor: selected ? Colors.blue[2] : undefined,
-            paddingLeft: '0.5rem',
-            cursor: 'pointer'
-        })
+export const List = ({ selectedItem, setSelectedItem, children }) => {
+    const style = {
+        alignSelf: 'stretch',
+        overflowY: 'auto',
     }
 
     return (
-        <div style={styles.list}>
-            {items.map((item, index) => {
-                const forSelection = selectByIndex ? index : selectionRender(item)
-                const itemSelected = forSelection === selected
-                return (
-                    <ButtonLike key={index}
-                                style={styles.item(itemSelected)}
-                                onClick={() => setSelected(itemSelected ? undefined : forSelection)}>
-                        {render(item)}
-                    </ButtonLike>
-                )
+        <div style={style}>
+            {React.Children.map(children, child => {
+                return React.cloneElement(child, { selectedItem, setSelectedItem })
             })}
         </div>
     )
 }
 
-export default List
+export const ListItem = ({ value, selectedItem, setSelectedItem, children }) => {
+    const selected = selectedItem === value
+
+    const style = {
+        alignSelf: 'stretch',
+        margin: '3px 0',
+        backgroundColor: selected ? Colors.blue[2] : undefined,
+        paddingLeft: '0.5rem',
+        cursor: 'pointer'
+    }
+
+    return (
+        <ButtonLike style={style} onClick={() => setSelectedItem(selected ? undefined : value)}>
+            {children}
+        </ButtonLike>
+    )
+}

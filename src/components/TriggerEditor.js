@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Placeholder, Select } from './Components'
 import Icons from './Icons'
 import { Center, Container, Flex } from './Layout'
-import List from './List'
+import { List, ListItem } from './List'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
 import { midiNoteNumberToName } from '../utils/Midi'
@@ -54,7 +54,11 @@ const TriggerEditor = ({ object, data, setData }) => {
 
     return <Container alt collapse startCollapsed={noTriggers} header='Triggers' buttons={buttons}>
         {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
-        <List items={triggers} render={summarize} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+            {triggers.map((trigger, index) => {
+                return <ListItem key={index} value={index}>{summarize(trigger)}</ListItem>
+            })}
+        </List>
         {trigger && <Editor {...{ trigger, deleteSelf, data, setData }}/>}
     </Container>
 }
@@ -156,7 +160,11 @@ const Inputs = ({ trigger, data, setData }) => {
 
     return (
         <Container alt header='Inputs' buttons={buttons}>
-            <List items={inputs} render={summarizeInput} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+            <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+                {inputs.map((input, index) => {
+                    return <ListItem key={index} value={index}>{summarizeInput(input)}</ListItem>
+                })}
+            </List>
             {input && <Input {...{ input, deleteSelf, data, setData }}/>}
         </Container>
     )
@@ -247,7 +255,11 @@ const Actions = ({ trigger, setData }) => {
 
     return (
         <Container alt header='Actions' buttons={buttons}>
-            <List items={actions} render={summarizeAction} selectByIndex selected={selectedIndex} setSelected={setSelectedIndex}/>
+            <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+                {actions.map((action, index) => {
+                    return <ListItem key={index} value={index}>{summarizeAction(action)}</ListItem>
+                })}
+            </List>
             {action && <Action {...{ action, deleteSelf, setData }}/>}
         </Container>
     )
