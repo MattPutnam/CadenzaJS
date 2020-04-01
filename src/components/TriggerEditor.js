@@ -25,7 +25,7 @@ const ontology = {
 const TriggerEditor = ({ object, data, setData }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(undefined)
 
-    const { triggers } = object
+    const triggers = object.triggers || []
     const trigger = selectedIndex === undefined ? undefined : triggers[selectedIndex]
     const noTriggers = _.isEmpty(triggers)
 

@@ -4,10 +4,10 @@ import _ from 'lodash'
 import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
 
-import Colors from '../../components/Colors'
-import { Placeholder, ButtonLike } from '../../components/Components'
-import Icons, { icon } from '../../components/Icons'
+import { Placeholder } from '../../components/Components'
+import Icons from '../../components/Icons'
 import { Container, Flex } from '../../components/Layout'
+import { List, ListItem, ListSection } from '../../components/List'
 
 import { findId } from '../../utils/IdFinder'
 import { cueCompare, songCompare, generateNext } from '../../utils/SongAndMeasureNumber'
@@ -18,9 +18,7 @@ class ShowTab extends React.Component {
         super(props)
 
         this.state = {
-            collapsedSongs: new Set(),
-            selectedSongId: undefined,
-            selectedCueId: undefined
+            selectedId: undefined
         }
     }
 
@@ -42,12 +40,13 @@ class ShowTab extends React.Component {
         // If we undo/redo and the selected cue/song doesn't exist, unselect
         const { data } = this.props
         const { songs, cues } = data.show
-        const { selectedSongId, selectedCueId } = this.state
 
-        if (selectedSongId !== undefined && !_.find(songs, { id: selectedSongId })) {
-            this.setState({ selectedSongId: undefined })
-        } else if (selectedCueId !== undefined && !_.find(cues, { id: selectedCueId })) {
-            this.setState({ selectedCueId: undefined })
+        const { selectedId } = this.state
+        const { songId, cueId } = selectedId || {}
+
+        if ((songId !== undefined && !_.find(songs, { id: songId })) ||
+            (cueId !== undefined && !_.find(cues, { id: cueId }))) {
+            this.setState({ selectedId: undefined })
         }
     }
 
@@ -55,56 +54,7 @@ class ShowTab extends React.Component {
         const { data } = this.props
         const { songs, cues } = data.show
 
-        const { collapsedSongs, selectedSongId, selectedCueId } = this.state
-
-        const styles = {
-            list: {
-                alignSelf: 'stretch',
-                overflowY: 'auto'
-            },
-            song: selected => ({
-                alignSelf: 'stretch',
-                margin: '3px 0',
-                fontWeight: selected ? 'bold' : undefined,
-                backgroundColor: selected ? Colors.blue[2] : Colors.gray[1],
-                cursor: 'pointer'
-            }),
-            songCaret: {
-                flex: 'none',
-                margin: '0 0.25rem'
-            },
-            songTitle: {
-                flex: '1 1 auto',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-            },
-            cue: selected => ({
-                alignSelf: 'stretch',
-                margin: '3px 0',
-                fontWeight: selected ? 'bold' : undefined,
-                backgroundColor: selected ? Colors.blue[2] : undefined,
-                paddingLeft: '0.5rem',
-                cursor: 'pointer'
-            })
-        }
-
-        const toggleSongCollapse = (id, collapsed) => {
-            if (collapsed) {
-                collapsedSongs.delete(id)
-            } else {
-                collapsedSongs.add(id)
-            }
-            this.setState({ collapsedSongs })
-        }
-
-        const keyCollapse = id => e => {
-            if (e.key === 'ArrowRight') {
-                toggleSongCollapse(id, false)
-            } else if (e.key === 'ArrowLeft') {
-                toggleSongCollapse(id, true)
-            }
-        }
+        const { selectedId } = this.state
 
         const buttons = [
             { icon: Icons.addSong, disabled: _.isEmpty(data.setup.synthesizers), onClick: () => this.addSong() },
@@ -113,46 +63,24 @@ class ShowTab extends React.Component {
 
         return (
             <Container header='Cues' flex='0 0 200px' buttons={buttons}>
-                <div style={styles.list}>
-                    {songs.sort(songCompare).map(song => {
+                <List selectedItem={selectedId} setSelectedItem={id => this.setState({ selectedId: id })}>
+                    {songs.sort(songCompare).map((song, songIndex) => {
                         const { number, name } = song
-                        const collapsed = collapsedSongs.has(song.id)
-                        const songSelected = song.id === selectedSongId
-                        const caretProps = {
-                            style: styles.songCaret,
-                            onClick: () => toggleSongCollapse(song.id, collapsed)
-                        }
-
                         const songCues = _.filter(cues, { songId: song.id }).sort(cueCompare)
 
                         return (
-                            <React.Fragment key={`Song#${song.id}`}>
-                                <Flex element={ButtonLike}
-                                      align='center'
-                                      style={styles.song(songSelected)}
-                                      onKeyDown={keyCollapse(song.id)}
-                                      onClick={() => this.setState({ selectedSongId: song.id, selectedCueId: undefined })}>
-                                    {collapsed ? icon(Icons.collapsed, caretProps) : icon(Icons.expanded, caretProps)}
-                                    <span style={styles.songTitle}>
-                                        {number}: {name}
-                                    </span>
-                                </Flex>
-                                {!collapsed && songCues.map(cue => {
-                                    const { measure } = cue
-                                    const cueSelected = cue.id === selectedCueId
-
+                            <ListSection key={songIndex} title={`${number}: ${name}`} value={{ songId: song.id }}>
+                                {songCues.map((cue, cueIndex) => {
                                     return (
-                                        <ButtonLike key={`Song#${song.id}Cue#${cue.id}`}
-                                                    style={styles.cue(cueSelected)}
-                                                    onClick={() => this.setState({ selectedSongId: undefined, selectedCueId: cue.id })}>
-                                            m. {measure}
-                                        </ButtonLike>
+                                        <ListItem key={cueIndex} value={{ cueId: cue.id }}>
+                                            {`m. ${cue.measure}`}
+                                        </ListItem>
                                     )
                                 })}
-                            </React.Fragment>
+                            </ListSection>
                         )
                     })}
-                </div>
+                </List>
             </Container>
         )
     }
@@ -160,21 +88,21 @@ class ShowTab extends React.Component {
     editPane() {
         const { data, setData } = this.props
         const { songs, cues } = data.show
-        const { selectedSongId, selectedCueId } = this.state
 
-        const foundSong = selectedSongId !== undefined && _.some(songs, { id: selectedSongId })
-        const foundCue = selectedCueId !== undefined && _.some(cues, { id: selectedCueId })
+        const { selectedId } = this.state
+        const { songId, cueId } = selectedId || {}
+
+        const foundSong = songId !== undefined && _.some(songs, { id: songId })
+        const foundCue = cueId !== undefined && _.some(cues, { id: cueId })
 
         if (foundCue) {
-            return <CueEditor key={selectedCueId}
-                              cueId={selectedCueId}
+            return <CueEditor key={cueId}
                               deleteSelf={() => this.deleteCue()}
-                              {...{ data, setData }}/>
+                              {...{ cueId, data, setData }}/>
         } else if (foundSong) {
-            return <SongEditor key={selectedSongId}
-                               songId={selectedSongId}
+            return <SongEditor key={songId}
                                deleteSelf={() => this.deleteSong()}
-                               {...{ data, setData }}/>
+                               {...{ songId, data, setData }}/>
         } else if (_.isEmpty(data.setup.synthesizers)) {
             return <Placeholder>No synthesizers defined. Go to the Setup tab.</Placeholder>
         } else {
@@ -185,18 +113,20 @@ class ShowTab extends React.Component {
     addSong() {
         const { data, setData } = this.props
         const { songs, cues } = data.show
-        const { selectedSongId, selectedCueId } = this.state
+        
+        const { selectedId } = this.state
+        const { songId, cueId } = selectedId || {}
 
         let newNumber
         if (_.isEmpty(songs)) {
             newNumber = "1"
-        } else if (selectedSongId !== undefined) {
+        } else if (songId !== undefined) {
             // a song is selected, insert after
-            const song = _.find(songs, { id: selectedSongId })
+            const song = _.find(songs, { id: songId })
             newNumber = generateNext(song.number, songs.map(s => s.number))
-        } else if (selectedCueId !== undefined) {
+        } else if (cueId !== undefined) {
             // a cue is selected, insert after its song
-            const cue = _.find(cues, { id: selectedCueId })
+            const cue = _.find(cues, { id: cueId })
             const song = _.find(songs, { id: cue.songId })
             newNumber = generateNext(song.number, songs.map(s => s.number))
         } else {
@@ -212,66 +142,72 @@ class ShowTab extends React.Component {
         }
         songs.push(newSong)
         setData('add song')
-        this.setState({ selectedSongId: id, selectedCueIndex: undefined })
+        this.setState({ selectedId: { songId: id } })
     }
 
     deleteSong() {
         const { data, setData } = this.props
         const { songs } = data.show
-        const { selectedSongId } = this.state
+        
+        const { selectedId } = this.state
+        const { songId } = selectedId
 
-        _.remove(songs, { id: selectedSongId })
+        _.remove(songs, { id: songId })
         setData('delete song')
-        this.setState({ selectedSongId: undefined, selectedCueId: undefined })
+        this.setState({ selectedId: undefined })
     }
 
     addCue() {
         const { data, setData } = this.props
         const { songs, cues } = data.show
-        const { selectedSongId, selectedCueId } = this.state
+        
+        const { selectedId } = this.state
+        const { songId, cueId } = selectedId || {}
 
-        let songId
+        let resolvedSongId
         let newNumber
-        if (selectedSongId !== undefined) {
+        if (songId !== undefined) {
             // a song is selected, add to the end of the song
-            const songCues = _.filter(cues, { songId: selectedSongId }).sort(cueCompare)
-            songId = selectedSongId
+            const songCues = _.filter(cues, { songId: songId }).sort(cueCompare)
+            resolvedSongId = songId
             newNumber = generateNext(_.last(songCues).measure)
-        } else if (selectedCueId !== undefined) {
+        } else if (cueId !== undefined) {
             // a cue is selected, insert after
-            const cue = _.find(cues, { id: selectedCueId })
+            const cue = _.find(cues, { id: cueId })
             const song = _.find(songs, { id: cue.songId })
             const songCues = _.filter(cues, { songId: song.id }).sort(cueCompare)
-            songId = song.id
+            resolvedSongId = song.id
             newNumber = generateNext(cue.measure, songCues.map(c => c.measure))
         } else {
             // nothing is selected, add to the end of the last song
             const song = _.last(songs)
             const songCues = _.filter(cues, { songId: song.id }).sort(cueCompare)
-            songId = song.id
+            resolvedSongId = song.id
             newNumber = generateNext(_.last(songCues).measure)
         }
 
         const id = findId(cues)
         const newCue = {
             id,
-            songId,
+            songId: resolvedSongId,
             measure: newNumber,
             patchUsages: []
         }
         cues.push(newCue)
         setData('add cue')
-        this.setState({ selectedCueId: id, selectedSongId: undefined })
+        this.setState({ selectedId: { cueId: id } })
     }
 
     deleteCue() {
         const { data, setData } = this.props
         const { cues } = data.show
-        const { selectedCueId } = this.state
+        
+        const { selectedId } = this.state
+        const { cueId } = selectedId
 
-        _.remove(cues, { id: selectedCueId })
+        _.remove(cues, { id: cueId })
         setData('delete cue')
-        this.setState({ selectedSongId: undefined, selectedCueId: undefined })
+        this.setState({ selectedId: undefined })
     }
 }
 
