@@ -79,11 +79,9 @@ class PatchesTab extends React.Component {
                 selectedPatch ? selectedPatch.number : undefined
             ]
 
-            const disabled = _.some(data.show.songs, song => {
-                return _.some(song.cues, cue => {
-                    return _.some(cue.patchUsages, patchUsage => {
-                        return patchUsage.patchId === selectedPatchId
-                    })
+            const disabled = _.some(data.show.cues, cue => {
+                return _.some(cue.patchUsages, patchUsage => {
+                    return patchUsage.patchId === selectedPatchId
                 })
             })
 

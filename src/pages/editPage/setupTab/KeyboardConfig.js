@@ -20,11 +20,9 @@ const KeyboardConfig = ({ keyboard, deleteSelf, midiInterfaces, moveUp, moveDown
                          setData={setData}/>
     </>
 
-    const deleteDisabled = _.some(data.show.songs, song => {
-        return _.some(song.cues, cue => {
-            return _.some(cue.patchUsages, patchUsage => {
-                return patchUsage.keyboardId === keyboard.id
-            })
+    const deleteDisabled = _.some(data.show.cues, cue => {
+        return _.some(cue.patchUsages, patchUsage => {
+            return patchUsage.keyboardId === keyboard.id
         })
     })
 
