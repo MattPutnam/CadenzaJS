@@ -11,6 +11,7 @@ import { List, ListItem, ListSection } from '../../components/List'
 
 import { findId } from '../../utils/IdFinder'
 import { cueCompare, songCompare, generateNext } from '../../utils/SongAndMeasureNumber'
+import GlobalsEditor from './showTab/GlobalsEditor'
 
 
 class ShowTab extends React.Component {
@@ -64,6 +65,7 @@ class ShowTab extends React.Component {
         return (
             <Container header='Cues' flex='0 0 200px' buttons={buttons}>
                 <List selectedItem={selectedId} setSelectedItem={id => this.setState({ selectedId: id })}>
+                    <ListItem value={{ globals: true }}>Global settings</ListItem>
                     {songs.sort(songCompare).map((song, songIndex) => {
                         const { number, name } = song
                         const songCues = _.filter(cues, { songId: song.id }).sort(cueCompare)
@@ -90,12 +92,14 @@ class ShowTab extends React.Component {
         const { songs, cues } = data.show
 
         const { selectedId } = this.state
-        const { songId, cueId } = selectedId || {}
+        const { songId, cueId, globals } = selectedId || {}
 
         const foundSong = songId !== undefined && _.some(songs, { id: songId })
         const foundCue = cueId !== undefined && _.some(cues, { id: cueId })
 
-        if (foundCue) {
+        if (globals) {
+            return <GlobalsEditor {...{ data, setData }}/>
+        } else if (foundCue) {
             return <CueEditor key={cueId}
                               deleteSelf={() => this.deleteCue()}
                               {...{ cueId, data, setData }}/>

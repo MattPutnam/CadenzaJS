@@ -122,7 +122,7 @@ class App extends React.Component {
             this.setState({ data, undoStack, redoStack: [], coalescionKey: key })
             this.storedState = _.cloneDeep(data)
         }
-        
+
         const { Menu } = window.electron
 
         const undoTop = _.last(undoStack)
@@ -134,8 +134,8 @@ class App extends React.Component {
         Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate({ undo, redo })))
 
         return perform ?
-        <PerformPage exit={() => this.setState({ perform: false })}/> :
-        <EditPage perform={() => this.setState({ perform: true })} {...{ midiInterfaces, data, setData }}/>
+            <PerformPage exit={() => this.setState({ perform: false })}/> :
+            <EditPage perform={() => this.setState({ perform: true })} {...{ midiInterfaces, data, setData }}/>
     }
 
     undo() {

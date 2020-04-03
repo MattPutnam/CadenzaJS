@@ -44,9 +44,13 @@ const TriggerEditor = ({ object, data, setData }) => {
         setSelectedIndex(object.triggers.length - 1)
         setData('add trigger')
     }
+
     const deleteSelf = () => {
         object.triggers.splice(selectedIndex)
         setSelectedIndex(undefined)
+        if (_.isEmpty(object.triggers)) {
+            delete object.triggers
+        }
         setData('delete trigger')
     }
 
