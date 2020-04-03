@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
+import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
 import { Container } from '../../../components/Layout'
 import SongLocationEditor from './SongLocationEditor'
@@ -19,6 +20,7 @@ const SongEditor = ({ songId, deleteSelf, data, setData }) => {
             <SongLocationEditor key={song.number} {...{ songId, data, setData }}/>
             <Transpose alt object={song} setData={setData}/>
             <TriggerEditor object={song} data={data} setData={setData}/>
+            <ControlMapper alt object={song} setData={setData}/>
         </Container>
     )
 }

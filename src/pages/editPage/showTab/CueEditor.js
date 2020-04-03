@@ -5,6 +5,7 @@ import CueLocationEditor from './CueLocationEditor'
 import PatchUsageDisplay from './PatchUsageDisplay'
 import PatchUsageEditor from './PatchUsageEditor'
 
+import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
 import { Container } from '../../../components/Layout'
 import TriggerEditor from '../../../components/TriggerEditor'
@@ -33,6 +34,7 @@ const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
                                                      deleteSelf={deleteSelectedPatchUsage}
                                                      {...{ cue, data, setData }}/>}
             <TriggerEditor object={cue} {...{ data, setData }}/>
+            <ControlMapper alt object={cue} setData={setData}/>
         </Container>
     )
 }

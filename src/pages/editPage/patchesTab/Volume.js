@@ -36,7 +36,7 @@ const Volume = ({ selectedPatch, setData }) => {
                        min={1} max={127}
                        value={selectedPatch.volume}
                        style={styles.slider}
-                       onChange={e => setVolume(parseInt(e.target.value))}/>
+                       onChange={e => setVolume(parseInt(e.target.value, 10))}/>
             </Flex>
         </Container>
     )

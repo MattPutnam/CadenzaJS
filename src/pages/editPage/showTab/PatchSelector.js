@@ -37,7 +37,7 @@ class PatchSelector extends React.Component {
                 <Flex pad>
                     <Select options={options}
                             selected={patchUsage.patchId}
-                            setSelected={newId => this.setPatch(parseInt(newId))}
+                            setSelected={newId => this.setPatch(parseInt(newId, 10))}
                             valueRender={p => p.id}
                             render={p => p.name}/>
                     {!definingNew && <Button onClick={() => this.setState({ definingNew: true })}>Create new...</Button>}

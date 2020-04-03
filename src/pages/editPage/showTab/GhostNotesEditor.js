@@ -50,7 +50,7 @@ const GhostNotesEditor = ({ patchUsage, data, setData }) => {
 
     const attributes = patchUsage.attributes || {}
     const highlightKeys = _.get(attributes, `mapping[${selectedKey}]`)
-    const lightHighlightKeys = _.keys(attributes.mapping).map(x => parseInt(x))
+    const lightHighlightKeys = _.keys(attributes.mapping).map(x => parseInt(x, 10))
     const passthrough = attributes.passthrough
 
     return (

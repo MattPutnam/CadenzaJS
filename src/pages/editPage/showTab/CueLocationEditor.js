@@ -50,7 +50,7 @@ class CueLocationEditor extends React.Component {
                             render={song => `${song.number}. ${song.name}`}
                             valueRender={song => song.id}
                             selected={selectedSongId}
-                            setSelected={id => this.setState({ selectedSongId: parseInt(id), modified: true })}/>
+                            setSelected={id => this.setState({ selectedSongId: parseInt(id, 10), modified: true })}/>
                     <TextField label='Measure:'
                                size={6}
                                value={cueMeasure}

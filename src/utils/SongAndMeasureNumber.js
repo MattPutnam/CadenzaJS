@@ -31,7 +31,7 @@ export const cueCompare = (c1, c2) => compare(c1.measure, c2.measure)
 
 export const generateNext = (number, avoid=[]) => {
     const [, num] = number.match(pattern)
-    let parsed = parseInt(num) + 1
+    let parsed = parseInt(num, 10) + 1
 
     let candidate = parsed.toString()
     const avoidSet = new Set(avoid)

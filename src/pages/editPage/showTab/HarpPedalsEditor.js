@@ -7,7 +7,7 @@ import { Center } from '../../../components/Layout'
 const HarpPedalsEditor = ({ patchUsage, setData }) => {
     const pedalSettings = patchUsage.pedalSettings || [0, 0, 0, 0, 0, 0, 0]
     const setPedalSetting = index => value => {
-        pedalSettings[index] = parseInt(value)
+        pedalSettings[index] = parseInt(value, 10)
         patchUsage.pedalSettings = pedalSettings
         setData('harp pedal change')
     }

@@ -7,6 +7,7 @@ import NormalEditor from './NormalEditor'
 import PatchSelector from './PatchSelector'
 import RangeSelector from './RangeSelector'
 
+import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
 import { Container } from '../../../components/Layout'
 import { Tab, TabList, TabPanel, Tabs } from '../../../components/Tabs'
@@ -57,6 +58,7 @@ const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
                     </TabPanel>
                 </Tabs>
             </Container>
+            <ControlMapper object={patchUsage} setData={setData}/>
         </Container>
     )
 }

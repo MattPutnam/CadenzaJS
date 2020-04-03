@@ -8,7 +8,7 @@ import { Flex } from './Layout'
 
 export const Button = ({ large, disabled, onClick, style, children }) => {
     const myStyle = {
-        margin: '-0.5rem 0 -0.5rem 0.5rem',
+        margin: large ? '0 0 0 0.5rem' : '-2px 0 -2px 0.5rem',
         padding: large ? '0.5rem 0.75rem' : '2px 0.75rem',
         color: disabled ? Colors.gray[4] : 'white',
         backgroundColor: disabled ? Colors.gray[2] : Colors.blue[2],
@@ -88,7 +88,7 @@ export const NumberField = ({ value, setValue, min=0, max, label, style }) => {
 
     return <>
         {label && <Label htmlFor={id}>{label}</Label>}
-        <input id={id} type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value))}/>
+        <input id={id} type='number' value={value} min={min} max={max} style={style} onChange={e => setValue(parseInt(e.target.value, 10))}/>
     </>
 }
 
