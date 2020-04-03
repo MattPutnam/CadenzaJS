@@ -40,8 +40,8 @@ const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data
                             <td>Expansions</td>
                         </tr>
                         <tr>
-                            <td style={synthStyle}><SynthSelector synth={synth} setData={setData}/></td>
-                            <td><ExpansionConfig synth={synth} data={data} setData={setData}/></td>
+                            <td style={synthStyle}><SynthSelector {...{ synth, inUse, setData}}/></td>
+                            <td><ExpansionConfig {...{ synth, data, setData }}/></td>
                         </tr>
                     </tbody>
                 </table>
