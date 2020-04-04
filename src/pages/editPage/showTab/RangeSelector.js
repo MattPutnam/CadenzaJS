@@ -1,9 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
 
+import { Container, Header, HeaderButton, Title } from '../../../components/Container'
 import Icons from '../../../components/Icons'
 import Keyboard from '../../../components/Keyboard'
-import { Center, Container } from '../../../components/Layout'
+import { Center } from '../../../components/Layout'
 
 
 const RangeSelector = ({ patchUsage, data, setData }) => {
@@ -53,13 +54,13 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
         setData('move patch assignment')
     }
 
-    const buttons = [
-        moreAbove && { icon: Icons.arrowUp, onClick: () => move(keyboardIndex-1) },
-        moreBelow && { icon: Icons.arrowDown, onClick: () => move(keyboardIndex+1)}
-    ]
-
     return (
-        <Container header='Set Range' buttons={buttons}>
+        <Container>
+            <Title>Set Range</Title>
+            <Header>
+                {moreAbove && <HeaderButton icon={Icons.arrowUp} onClick={() => move(keyboardIndex-1)}/>}
+                {moreBelow && <HeaderButton icon={Icons.arrowDown} onClick={() => move(keyboardIndex+1)}/>}
+            </Header>
             <Center pad>
                 <Keyboard highlightMidi={false} {...{ keyboard, onKeyClick, onRangeDrag }}/>
             </Center>

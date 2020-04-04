@@ -2,9 +2,10 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Placeholder, Select, NumberField } from './Components'
+import { Container, Header, HeaderButton, Title } from './Container'
 import Icons from './Icons'
 import Keyboard from './Keyboard'
-import { Center, Container, Flex } from './Layout'
+import { Center, Flex } from './Layout'
 import { List, ListItem } from './List'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
@@ -83,17 +84,21 @@ const TriggerEditor = ({ object, data, setData }) => {
         setData('delete trigger')
     }
 
-    const buttons = [{ icon: Icons.add, onClick: addTrigger }]
-
-    return <Container alt collapse startCollapsed={noTriggers} header='Triggers' buttons={buttons}>
-        {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
-        <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
-            {triggers.map((trigger, index) => {
-                return <ListItem key={index} value={index}>{summarize(trigger)}</ListItem>
-            })}
-        </List>
-        {trigger && <Editor {...{ trigger, deleteSelf, data, setData }}/>}
-    </Container>
+    return (
+        <Container alt collapse startCollapsed={noTriggers}>
+            <Header>
+                <Title>Triggers</Title>
+                <HeaderButton icon={Icons.add} onClick={addTrigger}/>
+            </Header>
+            {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
+            <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
+                {triggers.map((trigger, index) => {
+                    return <ListItem key={index} value={index}>{summarize(trigger)}</ListItem>
+                })}
+            </List>
+            {trigger && <Editor {...{ trigger, deleteSelf, data, setData }}/>}
+        </Container>
+    )
 }
 
 export default TriggerEditor
@@ -127,11 +132,13 @@ const Editor = ({ trigger, deleteSelf, data, setData }) => {
         }
     }
 
-    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
-
     return (
         <div style={styles.container}>
-            <Container header='Edit Trigger' buttons={buttons}>
+            <Container>
+                <Header>
+                    <Title>Edit Trigger</Title>
+                    <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
+                </Header>
                 <TriggerType {...{ trigger, setData }}/>
                 <Inputs {...{ trigger, data, setData }}/>
                 <Flex pad>Do</Flex>
@@ -200,10 +207,12 @@ const Inputs = ({ trigger, data, setData }) => {
         setSelectedIndex(selectedIndex+1)
     }
 
-    const buttons = [{ icon: Icons.add, onClick: addInput }]
-
     return (
-        <Container alt header='Inputs' buttons={buttons}>
+        <Container alt>
+            <Header>
+                <Title>Inputs</Title>
+                <HeaderButton icon={Icons.add} onClick={addInput}/>
+            </Header>
             <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
                 {inputs.map((input, index) => {
                     return <ListItem key={index} value={index}>{summarizeInput(input)}</ListItem>
@@ -226,12 +235,6 @@ const Input = ({ input, deleteSelf, moveUp, moveDown, data, setData }) => {
         setData('set trigger input type')
     }
 
-    const buttons = [
-        ...(moveUp ? [{ icon: Icons.arrowUp, onClick: moveUp }] : []),
-        ...(moveDown ? [{ icon: Icons.arrowDown, onClick: moveDown }] : []),
-        { icon: Icons.delete, onClick: deleteSelf }
-    ]
-
     const styles = {
         container: {
             marginTop: '1rem',
@@ -241,7 +244,13 @@ const Input = ({ input, deleteSelf, moveUp, moveDown, data, setData }) => {
 
     return (
         <div style={styles.container}>
-            <Container header='Edit Input' buttons={buttons}>
+            <Container>
+                <Header>
+                    <Title>Edit Input</Title>
+                    {moveUp && <HeaderButton icon={Icons.arrowUp} onClick={moveUp}/>}
+                    {moveDown && <HeaderButton icon={Icons.arrowDown} onClick={moveDown}/>}
+                    <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
+                </Header>
                 <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
                         {ontology.inputs.map(({ label }, index) => {
@@ -329,11 +338,12 @@ const Actions = ({ trigger, data, setData }) => {
         setSelectedIndex(selectedIndex+1)
     }
 
-
-    const buttons = [{ icon: Icons.add, onClick: addAction }]
-
     return (
-        <Container alt header='Actions' buttons={buttons}>
+        <Container alt>
+            <Header>
+                <Title>Actions</Title>
+                <HeaderButton icon={Icons.add} onClick={addAction}/>
+            </Header>
             <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
                 {actions.map((action, index) => {
                     return <ListItem key={index} value={index}>{summarizeAction(action)}</ListItem>
@@ -356,12 +366,6 @@ const Action = ({ action, deleteSelf, moveUp, moveDown, data, setData }) => {
         setData('set trigger action type')
     }
 
-    const buttons = [
-        ...(moveUp ? [{ icon: Icons.arrowUp, onClick: moveUp }] : []),
-        ...(moveDown ? [{ icon: Icons.arrowDown, onClick: moveDown }] : []),
-        { icon: Icons.delete, onClick: deleteSelf }
-    ]
-
     const styles = {
         container: {
             marginTop: '1rem',
@@ -371,7 +375,13 @@ const Action = ({ action, deleteSelf, moveUp, moveDown, data, setData }) => {
 
     return (
         <div style={styles.container}>
-            <Container header='Edit Action' buttons={buttons}>
+            <Container>
+                <Header>
+                    <Title>Edit Action</Title>
+                    {moveUp && <HeaderButton icon={Icons.arrowUp} onClick={moveUp}/>}
+                    {moveDown && <HeaderButton icon={Icons.arrowDown} onClick={moveDown}/>}
+                    <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
+                </Header>
                 <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
                         {ontology.actions.map(({ label }, index) => {

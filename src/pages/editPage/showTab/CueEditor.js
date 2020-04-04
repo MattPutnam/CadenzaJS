@@ -5,9 +5,9 @@ import CueLocationEditor from './CueLocationEditor'
 import PatchUsageDisplay from './PatchUsageDisplay'
 import PatchUsageEditor from './PatchUsageEditor'
 
+import { Container, Header, HeaderButton, Title } from '../../../components/Container'
 import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
-import { Container } from '../../../components/Layout'
 import TriggerEditor from '../../../components/TriggerEditor'
 
 
@@ -24,10 +24,12 @@ const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
         setSelectedPatchUsageIndex(undefined)
     }
 
-    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
-
     return (
-        <Container header='Edit Cue' buttons={buttons}>
+        <Container>
+            <Header>
+                <Title>Edit Cue</Title>
+                <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
+            </Header>
             <CueLocationEditor key={`${cue.songId}#${cue.measure}`} {...{ cueId, data, setData }}/>
             <PatchUsageDisplay {...{ cue, data, setData, selectedPatchUsage, setSelectedPatchUsage }}/>
             {selectedPatchUsage && <PatchUsageEditor patchUsage={selectedPatchUsage}

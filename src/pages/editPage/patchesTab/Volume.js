@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Container, Flex } from '../../../components/Layout'
 import { NumberField } from '../../../components/Components'
+import { Container, Header, Title } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 
 
 const Volume = ({ selectedPatch, setData }) => {
@@ -29,7 +30,10 @@ const Volume = ({ selectedPatch, setData }) => {
     }
 
     return (
-        <Container alt header='Volume' flex='none' style={styles.container}>
+        <Container alt flex='none' style={styles.container}>
+            <Header>
+                <Title>Volume</Title>
+            </Header>
             <Flex column pad align='center' style={styles.column}>
                 <NumberField value={selectedPatch.volume} max={127} setValue={setVolume} style={styles.field}/>
                 <input type='range'

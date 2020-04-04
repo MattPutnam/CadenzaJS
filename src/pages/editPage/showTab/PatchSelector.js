@@ -2,7 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Button, Select } from '../../../components/Components'
-import { Container, Flex } from '../../../components/Layout'
+import { Container, Header, Title } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 import PatchPicker from '../../../components/PatchPicker'
 
 import { findId } from '../../../utils/IdFinder'
@@ -33,7 +34,10 @@ class PatchSelector extends React.Component {
         const onPatchSelected = selectedPatch => this.setState({ selectedPatch })
 
         return (
-            <Container header='Patch'>
+            <Container>
+                <Header>
+                    <Title>Patch</Title>
+                </Header>
                 <Flex pad>
                     <Select options={options}
                             selected={patchUsage.patchId}

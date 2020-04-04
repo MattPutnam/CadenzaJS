@@ -2,7 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Button } from '../../../components/Components'
-import { Container, Flex } from '../../../components/Layout'
+import { Container, Header, Title } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 
 
 const PatchNamer = ({ selectedPatch, allPatches, setData }) => {
@@ -18,7 +19,10 @@ const PatchNamer = ({ selectedPatch, allPatches, setData }) => {
     }
 
     return (
-        <Container alt flex='none' header='Name'>
+        <Container alt flex='none'>
+            <Header>
+                <Title>Name</Title>
+            </Header>
             <Flex pad>
                 <input type='text' value={selectedPatch.name} onChange={e => changeName(e.target.value)}/>
                 <Button disabled={selectedPatch.number === undefined} onClick={useDefaultName}>Use default</Button>

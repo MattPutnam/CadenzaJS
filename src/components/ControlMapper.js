@@ -2,9 +2,10 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Button, Placeholder } from './Components'
+import { Container, Header, HeaderButton, Title } from './Container'
 import ControlSelect from './ControlSelect'
 import Icons, { icon } from './Icons'
-import { Container, Flex } from './Layout'
+import { Flex } from './Layout'
 
 
 const ControlMapper = ({ object, setData, alt }) => {
@@ -45,10 +46,12 @@ const ControlMapper = ({ object, setData, alt }) => {
         updateValue(candidate, candidate)
     }
 
-    const buttons = [{ icon: Icons.add, onClick: addNew }]
-
     return (
-        <Container alt={alt} collapse startCollapsed={_.isEmpty(mappings)} header='Map controls' buttons={buttons}>
+        <Container alt={alt} collapse startCollapsed={_.isEmpty(mappings)}>
+            <Header>
+                <Title>Map controls</Title>
+                <HeaderButton icon={Icons.add} onClick={addNew}/>
+            </Header>
             <Flex column pad>
                 {_.isEmpty(mappings) && <Placeholder>Click '+' to add a mapping</Placeholder>}
                 {_.toPairs(mappings).map(([key, value]) => {

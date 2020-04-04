@@ -6,32 +6,27 @@ import InterfaceSelector from './InterfaceSelector'
 import MultiChannelSelector from './MultiChannelSelector'
 import SynthSelector from './SynthSelector'
 
+import { Container, Header, HeaderButton } from '../../../components/Container'
 import Icons from '../../../components/Icons'
-import { Container, Flex } from '../../../components/Layout'
+import { Flex } from '../../../components/Layout'
 
 
 const SynthConfig = ({ synth, midiInterfaces, deleteSelf, moveUp, moveDown, data, setData }) => {
-    const header = <>
-        <InterfaceSelector hardware={synth}
-                           io='outputs'
-                           {...{ midiInterfaces, setData }}/>
-        <MultiChannelSelector synth={synth} setData={setData}/>
-    </>
-
     const inUse = _.some(data.patches, { synthesizerId: synth.id })
-
-    const buttons = [
-        moveUp && { icon: Icons.arrowUp, onClick: moveUp },
-        moveDown && { icon: Icons.arrowDown, onClick: moveDown },
-        { icon: Icons.delete, disabled: inUse, onClick: deleteSelf }
-    ]
 
     const synthStyle = {
         verticalAlign: 'top'
     }
 
     return (
-        <Container alt header={header} buttons={buttons}>
+        <Container alt>
+            <Header>
+                <InterfaceSelector hardware={synth} io='outputs' {...{ midiInterfaces, setData }}/>
+                <MultiChannelSelector synth={synth} setData={setData}/>
+                {moveUp && <HeaderButton icon={Icons.arrowUp} onClick={moveUp}/>}
+                {moveDown && <HeaderButton icon={Icons.arrowDown} onClick={moveDown}/>}
+                <HeaderButton icon={Icons.delete} disabled={inUse} onClick={deleteSelf}/>
+            </Header>
             <Flex pad>
                 <table>
                     <tbody>

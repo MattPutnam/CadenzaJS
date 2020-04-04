@@ -2,7 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 
 import { Button, Select, TextField, Warning } from '../../../components/Components'
-import { Container, Flex } from '../../../components/Layout'
+import { Container } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 
 import { validateSongOrMeasureNumber } from '../../../utils/SongAndMeasureNumber'
 

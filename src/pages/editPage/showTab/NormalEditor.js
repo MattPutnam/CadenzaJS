@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Checkbox } from '../../../components/Components'
-import { Container, Flex } from '../../../components/Layout'
+import { Container } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 import Transpose from '../../../components/Transpose'
 
 

@@ -2,8 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 
 import Colors from './Colors'
+import { Container, Header } from './Container'
 import Icons, { icon } from './Icons'
-import { Container, Flex, Spacer } from './Layout'
+import { Flex, Spacer } from './Layout'
 
 
 const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchSelected, style }) => {
@@ -132,18 +133,19 @@ const SearchSection = ({ allPatches, selectedPatch, setSelectedPatch, alt }) => 
 
     const arrowColumn = <td>{icon(Icons.treeSeparator)}</td>
 
-    const searchField = <input type='search'
-                               style={styles.searchField}
-                               value={searchText}
-                               placeholder='Search...'
-                               onChange={e => setSearchText(e.target.value)}/>
-
     const displayResults = !_.isEmpty(searchText)
     const txt = searchText.trim().toLowerCase()
     const results = displayResults && allPatches.filter(patch => patch.name.toLowerCase().indexOf(txt) !== -1)
 
     return (
-        <Container alt={alt} header={searchField}>
+        <Container alt={alt}>
+            <Header>
+                <input type='search'
+                       style={styles.searchField}
+                       value={searchText}
+                       placeholder='Search...'
+                       onChange={e => setSearchText(e.target.value)}/>
+            </Header>
             {displayResults && <div key={searchText} style={styles.list}>
                 <table style={styles.table}>
                     <tbody>{results.map(patch => {

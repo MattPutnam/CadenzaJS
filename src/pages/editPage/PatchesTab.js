@@ -5,8 +5,9 @@ import PatchNamer from './patchesTab/PatchNamer'
 import Volume from './patchesTab/Volume'
 
 import { Placeholder } from '../../components/Components'
+import { Container, Header, HeaderButton, Title } from '../../components/Container'
 import Icons from '../../components/Icons'
-import { Container, Flex } from '../../components/Layout'
+import { Flex } from '../../components/Layout'
 import { List, ListItem } from '../../components/List'
 import PatchPicker from '../../components/PatchPicker'
 import Transpose from '../../components/Transpose'
@@ -44,13 +45,13 @@ class PatchesTab extends React.Component {
 
         const { selectedPatchId } = this.state
 
-        const buttons = [
-            { icon: Icons.sortDown, disabled: _.isEmpty(patches), onClick: () => this.sortPatches() },
-            { icon: Icons.add, disabled: _.isEmpty(synthesizers), onClick: () => this.addPatch() }
-        ]
-
         return (
-            <Container header='Patches' flex='0 0 200px' buttons={buttons}>
+            <Container flex='0 0 200px'>
+                <Header>
+                    <Title>Patches</Title>
+                    <HeaderButton icon={Icons.sortDown} disabled={_.isEmpty(patches)} onClick={() => this.sortPatches()}/>
+                    <HeaderButton icon={Icons.add} disabled={_.isEmpty(synthesizers)} onClick={() => this.addPatch()}/>
+                </Header>
                 <List selectedItem={selectedPatchId} setSelectedItem={id => this.setState({ selectedPatchId: id })}>
                     {patches.map(patch => {
                         return <ListItem key={patch.id} value={patch.id}>{patch.name || '<Untitled>'}</ListItem>
@@ -98,13 +99,18 @@ class PatchesTab extends React.Component {
                 setData('set patch definition')
             }
 
-            const buttons = [{ icon: Icons.delete, onClick: () => this.deleteSelectedPatch(), disabled }]
-
             return (
-                <Container key={selectedPatchId} header='Edit' buttons={buttons}>
+                <Container key={selectedPatchId}>
+                    <Header>
+                        <Title>Edit</Title>
+                        <HeaderButton icon={Icons.delete} onClick={() => this.deleteSelectedPatch()} disabled={disabled}/>
+                    </Header>
                     <Flex style={{height: '100%'}}>
                         <Flex column style={{flex: '1 1 auto'}}>
-                            <Container alt header='Assignment'>
+                            <Container alt>
+                                <Header>
+                                    <Title>Assignment</Title>
+                                </Header>
                                 <PatchPicker {...{ synthesizers, initialSelection, synthTree, allPatches, onPatchSelected }}/>
                             </Container>
                             <PatchNamer {...{ selectedPatch, allPatches, setData }}/>

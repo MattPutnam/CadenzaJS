@@ -5,8 +5,9 @@ import CueEditor from './showTab/CueEditor'
 import SongEditor from './showTab/SongEditor'
 
 import { Placeholder } from '../../components/Components'
+import { Container, Header, HeaderButton, Title } from '../../components/Container'
 import Icons from '../../components/Icons'
-import { Container, Flex } from '../../components/Layout'
+import { Flex } from '../../components/Layout'
 import { List, ListItem, ListSection } from '../../components/List'
 
 import { findId } from '../../utils/IdFinder'
@@ -57,13 +58,13 @@ class ShowTab extends React.Component {
 
         const { selectedId } = this.state
 
-        const buttons = [
-            { icon: Icons.addSong, disabled: _.isEmpty(data.setup.synthesizers), onClick: () => this.addSong() },
-            { icon: Icons.add, disabled: _.isEmpty(songs), onClick: () => this.addCue() }
-        ]
-
         return (
-            <Container header='Cues' flex='0 0 200px' buttons={buttons}>
+            <Container flex='0 0 200px'>
+                <Header>
+                    <Title>Cues</Title>
+                    <HeaderButton icon={Icons.addSong} disabled={_.isEmpty(data.setup.synthesizers)} onClick={() => this.addSong()}/>
+                    <HeaderButton icon={Icons.add} disabled={_.isEmpty(songs)} onClick={() => this.addCue()}/>
+                </Header>
                 <List selectedItem={selectedId} setSelectedItem={id => this.setState({ selectedId: id })}>
                     <ListItem value={{ globals: true }}>Global settings</ListItem>
                     {songs.sort(songCompare).map((song, songIndex) => {

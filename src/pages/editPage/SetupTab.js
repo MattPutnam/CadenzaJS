@@ -7,8 +7,8 @@ import KeyboardConfig from './setupTab/KeyboardConfig'
 import SynthConfig from './setupTab/SynthConfig'
 
 import { Placeholder } from '../../components/Components'
+import { Container, Header, HeaderButton, Title } from '../../components/Container'
 import Icons from '../../components/Icons'
-import { Container } from '../../components/Layout'
 import MidiListener from '../../components/MidiListener'
 
 import { findId } from '../../utils/IdFinder'
@@ -35,11 +35,12 @@ class SetupTab extends React.Component {
             setData(`move ${key === 'keyboards' ? 'keyboard' : 'synthesizer'} down`)
         }
 
-        const keyboardButtons = [{ icon: Icons.add, onClick: () => this.addKeyboard() }]
-        const synthButtons = [{ icon: Icons.add, onClick: () => this.addSynthesizer() }]
-
         return <>
-            <Container collapse header='Keyboards' buttons={keyboardButtons}>
+            <Container collapse>
+                <Header>
+                    <Title>Keyboards</Title>
+                    <HeaderButton icon={Icons.add} onClick={() => this.addKeyboard()}/>
+                </Header>
                 {_.isEmpty(keyboards) && <Placeholder height='199px'>No keyboards defined.</Placeholder>}
                 {keyboards.map((keyboard, index) =>
                     <KeyboardConfig key={keyboard.id}
@@ -50,7 +51,11 @@ class SetupTab extends React.Component {
                 )}
                 <ActionPedalConfig data={data} setData={setData}/>
             </Container>
-            <Container collapse header='Synthesizers' buttons={synthButtons}>
+            <Container collapse>
+                <Header>
+                    <Title>Synthesizers</Title>
+                    <HeaderButton icon={Icons.add} onClick={() => this.addSynthesizer()}/>
+                </Header>
                 {_.isEmpty(synthesizers) && <Placeholder>No synthesizers defined.</Placeholder>}
                 {synthesizers.map((synth, index) => {
                     return <SynthConfig key={synth.id}

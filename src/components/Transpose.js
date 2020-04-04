@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Button, Select, NumberField } from './Components'
-import { Container, Flex } from './Layout'
+import { Container, Header, Title } from './Container'
+import { Flex } from './Layout'
 
 
 const Transpose = ({ object={}, setData, alt }) => {
@@ -37,7 +38,10 @@ const Transpose = ({ object={}, setData, alt }) => {
     }
 
     return (
-        <Container key={transpose} alt={alt} flex='none' header='Transposition'>
+        <Container key={transpose} alt={alt} flex='none'>
+            <Header>
+                <Title>Transposition</Title>
+            </Header>
             <Flex pad>
                 {/* max of 10 just to make the fields the same size */}
                 <NumberField label='Transpose' value={octaves} max={10} setValue={setOctaves}/>

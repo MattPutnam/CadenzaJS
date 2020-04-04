@@ -4,7 +4,8 @@ import _ from 'lodash'
 import { MidiInterfacePlaceholder } from './InterfaceSelector'
 
 import { Button, Message } from '../../../components/Components'
-import { Container, Flex } from '../../../components/Layout'
+import { Container, Header, Title } from '../../../components/Container'
+import { Flex } from '../../../components/Layout'
 import MidiListener from '../../../components/MidiListener'
 
 import * as Midi from '../../../utils/Midi'
@@ -29,7 +30,10 @@ class ActionPedalConfig extends React.Component {
         const { stage, error } = this.state
 
         return (
-            <Container alt header='Action Pedal'>
+            <Container alt>
+                <Header>
+                    <Title>Action Pedal</Title>
+                </Header>
                 {stage && <MidiListener id='ActionPedal' dispatch={msg => this.handleMidi(msg)}/>}
                 <Flex pad align='center'>
                     {this.getDisplay()}

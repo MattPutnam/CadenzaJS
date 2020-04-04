@@ -7,9 +7,9 @@ import NormalEditor from './NormalEditor'
 import PatchSelector from './PatchSelector'
 import RangeSelector from './RangeSelector'
 
+import { Container, Header, HeaderButton, Title } from '../../../components/Container'
 import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
-import { Container } from '../../../components/Layout'
 import { Tab, TabList, TabPanel, Tabs } from '../../../components/Tabs'
 
 
@@ -26,8 +26,6 @@ const indexToType = [
 ]
 
 const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
-    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
-
     const selectedTab = typeToIndex[patchUsage.attributes.type]
     const onTabSelected = index => {
         patchUsage.attributes.type = indexToType[index]
@@ -37,10 +35,17 @@ const PatchUsageEditor = ({ patchUsage, data, setData, deleteSelf, cue }) => {
     const index = _.findIndex(cue.patchUsages, patchUsage)
 
     return (
-        <Container alt collapse header='Configure Patch' buttons={buttons}>
+        <Container alt collapse>
+            <Header>
+                <Title>Configure Patch</Title>
+                <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
+            </Header>
             <PatchSelector {...{ patchUsage, data, setData }}/>
             <RangeSelector {...{ patchUsage, data, setData }}/>
-            <Container collapse header='Type'>
+            <Container collapse>
+                <Header>
+                    <Title>Type</Title>
+                </Header>
                 <Tabs key={index} selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
                         <Tab>Normal</Tab>
