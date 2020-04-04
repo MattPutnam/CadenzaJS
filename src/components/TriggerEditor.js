@@ -17,7 +17,7 @@ const ontology = {
         types: ['keyPress']
     },
     actions: {
-        types: ['cueAdvance', 'cueReverse', 'wait']
+        types: ['cueAdvance', 'cueReverse', 'wait', 'panic']
     }
 }
 
@@ -95,6 +95,7 @@ const summarizeAction = action => {
         case 'cueAdvance': return 'Advance'
         case 'cueReverse': return 'Reverse'
         case 'wait': return `Wait ${waitTime || 0} ms`
+        case 'panic': return 'Panic'
         default: throw new Error(`Unknown trigger action type: ${type}`)
     }
 }
@@ -295,6 +296,7 @@ const Action = ({ action, deleteSelf, data, setData }) => {
                         <Tab>Cue Advance</Tab>
                         <Tab>Cue Reverse</Tab>
                         <Tab>Wait</Tab>
+                        <Tab>Panic</Tab>
                     </TabList>
                     <TabPanel>
                         <Placeholder>Advance to the next cue</Placeholder>
@@ -304,6 +306,9 @@ const Action = ({ action, deleteSelf, data, setData }) => {
                     </TabPanel>
                     <TabPanel>
                         <WaitEditor {...{ action, setData }}/>
+                    </TabPanel>
+                    <TabPanel>
+                        <Placeholder>Panic (all notes off)</Placeholder>
                     </TabPanel>
                 </Tabs>
             </Container>
