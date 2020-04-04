@@ -8,7 +8,7 @@ import { Flex } from './Layout'
 
 export const Tabs = ({ selectedTab, onTabSelected, children }) => {
     const tabList = _.find(children, child => child.type.name === 'TabList')
-    const tabPanels = _.filter(children, child => child.type.name !== 'TabList')
+    const tabPanels = _.filter(children, child => !child.type || child.type.name !== 'TabList')
 
     return (
         <div>

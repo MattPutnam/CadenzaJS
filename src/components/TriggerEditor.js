@@ -9,16 +9,45 @@ import { List, ListItem } from './List'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
 import { midiNoteNumberToName } from '../utils/Midi'
+import { RadioButtonGroup, RadioButton } from './Radio'
 
 
 const ontology = {
     types: ['any of', 'all of', 'all in sequence'],
-    inputs: {
-        types: ['keyPress']
-    },
-    actions: {
-        types: ['cueAdvance', 'cueReverse', 'wait', 'panic']
-    }
+    inputs: [
+        {
+            type: 'keyPress',
+            label: 'Key Press',
+            describe: ({ key }) => `${key ? midiNoteNumberToName(key) : '[unset key]'} pressed`,
+            control: props => <KeyPressEditor {...props}/>
+        }
+    ],
+    actions: [
+        {
+            type: 'cueStep',
+            label: 'Cue Step',
+            defaultData: {
+                stepDirection: 'next'
+            },
+            describe: ({ stepDirection }) => stepDirection === 'next' ? 'Next cue' : 'Prev cue',
+            control: props => <CueStepEditor {...props}/>
+        },
+        {
+            type: 'wait',
+            label: 'Wait',
+            defaultData: {
+                waitTime: 500
+            },
+            describe: ({ waitTime }) => `Wait ${waitTime || 0} ms`,
+            control: props => <WaitEditor {...props}/>
+        },
+        {
+            type: 'panic',
+            label: 'Panic',
+            describe: 'Panic',
+            control: () => <Placeholder>Panic (all notes off)</Placeholder>
+        }
+    ]
 }
 
 
@@ -33,7 +62,7 @@ const TriggerEditor = ({ object, data, setData }) => {
         const newTrigger = {
             type: ontology.types[0],
             inputs: [],
-            actions: [{ type: ontology.actions.types[0] }]
+            actions: []
         }
 
         if (!object.triggers) {
@@ -89,11 +118,12 @@ const summarizeInput = input => {
 }
 
 const summarizeAction = action => {
-    const { type, waitTime } = action
+    const { type, stepDirection, waitTime } = action
 
     switch(type) {
         case 'cueAdvance': return 'Advance'
         case 'cueReverse': return 'Reverse'
+        case 'cueStep' : return stepDirection === 'next' ? 'Next cue' : 'Prev cue'
         case 'wait': return `Wait ${waitTime || 0} ms`
         case 'panic': return 'Panic'
         default: throw new Error(`Unknown trigger action type: ${type}`)
@@ -149,7 +179,8 @@ const Inputs = ({ trigger, data, setData }) => {
 
     const addInput = () => {
         const newInput = {
-            type: ontology.inputs.types[0]
+            type: ontology.inputs[0].type,
+            ...ontology.inputs[0].defaultData
         }
 
         trigger.inputs.push(newInput)
@@ -178,10 +209,12 @@ const Inputs = ({ trigger, data, setData }) => {
 
 const Input = ({ input, deleteSelf, data, setData }) => {
     const { type } = input
-    const selectedTab = ontology.inputs.types.indexOf(type)
+    const selectedTab = _.findIndex(ontology.inputs, { type })
     const onTabSelected = index => {
-        input.type = ontology.inputs.types[index]
-        setData('set trigger iput type')
+        const { type, defaultData } = ontology.inputs[index]
+        input.type = type
+        _.defaults(input, defaultData)
+        setData('set trigger input type')
     }
 
     const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
@@ -198,11 +231,17 @@ const Input = ({ input, deleteSelf, data, setData }) => {
             <Container header='Edit Input' buttons={buttons}>
                 <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
-                        <Tab>Key Press</Tab>
+                        {ontology.inputs.map(({ label }, index) => {
+                            return <Tab key={index}>{label}</Tab>
+                        })}
                     </TabList>
-                    <TabPanel>
-                        <KeyPressEditor {...{ input, data, setData }}/>
-                    </TabPanel>
+                    {ontology.inputs.map(({ control }, index) => {
+                        return (
+                            <TabPanel key={index}>
+                                {control({ input, data, setData })}
+                            </TabPanel>
+                        )
+                    })}
                 </Tabs>
             </Container>
         </div>
@@ -244,7 +283,8 @@ const Actions = ({ trigger, data, setData }) => {
 
     const addAction = () => {
         const newAction = {
-            type: ontology.actions.types[0]
+            type: ontology.actions[0].type,
+            ...ontology.actions[0].defaultData
         }
 
         trigger.actions.push(newAction)
@@ -273,9 +313,11 @@ const Actions = ({ trigger, data, setData }) => {
 
 const Action = ({ action, deleteSelf, data, setData }) => {
     const { type } = action
-    const selectedTab = ontology.actions.types.indexOf(type)
+    const selectedTab = _.findIndex(ontology.actions, { type })
     const onTabSelected = index => {
-        action.type = ontology.actions.types[index]
+        const { type, defaultData } = ontology.actions[index]
+        action.type = type
+        _.defaults(action, defaultData)
         setData('set trigger action type')
     }
 
@@ -293,33 +335,46 @@ const Action = ({ action, deleteSelf, data, setData }) => {
             <Container header='Edit Action' buttons={buttons}>
                 <Tabs selectedTab={selectedTab} onTabSelected={onTabSelected}>
                     <TabList>
-                        <Tab>Cue Advance</Tab>
-                        <Tab>Cue Reverse</Tab>
-                        <Tab>Wait</Tab>
-                        <Tab>Panic</Tab>
+                        {ontology.actions.map(({ label }, index) => {
+                            return <Tab key={index}>{label}</Tab>
+                        })}
                     </TabList>
-                    <TabPanel>
-                        <Placeholder>Advance to the next cue</Placeholder>
-                    </TabPanel>
-                    <TabPanel>
-                        <Placeholder>Go back to the previous cue</Placeholder>
-                    </TabPanel>
-                    <TabPanel>
-                        <WaitEditor {...{ action, setData }}/>
-                    </TabPanel>
-                    <TabPanel>
-                        <Placeholder>Panic (all notes off)</Placeholder>
-                    </TabPanel>
+                    {ontology.actions.map(({ control }, index) => {
+                        return (
+                            <TabPanel key={index}>
+                                {control({ action, data, setData })}
+                            </TabPanel>
+                        )
+                    })}
                 </Tabs>
             </Container>
         </div>
     )
 }
 
+const CueStepEditor = ({ action, setData }) => {
+    const selected = action.stepDirection === 'next' ? 0 : 1
+    const onSelected = index => {
+        if (index === 0) {
+            action.stepDirection = 'next'
+        } else if (index === 1) {
+            action.stepDirection = 'prev'
+        }
+        setData('set step direction')
+    }
+
+    return (
+        <RadioButtonGroup {...{ selected, onSelected }}>
+            <RadioButton>Advance to the next cue</RadioButton>
+            <RadioButton>Go back to the previous cue</RadioButton>
+        </RadioButtonGroup>
+    )
+}
+
 const WaitEditor = ({ action, setData }) => {
     const setValue = newValue => {
         action.waitTime = parseInt(newValue)
-        setData()
+        setData('set wait duration', 'WAITDURATION')
     }
 
     return (
