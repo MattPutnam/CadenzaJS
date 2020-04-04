@@ -109,25 +109,13 @@ const summarize = trigger => {
 }
 
 const summarizeInput = input => {
-    const { type, key } = input
-
-    switch(type) {
-        case 'keyPress': return `${key ? midiNoteNumberToName(key) : '[unset key]'} pressed`
-        default: throw new Error(`Unknown trigger input type: ${type}`)
-    }
+    const ontologyValue = _.find(ontology.inputs, { type: input.type })
+    return ontologyValue.describe(input)
 }
 
 const summarizeAction = action => {
-    const { type, stepDirection, waitTime } = action
-
-    switch(type) {
-        case 'cueAdvance': return 'Advance'
-        case 'cueReverse': return 'Reverse'
-        case 'cueStep' : return stepDirection === 'next' ? 'Next cue' : 'Prev cue'
-        case 'wait': return `Wait ${waitTime || 0} ms`
-        case 'panic': return 'Panic'
-        default: throw new Error(`Unknown trigger action type: ${type}`)
-    }
+    const ontologyValue = _.find(ontology.actions, { type: action.type })
+    return ontologyValue.describe(action)
 }
 
 
@@ -187,10 +175,29 @@ const Inputs = ({ trigger, data, setData }) => {
         setSelectedIndex(trigger.inputs.length - 1)
         setData('add trigger input')
     }
+
     const deleteSelf = () => {
         trigger.inputs.splice(selectedIndex)
         setSelectedIndex(undefined)
         setData(' delete trigger input')
+    }
+
+    const moveUp = () => {
+        const elem = inputs[selectedIndex]
+        const prev = inputs[selectedIndex-1]
+        inputs[selectedIndex-1] = elem
+        inputs[selectedIndex] = prev
+        setData(`move trigger input up`)
+        setSelectedIndex(selectedIndex-1)
+    }
+
+    const moveDown = () => {
+        const elem = inputs[selectedIndex]
+        const next = inputs[selectedIndex+1]
+        inputs[selectedIndex+1] = elem
+        inputs[selectedIndex] = next
+        setData(`move trigger input down`)
+        setSelectedIndex(selectedIndex+1)
     }
 
     const buttons = [{ icon: Icons.add, onClick: addInput }]
@@ -202,12 +209,14 @@ const Inputs = ({ trigger, data, setData }) => {
                     return <ListItem key={index} value={index}>{summarizeInput(input)}</ListItem>
                 })}
             </List>
-            {input && <Input {...{ input, deleteSelf, data, setData }}/>}
+            {input && <Input moveUp={selectedIndex > 0 ? moveUp : undefined}
+                             moveDown={selectedIndex < inputs.length-1 ? moveDown: undefined}
+                             {...{ input, deleteSelf, data, setData }}/>}
         </Container>
     )
 }
 
-const Input = ({ input, deleteSelf, data, setData }) => {
+const Input = ({ input, deleteSelf, moveUp, moveDown, data, setData }) => {
     const { type } = input
     const selectedTab = _.findIndex(ontology.inputs, { type })
     const onTabSelected = index => {
@@ -217,7 +226,11 @@ const Input = ({ input, deleteSelf, data, setData }) => {
         setData('set trigger input type')
     }
 
-    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
+    const buttons = [
+        ...(moveUp ? [{ icon: Icons.arrowUp, onClick: moveUp }] : []),
+        ...(moveDown ? [{ icon: Icons.arrowDown, onClick: moveDown }] : []),
+        { icon: Icons.delete, onClick: deleteSelf }
+    ]
 
     const styles = {
         container: {
@@ -291,11 +304,31 @@ const Actions = ({ trigger, data, setData }) => {
         setSelectedIndex(trigger.actions.length - 1)
         setData('add trigger action')
     }
+
     const deleteSelf = () => {
         trigger.actions.splice(selectedIndex)
         setData('delete trigger action')
         setSelectedIndex(undefined)
     }
+
+    const moveUp = () => {
+        const elem = actions[selectedIndex]
+        const prev = actions[selectedIndex-1]
+        actions[selectedIndex-1] = elem
+        actions[selectedIndex] = prev
+        setData(`move trigger input up`)
+        setSelectedIndex(selectedIndex-1)
+    }
+
+    const moveDown = () => {
+        const elem = actions[selectedIndex]
+        const next = actions[selectedIndex+1]
+        actions[selectedIndex+1] = elem
+        actions[selectedIndex] = next
+        setData(`move trigger input down`)
+        setSelectedIndex(selectedIndex+1)
+    }
+
 
     const buttons = [{ icon: Icons.add, onClick: addAction }]
 
@@ -306,12 +339,14 @@ const Actions = ({ trigger, data, setData }) => {
                     return <ListItem key={index} value={index}>{summarizeAction(action)}</ListItem>
                 })}
             </List>
-            {action && <Action {...{ action, deleteSelf, data, setData }}/>}
+            {action && <Action moveUp={selectedIndex > 0 ? moveUp : undefined}
+                               moveDown={selectedIndex < actions.length-1 ? moveDown: undefined}
+                               {...{ action, deleteSelf, data, setData }}/>}
         </Container>
     )
 }
 
-const Action = ({ action, deleteSelf, data, setData }) => {
+const Action = ({ action, deleteSelf, moveUp, moveDown, data, setData }) => {
     const { type } = action
     const selectedTab = _.findIndex(ontology.actions, { type })
     const onTabSelected = index => {
@@ -321,7 +356,11 @@ const Action = ({ action, deleteSelf, data, setData }) => {
         setData('set trigger action type')
     }
 
-    const buttons = [{ icon: Icons.delete, onClick: deleteSelf }]
+    const buttons = [
+        ...(moveUp ? [{ icon: Icons.arrowUp, onClick: moveUp }] : []),
+        ...(moveDown ? [{ icon: Icons.arrowDown, onClick: moveDown }] : []),
+        { icon: Icons.delete, onClick: deleteSelf }
+    ]
 
     const styles = {
         container: {
