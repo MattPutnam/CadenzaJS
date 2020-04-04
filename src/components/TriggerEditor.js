@@ -1,14 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
 
-import { Placeholder, Select } from './Components'
+import { Placeholder, Select, NumberField } from './Components'
 import Icons from './Icons'
+import Keyboard from './Keyboard'
 import { Center, Container, Flex } from './Layout'
 import { List, ListItem } from './List'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
 import { midiNoteNumberToName } from '../utils/Midi'
-import Keyboard from './Keyboard'
 
 
 const ontology = {
@@ -17,7 +17,7 @@ const ontology = {
         types: ['keyPress']
     },
     actions: {
-        types: ['cueAdvance', 'cueReverse']
+        types: ['cueAdvance', 'cueReverse', 'wait']
     }
 }
 
@@ -89,11 +89,12 @@ const summarizeInput = input => {
 }
 
 const summarizeAction = action => {
-    const { type } = action
+    const { type, waitTime } = action
 
     switch(type) {
         case 'cueAdvance': return 'Advance'
         case 'cueReverse': return 'Reverse'
+        case 'wait': return `Wait ${waitTime || 0} ms`
         default: throw new Error(`Unknown trigger action type: ${type}`)
     }
 }
@@ -115,7 +116,7 @@ const Editor = ({ trigger, deleteSelf, data, setData }) => {
                 <TriggerType {...{ trigger, setData }}/>
                 <Inputs {...{ trigger, data, setData }}/>
                 <Flex pad>Do</Flex>
-                <Actions {...{ trigger, setData }}/>
+                <Actions {...{ trigger, data, setData }}/>
             </Container>
         </div>
     )
@@ -234,7 +235,7 @@ const KeyPressEditor = ({ input, data, setData }) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // ACTIONS
 
-const Actions = ({ trigger, setData }) => {
+const Actions = ({ trigger, data, setData }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(undefined)
     const { actions } = trigger
 
@@ -264,12 +265,12 @@ const Actions = ({ trigger, setData }) => {
                     return <ListItem key={index} value={index}>{summarizeAction(action)}</ListItem>
                 })}
             </List>
-            {action && <Action {...{ action, deleteSelf, setData }}/>}
+            {action && <Action {...{ action, deleteSelf, data, setData }}/>}
         </Container>
     )
 }
 
-const Action = ({ action, deleteSelf, setData }) => {
+const Action = ({ action, deleteSelf, data, setData }) => {
     const { type } = action
     const selectedTab = ontology.actions.types.indexOf(type)
     const onTabSelected = index => {
@@ -293,6 +294,7 @@ const Action = ({ action, deleteSelf, setData }) => {
                     <TabList>
                         <Tab>Cue Advance</Tab>
                         <Tab>Cue Reverse</Tab>
+                        <Tab>Wait</Tab>
                     </TabList>
                     <TabPanel>
                         <Placeholder>Advance to the next cue</Placeholder>
@@ -300,8 +302,25 @@ const Action = ({ action, deleteSelf, setData }) => {
                     <TabPanel>
                         <Placeholder>Go back to the previous cue</Placeholder>
                     </TabPanel>
+                    <TabPanel>
+                        <WaitEditor {...{ action, setData }}/>
+                    </TabPanel>
                 </Tabs>
             </Container>
         </div>
+    )
+}
+
+const WaitEditor = ({ action, setData }) => {
+    const setValue = newValue => {
+        action.waitTime = parseInt(newValue)
+        setData()
+    }
+
+    return (
+        <Flex pad>
+            <NumberField label='Wait' max={10000} value={action.waitTime || 0} setValue={setValue}/>
+            milliseconds
+        </Flex>
     )
 }
