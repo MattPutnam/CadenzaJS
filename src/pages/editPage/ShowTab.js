@@ -151,12 +151,13 @@ class ShowTab extends React.Component {
 
     deleteSong() {
         const { data, setData } = this.props
-        const { songs } = data.show
+        const { songs, cues } = data.show
         
         const { selectedId } = this.state
         const { songId } = selectedId
 
         _.remove(songs, { id: songId })
+        _.remove(cues, { songId })
         setData('delete song')
         this.setState({ selectedId: undefined })
     }
