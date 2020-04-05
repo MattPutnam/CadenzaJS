@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { Button, Placeholder } from './Components'
 import { Container, Header, HeaderButton, Title } from './Container'
-import ControlSelect from './ControlSelect'
+import { ControlSelect, ControlOrNoneSelect } from './ControlSelect'
 import Icons, { icon } from './Icons'
 import { Flex } from './Layout'
 
@@ -47,7 +47,7 @@ const ControlMapper = ({ object, setData, alt }) => {
     }
 
     return (
-        <Container alt={alt} collapse startCollapsed={_.isEmpty(mappings)}>
+        <Container alt={alt} flex='none' collapse startCollapsed={_.isEmpty(mappings)}>
             <Header>
                 <Title>Map controls</Title>
                 <HeaderButton icon={Icons.add} onClick={addNew}/>
@@ -58,7 +58,7 @@ const ControlMapper = ({ object, setData, alt }) => {
                     return <Flex pad align='center' key={key}>
                         <ControlSelect selected={key} setSelected={newKey => updateKey(key, parseInt(newKey, 10))}/>
                         {icon(Icons.treeSeparator, { style: { marginRight: '0.5rem' } })}
-                        <ControlSelect selected={value} setSelected={newValue => updateValue(key, parseInt(newValue, 10))}/>
+                        <ControlOrNoneSelect selected={value} setSelected={newValue => updateValue(key, parseInt(newValue, 10))}/>
                         <Button onClick={() => remove(key)}>Delete</Button>
                     </Flex>
                 })}

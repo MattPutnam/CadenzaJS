@@ -56,8 +56,8 @@ const RangeSelector = ({ patchUsage, data, setData }) => {
 
     return (
         <Container>
-            <Title>Set Range</Title>
             <Header>
+                <Title>Set Range</Title>
                 {moreAbove && <HeaderButton icon={Icons.arrowUp} onClick={() => move(keyboardIndex-1)}/>}
                 {moreBelow && <HeaderButton icon={Icons.arrowDown} onClick={() => move(keyboardIndex+1)}/>}
             </Header>

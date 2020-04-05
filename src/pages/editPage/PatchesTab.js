@@ -6,6 +6,7 @@ import Volume from './patchesTab/Volume'
 
 import { Placeholder } from '../../components/Components'
 import { Container, Header, HeaderButton, Title } from '../../components/Container'
+import ControlMapper from '../../components/ControlMapper'
 import Icons from '../../components/Icons'
 import { Flex } from '../../components/Layout'
 import { List, ListItem } from '../../components/List'
@@ -115,6 +116,7 @@ class PatchesTab extends React.Component {
                             </Container>
                             <PatchNamer {...{ selectedPatch, allPatches, setData }}/>
                             <Transpose alt object={selectedPatch} setData={setData}/>
+                            <ControlMapper alt object={selectedPatch} setData={setData}/>
                         </Flex>
                         <Volume selectedPatch={selectedPatch} setData={setData}/>
                     </Flex>

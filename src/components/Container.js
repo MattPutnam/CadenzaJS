@@ -62,7 +62,7 @@ export const Header = ({ collapse, collapsed, setCollapsed, children }) => {
             {collapse && !collapsed && <ButtonLike style={caretStyle} onClick={() => setCollapsed(true)}>{icon(Icons.expanded)}</ButtonLike>}
             {nonButtonChildren}
             {!_.isEmpty(buttonChildren) && <Spacer/>}
-            {buttonChildren}
+            {!collapsed && buttonChildren}
         </Flex>
     )
 }
