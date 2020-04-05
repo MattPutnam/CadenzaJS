@@ -1,16 +1,17 @@
 import React from 'react'
 import _ from 'lodash'
 
-import { Placeholder, Select, NumberField } from './Components'
+import { NumberField, Placeholder, Select, TextField, Warning } from './Components'
 import { Container, Header, HeaderButton, Title } from './Container'
 import Icons from './Icons'
 import Keyboard from './Keyboard'
 import { Center, Flex } from './Layout'
 import { List, ListItem } from './List'
+import { RadioButtonGroup, RadioButton } from './Radio'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
 import { midiNoteNumberToName } from '../utils/Midi'
-import { RadioButtonGroup, RadioButton } from './Radio'
+import { validateSongOrMeasureNumber } from '../utils/SongAndMeasureNumber'
 
 
 const ontology = {
@@ -27,25 +28,41 @@ const ontology = {
         {
             type: 'cueStep',
             label: 'Cue Step',
-            defaultData: {
+            defaultData: () => ({
                 stepDirection: 'next'
-            },
+            }),
             describe: ({ stepDirection }) => stepDirection === 'next' ? 'Next cue' : 'Prev cue',
             control: props => <CueStepEditor {...props}/>
         },
         {
+            type: 'goto',
+            label: 'Go To Location',
+            defaultData: data => {
+                const { songs } = data.show
+                return {
+                    songId: songs[0].id,
+                    measure: '1'
+                }
+            },
+            describe: ({ songId, measure }, { show: { songs } }) => {
+                const song = _.find(songs, { id: songId })
+                return `Go to #${song.number} m. ${measure}`
+            },
+            control: props => <GotoEditor {...props}/>
+        },
+        {
             type: 'wait',
             label: 'Wait',
-            defaultData: {
+            defaultData: () => ({
                 waitTime: 500
-            },
+            }),
             describe: ({ waitTime }) => `Wait ${waitTime || 0} ms`,
             control: props => <WaitEditor {...props}/>
         },
         {
             type: 'panic',
             label: 'Panic',
-            describe: 'Panic',
+            describe: () => 'Panic',
             control: () => <Placeholder>Panic (all notes off)</Placeholder>
         }
     ]
@@ -93,7 +110,7 @@ const TriggerEditor = ({ object, data, setData }) => {
             {noTriggers && <Placeholder>Click '+' to add a trigger</Placeholder>}
             <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
                 {triggers.map((trigger, index) => {
-                    return <ListItem key={index} value={index}>{summarize(trigger)}</ListItem>
+                    return <ListItem key={index} value={index}>{summarize(trigger, data)}</ListItem>
                 })}
             </List>
             {trigger && <Editor {...{ trigger, deleteSelf, data, setData }}/>}
@@ -104,23 +121,23 @@ const TriggerEditor = ({ object, data, setData }) => {
 export default TriggerEditor
 
 
-const summarize = trigger => {
+const summarize = (trigger, data) => {
     const { inputs, actions, type } = trigger
 
-    const inputString = `[${inputs.map(summarizeInput).join(', ')}]`
-    const actionString = `[${actions.map(summarizeAction).join(', ')}]`
+    const inputString = `[${inputs.map(summarizeInput(data)).join(', ')}]`
+    const actionString = `[${actions.map(summarizeAction(data)).join(', ')}]`
 
     return `On ${type}: ${inputString} do: ${actionString}`
 }
 
-const summarizeInput = input => {
+const summarizeInput = data => input => {
     const ontologyValue = _.find(ontology.inputs, { type: input.type })
-    return ontologyValue.describe(input)
+    return ontologyValue.describe(input, data)
 }
 
-const summarizeAction = action => {
+const summarizeAction = data => action => {
     const ontologyValue = _.find(ontology.actions, { type: action.type })
-    return ontologyValue.describe(action)
+    return ontologyValue.describe(action, data)
 }
 
 
@@ -171,11 +188,12 @@ const Inputs = ({ trigger, data, setData }) => {
     const { inputs } = trigger
 
     const input = selectedIndex === undefined ? undefined : inputs[selectedIndex]
+    const defaultData = ontology.inputs[0].defaultData
 
     const addInput = () => {
         const newInput = {
             type: ontology.inputs[0].type,
-            ...ontology.inputs[0].defaultData
+            ...(defaultData ? defaultData(data) : {})
         }
 
         trigger.inputs.push(newInput)
@@ -215,7 +233,7 @@ const Inputs = ({ trigger, data, setData }) => {
             </Header>
             <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
                 {inputs.map((input, index) => {
-                    return <ListItem key={index} value={index}>{summarizeInput(input)}</ListItem>
+                    return <ListItem key={index} value={index}>{summarizeInput(data)(input)}</ListItem>
                 })}
             </List>
             {input && <Input moveUp={selectedIndex > 0 ? moveUp : undefined}
@@ -231,7 +249,9 @@ const Input = ({ input, deleteSelf, moveUp, moveDown, data, setData }) => {
     const onTabSelected = index => {
         const { type, defaultData } = ontology.inputs[index]
         input.type = type
-        _.defaults(input, defaultData)
+        if (defaultData) {
+            _.defaults(input, defaultData(data))
+        }
         setData('set trigger input type')
     }
 
@@ -302,11 +322,12 @@ const Actions = ({ trigger, data, setData }) => {
     const { actions } = trigger
 
     const action = selectedIndex === undefined ? undefined: actions[selectedIndex]
+    const defaultData = ontology.actions[0].defaultData
 
     const addAction = () => {
         const newAction = {
             type: ontology.actions[0].type,
-            ...ontology.actions[0].defaultData
+            ...(defaultData ? defaultData(data) : {})
         }
 
         trigger.actions.push(newAction)
@@ -346,7 +367,7 @@ const Actions = ({ trigger, data, setData }) => {
             </Header>
             <List selectedItem={selectedIndex} setSelectedItem={setSelectedIndex}>
                 {actions.map((action, index) => {
-                    return <ListItem key={index} value={index}>{summarizeAction(action)}</ListItem>
+                    return <ListItem key={index} value={index}>{summarizeAction(data)(action)}</ListItem>
                 })}
             </List>
             {action && <Action moveUp={selectedIndex > 0 ? moveUp : undefined}
@@ -362,7 +383,9 @@ const Action = ({ action, deleteSelf, moveUp, moveDown, data, setData }) => {
     const onTabSelected = index => {
         const { type, defaultData } = ontology.actions[index]
         action.type = type
-        _.defaults(action, defaultData)
+        if (defaultData) {
+            _.defaults(action, defaultData(data))
+        }
         setData('set trigger action type')
     }
 
@@ -417,6 +440,45 @@ const CueStepEditor = ({ action, setData }) => {
             <RadioButton>Advance to the next cue</RadioButton>
             <RadioButton>Go back to the previous cue</RadioButton>
         </RadioButtonGroup>
+    )
+}
+
+const GotoEditor = ({ action, data, setData }) => {
+    const { songs } = data.show
+
+    const [error, setError] = React.useState(undefined)
+
+    const setSongId = newId => {
+        action.songId = newId
+        setData('set go to location', 'TRIGGER_GOTO')
+    }
+
+    const setMeasure = newMeasure => {
+        const trimmed = newMeasure.trim()
+        const err = validateSongOrMeasureNumber(trimmed)
+        if (err) {
+            setError(err)
+        } else {
+            action.measure = trimmed
+            setData('set go to location', 'TRIGGER_GOTO')
+            setError(undefined)
+        }
+    }
+
+    return (
+        <Flex pad>
+            <Select label='Song:'
+                    options={songs}
+                    render={song => `${song.number}. ${song.name}`}
+                    valueRender={song => song.id}
+                    selected={action.songId}
+                    setSelected={id => setSongId(parseInt(id, 10))}/>
+            <TextField label='Measure:'
+                       size={6}
+                       value={action.measure || ''}
+                       setValue={setMeasure}/>
+            {error && <Warning>{error}</Warning>}
+        </Flex>
     )
 }
 
