@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import { NumberField, Placeholder, Select, TextField, Warning } from './Components'
 import { Container, Header, HeaderButton, Title } from './Container'
+import { ControlSelect } from './ControlSelect'
 import Icons from './Icons'
 import Keyboard from './Keyboard'
 import { Center, Flex } from './Layout'
@@ -10,7 +11,7 @@ import { List, ListItem } from './List'
 import { RadioButtonGroup, RadioButton } from './Radio'
 import { Tab, TabList, TabPanel, Tabs } from './Tabs'
 
-import { midiNoteNumberToName } from '../utils/Midi'
+import { midiNoteNumberToName, shortCCName } from '../utils/Midi'
 import { validateSongOrMeasureNumber } from '../utils/SongAndMeasureNumber'
 
 
@@ -22,6 +23,16 @@ const ontology = {
             label: 'Key Press',
             describe: ({ key }) => `${key ? midiNoteNumberToName(key) : '[unset key]'} pressed`,
             control: props => <KeyPressEditor {...props}/>
+        },
+        {
+            type: 'controller',
+            label: 'Controller',
+            defaultData: () => ({
+                controller: 1,
+                value: 127
+            }),
+            describe: ({ controller, value }) => `${shortCCName(controller)}@${value}`,
+            control: props => <ControlEditor {...props}/>
         }
     ],
     actions: [
@@ -312,6 +323,27 @@ const KeyPressEditor = ({ input, data, setData }) => {
             )
         })}
     </>
+}
+
+const ControlEditor = ({ input, setData }) => {
+    const { controller, value } = input
+
+    const setController = ccNumber => {
+        input.controller = ccNumber
+        setData('trigger controller')
+    }
+
+    const setValue = ccValue => {
+        input.value = ccValue
+        setData('trigger controller value', 'CCVALUE')
+    }
+
+    return (
+        <Flex pad>
+            <ControlSelect selected={controller} setSelected={setController}/>
+            <NumberField label='at value' max={127} value={value || 0} setValue={setValue}/>
+        </Flex>
+    )
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
