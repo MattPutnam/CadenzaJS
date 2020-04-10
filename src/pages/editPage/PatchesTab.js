@@ -81,7 +81,7 @@ class PatchesTab extends React.Component {
                 selectedPatch ? selectedPatch.number : undefined
             ]
 
-            const disabled = _.some(data.show.cues, cue => {
+            const deleteDisabled = _.some(data.show.cues, cue => {
                 return _.some(cue.patchUsages, patchUsage => {
                     return patchUsage.patchId === selectedPatchId
                 })
@@ -104,7 +104,8 @@ class PatchesTab extends React.Component {
                 <Container key={selectedPatchId}>
                     <Header>
                         <Title>Edit</Title>
-                        <HeaderButton icon={Icons.delete} onClick={() => this.deleteSelectedPatch()} disabled={disabled}/>
+                        <HeaderButton icon={Icons.delete} onClick={() => this.deleteSelectedPatch()} disabled={deleteDisabled}/>
+                        <HeaderButton icon={Icons.clone} onClick={() => this.cloneSelectedPatch()}/>
                     </Header>
                     <Flex style={{height: '100%'}}>
                         <Flex column style={{flex: '1 1 auto'}}>
@@ -147,6 +148,36 @@ class PatchesTab extends React.Component {
             volume: 100
         })
         setData('add patch')
+        this.setState({ selectedPatchId: id })
+    }
+
+    cloneSelectedPatch() {
+        const { data, setData } = this.props
+        const { patches } = data
+        const { selectedPatchId } = this.state
+
+        const selectedPatch = _.find(patches, { id: selectedPatchId })
+
+        const id = findId(patches)
+        const match = /(.*)\s\(\d+\)/.exec(selectedPatch.name)
+        const baseName = match ? match[1] : selectedPatch.name
+        let nameNumber = 0
+        let name = ''
+        const allNames = new Set(_.map(patches, 'name'))
+        do {
+            nameNumber++
+            name = `${baseName} (${nameNumber})`
+        } while (allNames.has(name))
+
+        patches.push({
+            id,
+            synthesizerId: selectedPatch.synthesizerId,
+            bank: selectedPatch.bank,
+            number: selectedPatch.number,
+            name,
+            volume: selectedPatch.volume
+        })
+        setData('clone patch')
         this.setState({ selectedPatchId: id })
     }
 
