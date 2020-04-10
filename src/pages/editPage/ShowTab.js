@@ -102,10 +102,12 @@ class ShowTab extends React.Component {
             return <GlobalsEditor {...{ data, setData }}/>
         } else if (foundCue) {
             return <CueEditor key={cueId}
+                              cloneSelf={() => this.cloneCue()}
                               deleteSelf={() => this.deleteCue()}
                               {...{ cueId, data, setData }}/>
         } else if (foundSong) {
             return <SongEditor key={songId}
+                               cloneSelf={() => this.cloneSong()}
                                deleteSelf={() => this.deleteSong()}
                                {...{ songId, data, setData }}/>
         } else if (_.isEmpty(data.setup.synthesizers)) {
@@ -147,6 +149,32 @@ class ShowTab extends React.Component {
         }
         songs.push(newSong)
         setData('add song')
+        this.setState({ selectedId: { songId: id } })
+    }
+
+    cloneSong() {
+        const { data, setData } = this.props
+        const { songs, cues } = data.show
+        const { selectedId: { songId } } = this.state
+
+        const song = _.find(songs, { id: songId })
+
+        const newNumber = generateNext(song.number, _.map(songs, 'number'))
+        const id = findId(songs)
+
+        const newSong = _.cloneDeep(song)
+        song.id = id
+        song.number = newNumber
+
+        const clonedSongCues = _.cloneDeep(_.filter(cues, { songId }))
+        _.forEach(clonedSongCues, sc => {
+            sc.id = findId(cues)
+            sc.songId = id
+            cues.push(sc)
+        })
+
+        songs.push(newSong)
+        setData('clone song')
         this.setState({ selectedId: { songId: id } })
     }
 
@@ -201,6 +229,28 @@ class ShowTab extends React.Component {
         }
         cues.push(newCue)
         setData('add cue')
+        this.setState({ selectedId: { cueId: id } })
+    }
+
+    cloneCue() {
+        const { data, setData } = this.props
+        const { cues, songs } = data.show
+
+        const { selectedId: { cueId } } = this.state
+
+        const cue = _.find(cues, { id: cueId })
+        const song = _.find(songs, { id: cue.songId })
+        const songCues = _.filter(cues, { songId: song.id }).sort(cueCompare)
+        const newNumber = generateNext(cue.measure, _.map(songCues, 'measure'))
+
+        const id = findId(cues)
+        
+        const newCue = _.cloneDeep(cue)
+        cue.id = id
+        cue.measure = newNumber
+
+        cues.push(newCue)
+        setData('clone cue')
         this.setState({ selectedId: { cueId: id } })
     }
 

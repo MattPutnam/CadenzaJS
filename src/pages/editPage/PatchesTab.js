@@ -169,14 +169,11 @@ class PatchesTab extends React.Component {
             name = `${baseName} (${nameNumber})`
         } while (allNames.has(name))
 
-        patches.push({
-            id,
-            synthesizerId: selectedPatch.synthesizerId,
-            bank: selectedPatch.bank,
-            number: selectedPatch.number,
-            name,
-            volume: selectedPatch.volume
-        })
+        const newPatch = _.cloneDeep(selectedPatch)
+        newPatch.id = id
+        newPatch.name = name
+
+        patches.push(newPatch)
         setData('clone patch')
         this.setState({ selectedPatchId: id })
     }

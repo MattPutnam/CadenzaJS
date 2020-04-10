@@ -11,7 +11,7 @@ import Icons from '../../../components/Icons'
 import TriggerEditor from '../../../components/TriggerEditor'
 
 
-const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
+const CueEditor = ({ cueId, cloneSelf, deleteSelf, data, setData }) => {
     const [selectedPatchUsageIndex, setSelectedPatchUsageIndex] = React.useState(undefined)
 
     const cue = _.find(data.show.cues, { id: cueId })
@@ -28,6 +28,7 @@ const CueEditor = ({ cueId, deleteSelf, data, setData }) => {
         <Container>
             <Header>
                 <Title>Edit Cue</Title>
+                <HeaderButton icon={Icons.clone} onClick={cloneSelf}/>
                 <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
             </Header>
             <CueLocationEditor key={`${cue.songId}#${cue.measure}`} {...{ cueId, data, setData }}/>

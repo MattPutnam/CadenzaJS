@@ -9,7 +9,7 @@ import Transpose from '../../../components/Transpose'
 import TriggerEditor from '../../../components/TriggerEditor'
 
 
-const SongEditor = ({ songId, deleteSelf, data, setData }) => {
+const SongEditor = ({ songId, cloneSelf, deleteSelf, data, setData }) => {
     const { songs } = data.show
     const song = _.find(songs, { id: songId })
 
@@ -17,6 +17,7 @@ const SongEditor = ({ songId, deleteSelf, data, setData }) => {
         <Container>
             <Header>
                 <Title>Edit song</Title>
+                <HeaderButton icon={Icons.clone} onClick={cloneSelf}/>
                 <HeaderButton icon={Icons.delete} onClick={deleteSelf}/>
             </Header>
             <SongLocationEditor key={song.number} {...{ songId, data, setData }}/>
