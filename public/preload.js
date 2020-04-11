@@ -27,7 +27,7 @@ window.open = async ({ browserWindow, callback }) => {
 }
 
 window.save = async ({ data, filePath, callback }) => {
-    fs.writeFile(filePath, JSON.stringify(data), error => callback(error, filePath))
+    fs.writeFile(filePath, JSON.stringify(data, null, 2), error => callback(error, filePath))
 }
 
 window.saveAs = async ({ browserWindow, data, defaultPath, callback }) => {
