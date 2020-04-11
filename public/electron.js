@@ -1,5 +1,6 @@
 const electron = require('electron');
 const app = electron.app;
+const dialog = electron.dialog;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
@@ -16,6 +17,20 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   }
   mainWindow.on('closed', () => mainWindow = null);
+
+  mainWindow.on('close', e => {
+      if (mainWindow.isDocumentEdited()) {
+        const choice = dialog.showMessageBoxSync(mainWindow, {
+            type: 'question',
+            buttons: ['Yes', 'No'],
+            title: 'Confirm',
+            message: 'Are you sure you want to close? Unsaved changes will be lost.'
+        })
+        if (choice === 1) {
+            e.preventDefault()
+        }
+      }
+  })
 }
 
 app.on('ready', createWindow);

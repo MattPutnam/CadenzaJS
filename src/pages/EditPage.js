@@ -10,7 +10,7 @@ import NavBar from '../components/NavBar'
 
 
 const EditPage = ({ perform, midiInterfaces, data, setData }) => {
-    const [selectedTab, setSelectedTab] = React.useState('Show') // TODO set back to 'Setup'
+    const [selectedTab, setSelectedTab] = React.useState('Setup')
 
     const styles = {
         page: {
