@@ -79,8 +79,8 @@ const PatchEditor = ({ selectedPatchId, setSelectedPatchId, data, setData }) => 
         <Container key={selectedPatchId}>
             <Header>
                 <Title>Edit</Title>
-                <HeaderButton icon={Icons.delete} onClick={deleteSelectedPatch} disabled={deleteDisabled}/>
                 <HeaderButton icon={Icons.clone} onClick={cloneSelectedPatch}/>
+                <HeaderButton icon={Icons.delete} onClick={deleteSelectedPatch} disabled={deleteDisabled}/>
             </Header>
             <Flex style={{height: '100%'}}>
                 <Flex column style={{flex: '1 1 auto'}}>

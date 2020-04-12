@@ -26,6 +26,39 @@ const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchS
         setSelection([synth, bank, number])
         onPatchSelected([synth, bank, number])
     }
+
+    const renderPatch = patch => {
+        let patchNumber
+        if (bank.name === 'GM2') {
+            const [b1, b2] = patch.number
+            patchNumber = `${b1+1}.${b2+1}`
+        } else {
+            patchNumber = patch.number + (bank.index === undefined ? 1 : bank.index)
+        }
+
+        const styles = {
+            container: {
+                width: '100%'
+            },
+            name: {
+                flex: '1 1 auto',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+            },
+            number: {
+                flex: '0 0 auto',
+                marginLeft: '0.5rem'
+            }
+        }
+
+        return (
+            <Flex style={styles.container}>
+                <span style={styles.name}>{patch.name}</span>
+                <span style={styles.number}>{patchNumber}</span>
+            </Flex>
+        )
+    }
     
     const myStyle = {
         overflowY: 'hidden',
@@ -47,7 +80,7 @@ const PatchPicker = ({ alt, synthTree, allPatches, initialSelection=[], onPatchS
                        terminal
                        selected={selectedNumber}
                        selectionTransform={x => x.number}
-                       render={patch => `${patch.number + (bank.index === undefined ? 1 : bank.index)} ${patch.name}`}
+                       render={renderPatch}
                        onChange={newNumber => updateSelection([selectedSynthName, selectedBankName, newNumber])}/>
             <SearchSection alt={alt}
                            allPatches={allPatches}
