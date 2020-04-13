@@ -71,9 +71,9 @@ export const resolveSynthesizersAndPatches = synthesizers => {
         })
 
         for (let expansion of _.toPairs(synth.expansionCards)) {
-            const [slotName, expansionName] = expansion
+            const [slotName, expansionNumber] = expansion
             const expansionType = _.find(synthDefinition.expansions, { name: slotName }).type
-            const expansionDefinition = Expansions.getExpansionByTypeAndName(expansionType, expansionName)
+            const expansionDefinition = Expansions.getExpansionByTypeAndNumber(expansionType, expansionNumber)
             
             synthItem.banks.push({
                 name: slotName,
@@ -117,8 +117,7 @@ export const getLoadCommand = (patch, synthesizer) => {
 
     let selectors
     if (toSelect === 'SELECT_BY_CARD') {
-        const fullExpansionCard = synthesizer.expansionCards[patch.bank]
-        const expansionCard = fullExpansionCard.substring(0, fullExpansionCard.indexOf(' '))
+        const expansionCard = synthesizer.expansionCards[patch.bank]
         selectors = synthDefinition.cardSelectors[expansionCard]
     } else {
         selectors = toSelect

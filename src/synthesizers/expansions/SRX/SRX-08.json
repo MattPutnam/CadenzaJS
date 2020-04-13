@@ -1,5 +1,6 @@
 {
-    "name": "SRX-08 Platinum Trax",
+    "name": "Platinum Trax",
+    "number": "SRX-08",
     "patches": [
         "Autopilot",
         "ElasticHouse",

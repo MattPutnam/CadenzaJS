@@ -37,4 +37,4 @@ const expansions = {
 
 export const expansionsOfType = expansionType => expansions[expansionType]
 
-export const getExpansionByTypeAndName = (expType, name) => _.find(expansions[expType], { name })
+export const getExpansionByTypeAndNumber = (expType, number) => _.find(expansions[expType], { number })

@@ -1,5 +1,6 @@
 {
-    "name": "SR-JV80-04 Vintage Synth",
+    "name": "Vintage Synth",
+    "number": "SR-JV80-04",
     "patches": [
         "Prologue",
         "EasternTempl",

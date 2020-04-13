@@ -41,8 +41,7 @@ const ExpansionSelector = ({ synth, expansionSlot, data, setData }) => {
         <select disabled={inUse} value={value} onChange={e => onChange(e.target.value)}>
             <option value={undefined}>None</option>
             {options.map(option => {
-                const optionName = option.name
-                return <option key={optionName+value} value={optionName}>{optionName}</option>
+                return <option key={option.number} value={option.number}>{`${option.number} ${option.name}`}</option>
             })}
         </select>
     )

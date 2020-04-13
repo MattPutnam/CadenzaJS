@@ -1,5 +1,6 @@
 {
-    "name": "SR-JV80-09 Session",
+    "name": "Session",
+    "number": "SR-JV80-09",
     "patches": [
         "St.Concert",
         "9ft.Grand 1",

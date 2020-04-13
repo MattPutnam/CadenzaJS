@@ -1,5 +1,6 @@
 {
-    "name": "SRX-98 Analog Essentials",
+    "name": "Analog Essentials",
+    "number": "SRX-98",
     "patches": [
         "RealAnaSaw",
         "FullAnaSaw",

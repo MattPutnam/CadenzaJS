@@ -1,5 +1,6 @@
 {
-    "name": "SRX-03 Studio Expansion",
+    "name": "Studio Expansion",
+    "number": "SRX-03",
     "patches": [
         "Y2K Plus One",
         "Pastoral",

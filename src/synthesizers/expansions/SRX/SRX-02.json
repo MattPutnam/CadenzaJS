@@ -1,5 +1,6 @@
 {
-    "name": "SRX-02 Concert Piano",
+    "name": "Concert Piano",
+    "number": "SRX-02",
     "patches": [
         "PremierGrand",
         "Steady Grand",

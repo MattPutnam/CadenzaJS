@@ -1,5 +1,6 @@
 {
-    "name": "SRX-10 Big Brass Ensemble",
+    "name": "Big Brass Ensemble",
+    "number": "SRX-10",
     "patches": [
         "Pop Brs Sect",
         "Pop Brs Stac",

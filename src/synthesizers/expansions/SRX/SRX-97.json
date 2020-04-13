@@ -1,5 +1,6 @@
 {
-    "name": "SRX-97 Jon Lord's Rock Organ",
+    "name": "Jon Lord's Rock Organ",
+    "number": "SRX-97",
     "patches": [
         "HardLead ORG",
         "HardRock ORG",

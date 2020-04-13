@@ -1,5 +1,6 @@
 {
-    "name": "SR-JV80-16 Orchestral II",
+    "name": "Orchestral II",
+    "number": "SR-JV80-16",
     "patches": [
         "StStrOrc p/f",
         "StrSwell/Mod",

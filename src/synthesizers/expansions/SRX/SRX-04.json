@@ -1,5 +1,6 @@
 {
-    "name": "SRX-04 Symphonique Strings",
+    "name": "Symphonique Strings",
+    "number": "SRX-04",
     "patches": [
         "Epic Strings",
         "sfz! Crsc/sw",

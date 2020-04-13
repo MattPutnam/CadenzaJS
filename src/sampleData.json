@@ -13,8 +13,8 @@
                 "id": 0,
                 "name": "Roland XV-5080",
                 "expansionCards": {
-                    "XpA": "SR-JV80-02 Orchestral",
-                    "XpB": "SR-JV80-05 World"
+                    "XpA": "SR-JV80-02",
+                    "XpB": "SR-JV80-05"
                 },
                 "midiInterfaceName": "PreSonus Studio 1824",
                 "channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]

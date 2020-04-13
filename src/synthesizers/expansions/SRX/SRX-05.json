@@ -1,5 +1,6 @@
 {
-    "name": "SRX-05 Supreme Dance",
+    "name": "Supreme Dance",
+    "number": "SRX-05",
     "patches": [
         "SecretDancer",
         "Mean Streets",

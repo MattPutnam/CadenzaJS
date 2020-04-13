@@ -1,5 +1,6 @@
 {
-    "name": "SRX-09 World Collection",
+    "name": "World Collection",
+    "number": "SRX-09",
     "patches": [
         "World Sounds",
         "Go2China /C2",

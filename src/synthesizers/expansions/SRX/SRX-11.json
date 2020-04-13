@@ -1,5 +1,6 @@
 {
-    "name": "SRX-11 Complete Piano",
+    "name": "Complete Piano",
+    "number": "SRX-11",
     "patches": [
         "Superb Grand",
         "WideStereoGd",
