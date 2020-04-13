@@ -93,3 +93,44 @@ export const resolveSynthesizersAndPatches = synthesizers => {
 
     return { synthTree, allPatches }
 }
+
+
+export const getLoadCommand = (patch, synthesizer) => {
+    if (patch.bank === 'GM' || patch.bank === 'GM1') {
+        return [
+            { type: 'CC', number: 0, value: 121 },
+            { type: 'CC', number: 32, value: 0},
+            { type: 'PC' }
+        ]
+    } else if (patch.bank === 'GM2') {
+        const [pc, cc] = patch.number
+        return [
+            { type: 'CC', number: 0, value: 121 },
+            { type: 'CC', number: 32, value: cc },
+            { type: 'PC', value: pc }
+        ]
+    }
+
+    const synthDefinition = Synthesizers.getSynthByName(synthesizer.name)
+    const banksAndExps = [...synthDefinition.banks, ...synthDefinition.expansions]
+    const { toSelect } = _.find(banksAndExps, { name: patch.bank })
+
+    let selectors
+    if (toSelect === 'SELECT_BY_CARD') {
+        const fullExpansionCard = synthesizer.expansionCards[patch.bank]
+        const expansionCard = fullExpansionCard.substring(0, fullExpansionCard.indexOf(' '))
+        selectors = synthDefinition.cardSelectors[expansionCard]
+    } else {
+        selectors = toSelect
+    }
+
+    if (selectors.length === 1) {
+        return selectors[0].commands
+    } else {
+        return _.find(selectors, selector => {
+            const rangeHigh = selector.rangeHigh || Infinity
+            const rangeLow = selector.rangeLow || -Infinity
+            return rangeLow <= patch.number && patch.number <= rangeHigh
+        }).commands
+    }
+}

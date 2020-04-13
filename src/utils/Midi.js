@@ -1,10 +1,13 @@
 import _ from 'lodash'
 
 
-export const NOTE_ON = 'NOTE_ON'
-export const NOTE_OFF = 'NOTE_OFF'
-export const CONTROL = 'CONTROL'
-export const PITCH_BEND = 'PITCH_BEND'
+export const NOTE_OFF = 8
+export const NOTE_ON = 9
+export const KEY_AFTERTOUCH = 10
+export const CONTROL = 11
+export const PROGRAM_CHANGE = 12
+export const CHANNEL_AFTERTOUCH = 13
+export const PITCH_BEND = 14
 export const UNKNOWN = 'UNKNOWN'
 
 
@@ -13,7 +16,8 @@ const parseHelper = (command, byte1, byte2) => {
         if (byte2 === 0) {
             return {
                 type: NOTE_OFF,
-                note: byte1
+                note: byte1,
+                velocity: 0
             }
         } else {
             return {
@@ -25,7 +29,8 @@ const parseHelper = (command, byte1, byte2) => {
     } else if (command === 8) {
         return {
             type: NOTE_OFF,
-            note: byte1
+            note: byte1,
+            velocity: byte2
         }
     } else if (command === 11) {
         return {
@@ -57,9 +62,9 @@ export const parseMidiMessage = (rawMsg, keyboardData) => {
 
     const midiInterface = rawMsg.target
 
-    const [ commandChannel, byte1, byte2 ] = rawMsg.data
-    const command = commandChannel >> 4
-    const channel = commandChannel & 0xf
+    const [status, byte1, byte2] = rawMsg.data
+    const command = status >> 4
+    const channel = status & 0xf
 
     const parsed = parseHelper(command, byte1, byte2)
     parsed.channel = channel
@@ -95,6 +100,37 @@ export const parseMidiMessage = (rawMsg, keyboardData) => {
     parsed.keyboardId = keyboardId
 
     return parsed
+}
+
+export const unparse = parsedMessage => {
+    const { channel, type, note, velocity, controller, value } = parsedMessage
+    const status = (type << 4) | channel
+
+    switch (type) {
+        case NOTE_ON: // fallthrough
+        case NOTE_OFF: return [status, note, velocity]
+        case CONTROL: return [status, controller, value]
+        case PROGRAM_CHANGE: return [status, value]
+        case PITCH_BEND: return [status, 0, value]
+        default: return []
+    }
+}
+
+export const setVolumeMessage = (channel, volume) => {
+    return unparse({
+        type: CONTROL,
+        controller: 7,
+        value: volume,
+        channel
+    })
+}
+
+export const programChangeMessage = (channel, program) => {
+    return unparse({
+        type: PROGRAM_CHANGE,
+        channel,
+        value: program
+    })
 }
 
 
@@ -222,3 +258,5 @@ export const notifyMidiListeners = (parsedMessage) => {
 
 
 export const midiInterfaceToName = midiInterface => `${midiInterface.manufacturer} ${midiInterface.name}`
+
+export const findInterfaceByName = (interfaces, name) => _.find(interfaces, i => midiInterfaceToName(i) === name)

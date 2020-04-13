@@ -4,24 +4,30 @@ import _ from 'lodash'
 import PatchNamer from './PatchNamer'
 import Volume from './Volume'
 
+import { Warning } from '../../../components/Components'
 import { Container, Header, HeaderButton, Title } from '../../../components/Container'
 import ControlMapper from '../../../components/ControlMapper'
 import Icons from '../../../components/Icons'
 import { Flex } from '../../../components/Layout'
+import MidiListener from '../../../components/MidiListener'
 import PatchPicker from '../../../components/PatchPicker'
 import Transpose from '../../../components/Transpose'
 
 import { findId } from '../../../utils/IdFinder'
-import { resolveSynthesizersAndPatches } from '../../../utils/SynthUtils'
+import * as SynthUtils from '../../../utils/SynthUtils'
+import * as Midi from '../../../utils/Midi'
 
 
-const PatchEditor = ({ selectedPatchId, setSelectedPatchId, data, setData }) => {
+const PatchEditor = ({ selectedPatchId, setSelectedPatchId, midiInterfaces, data, setData }) => {
     const { patches, setup: { synthesizers } } = data
 
-    const { synthTree, allPatches } = resolveSynthesizersAndPatches(synthesizers)
+    const { synthTree, allPatches } = SynthUtils.resolveSynthesizersAndPatches(synthesizers)
 
     const selectedPatch = _.find(patches, { id: selectedPatchId })
+    const patchAssigned = selectedPatch.synthesizerId !== undefined && selectedPatch.bank && selectedPatch.number !== undefined
     const selectedSynth = _.find(synthesizers, { id: selectedPatch.synthesizerId })
+    const outputDevice = Midi.findInterfaceByName(midiInterfaces.outputs, selectedSynth.midiInterfaceName)
+    const channelToUse = selectedSynth.channels[0]
 
     const initialSelection = [
         selectedSynth ? selectedSynth.name : synthesizers[0].name,
@@ -75,18 +81,64 @@ const PatchEditor = ({ selectedPatchId, setSelectedPatchId, data, setData }) => 
         setSelectedPatchId(id)
     }
 
+    React.useEffect(() => {
+        if (outputDevice && patchAssigned) {
+            SynthUtils.getLoadCommand(selectedPatch, selectedSynth).forEach(command => {
+                const { type, number, value } = command
+                if (type === 'CC') {
+                    outputDevice.send(Midi.unparse({
+                        type: Midi.CONTROL,
+                        controller: number,
+                        value,
+                        channel: channelToUse
+                    }))
+                } else if (type === 'PC') {
+                    outputDevice.send(Midi.programChangeMessage(channelToUse, value || selectedPatch.number % 128))
+                }
+            })
+        }
+    }, [outputDevice, selectedPatch, selectedPatch.bank, selectedPatch.number, selectedSynth, channelToUse, patchAssigned])
+
+    React.useEffect(() => {
+        if (outputDevice && patchAssigned) {
+            outputDevice.send(Midi.setVolumeMessage(channelToUse, selectedPatch.volume))
+        }
+    }, [outputDevice, channelToUse, selectedPatch.volume, patchAssigned])
+
+    const handleMidi = parsedMessage => {
+        if (patchAssigned) {
+            const { type, controller, value } = parsedMessage
+            const { transpose } = selectedPatch
+
+            if (transpose && (type === Midi.NOTE_ON || type === Midi.NOTE_OFF)) {
+                parsedMessage.note = parsedMessage.note + transpose
+            }
+
+            if (type === Midi.CONTROL && controller === 7) {
+                selectedPatch.volume = value
+                setData('change patch volume', `midiPatchVolume${selectedPatchId}`)
+                // react effect handles the MIDI send, so don't do it here
+            } else {
+                parsedMessage.channel = channelToUse
+                outputDevice.send(Midi.unparse(parsedMessage))
+            }
+        }
+    }
+
     return (
-        <Container key={selectedPatchId}>
+        <Container>
             <Header>
                 <Title>Edit</Title>
                 <HeaderButton icon={Icons.clone} onClick={cloneSelectedPatch}/>
                 <HeaderButton icon={Icons.delete} onClick={deleteSelectedPatch} disabled={deleteDisabled}/>
             </Header>
+            {outputDevice && <MidiListener id={`PatchEditor#${selectedPatchId}`} dispatch={handleMidi}/>}
             <Flex style={{height: '100%'}}>
                 <Flex column style={{flex: '1 1 auto'}}>
                     <Container alt>
                         <Header>
                             <Title>Assignment</Title>
+                            {!outputDevice && <Warning>Interface not found</Warning>}
                         </Header>
                         <PatchPicker {...{ synthesizers, initialSelection, synthTree, allPatches, onPatchSelected }}/>
                     </Container>

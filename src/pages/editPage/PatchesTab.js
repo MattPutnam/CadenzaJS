@@ -8,7 +8,7 @@ import { Placeholder } from '../../components/Components'
 import { Flex } from '../../components/Layout'
 
 
-const PatchesTab = ({ data, setData } ) => {
+const PatchesTab = ({ midiInterfaces, data, setData } ) => {
     const { patches, setup: { synthesizers } } = data
 
     const [selectedPatchId, setSelectedPatchId] = React.useState(undefined)
@@ -32,7 +32,7 @@ const PatchesTab = ({ data, setData } ) => {
     return (
         <Flex align='stretch' style={style}>
             <PatchList {...{ selectedPatchId, setSelectedPatchId, data, setData }}/>
-            {patchSelected && <PatchEditor {...{ selectedPatchId, setSelectedPatchId, data, setData }}/>}
+            {patchSelected && <PatchEditor key={selectedPatchId} {...{ selectedPatchId, setSelectedPatchId, midiInterfaces, data, setData }}/>}
             {!patchSelected && getPlaceholder()}
         </Flex>
     )
