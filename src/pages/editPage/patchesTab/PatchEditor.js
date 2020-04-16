@@ -95,21 +95,22 @@ const PatchEditor = ({ selectedPatchId, setSelectedPatchId, midiInterfaces, data
 
     const handleMidi = parsedMessage => {
         if (patchAssigned) {
-            const { type, controller, value } = parsedMessage
-            const { transpose } = selectedPatch
+            const { type, controller } = parsedMessage
+            const { transpose, mappings } = selectedPatch
 
             if (transpose && (type === Midi.NOTE_ON || type === Midi.NOTE_OFF)) {
                 parsedMessage.note = parsedMessage.note + transpose
             }
 
-            if (type === Midi.CONTROL && controller === 7) {
-                selectedPatch.volume = value
-                setData('change patch volume', `midiPatchVolume${selectedPatchId}`)
-                // react effect handles the MIDI send, so don't do it here
-            } else {
-                parsedMessage.channel = channelToUse
-                outputDevice.send(Midi.unparse(parsedMessage))
+            if (mappings && type === Midi.CONTROL) {
+                const mapped = mappings[controller]
+                if (mapped) {
+                    parsedMessage.controller = mapped
+                }
             }
+
+            parsedMessage.channel = channelToUse
+            outputDevice.send(Midi.unparse(parsedMessage))
         }
     }
 
