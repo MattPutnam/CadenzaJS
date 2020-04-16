@@ -83,19 +83,7 @@ const PatchEditor = ({ selectedPatchId, setSelectedPatchId, midiInterfaces, data
 
     React.useEffect(() => {
         if (outputDevice && patchAssigned) {
-            SynthUtils.getLoadCommand(selectedPatch, selectedSynth).forEach(command => {
-                const { type, number, value } = command
-                if (type === 'CC') {
-                    outputDevice.send(Midi.unparse({
-                        type: Midi.CONTROL,
-                        controller: number,
-                        value,
-                        channel: channelToUse
-                    }))
-                } else if (type === 'PC') {
-                    outputDevice.send(Midi.programChangeMessage(channelToUse, value || selectedPatch.number % 128))
-                }
-            })
+            SynthUtils.loadPatch(selectedPatch, selectedSynth, channelToUse, outputDevice)
         }
     }, [outputDevice, selectedPatch, selectedPatch.bank, selectedPatch.number, selectedSynth, channelToUse, patchAssigned])
 

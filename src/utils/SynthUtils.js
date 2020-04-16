@@ -1,5 +1,7 @@
 import _ from 'lodash'
 
+import * as Midi from './Midi'
+
 import * as Expansions from '../synthesizers/expansions'
 import * as GM from '../synthesizers/GM.json'
 import * as Synthesizers from '../synthesizers/synthesizers'
@@ -82,7 +84,7 @@ export const resolveSynthesizersAndPatches = synthesizers => {
 }
 
 
-export const getLoadCommand = (patch, synthesizer) => {
+const getLoadCommand = (patch, synthesizer) => {
     if (patch.bank === 'GM' || patch.bank === 'GM1') {
         return [
             { type: 'CC', number: 0, value: 121 },
@@ -119,4 +121,21 @@ export const getLoadCommand = (patch, synthesizer) => {
             return rangeLow <= patch.number && patch.number <= rangeHigh
         }).commands
     }
+}
+
+
+export const loadPatch = (patch, synthesizer, channel, outputDevice) => {
+    getLoadCommand(patch, synthesizer).forEach(command => {
+        const { type, number, value } = command
+        if (type === 'CC') {
+            outputDevice.send(Midi.unparse({
+                type: Midi.CONTROL,
+                controller: number,
+                value,
+                channel
+            }))
+        } else if (type === 'PC') {
+            outputDevice.send(Midi.programChangeMessage(channel, value || patch.number % 128))
+        }
+    })
 }
